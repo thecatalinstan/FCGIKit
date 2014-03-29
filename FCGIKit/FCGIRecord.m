@@ -81,7 +81,7 @@
   [data getBytes:&bigEndianContentLength range:NSMakeRange(4, 2)];
   record.contentLength = EndianU16_BtoN(bigEndianContentLength);
 
-  return [record autorelease];
+    return record;
 }
 
 -(void)processContentData:(NSData*)data
@@ -114,10 +114,5 @@
   return protocolData;
 }
 
-- (void)dealloc {
-    // Clean-up code here.
-    
-    [super dealloc];
-}
 
 @end

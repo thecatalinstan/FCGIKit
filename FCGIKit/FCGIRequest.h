@@ -29,8 +29,8 @@
 #import "FCGIBeginRequestRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIEndRequestRecord.h"
-#import "GCDAsyncSocket.h"
-#import "FCGIServer.h"
+#import "AsyncSocket.h"
+#import "FCGIApplication.h"
 
 @interface FCGIRequest : NSObject {
 @private
@@ -38,14 +38,14 @@
   FCGIRequestRole role;
   BOOL keepConnection;
   NSMutableDictionary* parameters;
-  GCDAsyncSocket* socket;
+  AsyncSocket* socket;
   NSMutableData* stdinData;
 }
 @property (nonatomic, assign) FCGIRequestId requestId; 
 @property (nonatomic, assign) FCGIRequestRole role; 
 @property (nonatomic, assign) BOOL keepConnection;
 @property (nonatomic, retain) NSMutableDictionary* parameters;
-@property (nonatomic, retain) GCDAsyncSocket* socket;
+@property (nonatomic, retain) AsyncSocket* socket;
 @property (nonatomic, retain) NSMutableData* stdinData;
 
 -(id)initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record;

@@ -15,6 +15,18 @@
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
 
+
+#define FCGIRecordFixedLengthPartLength 8
+#define FCGITimeout 5
+
+enum _FCGISocketTag
+{
+    FCGIRecordAwaitingHeaderTag,
+    FCGIRecordAwaitingContentAndPaddingTag
+} FCGISocketTag;
+
+@class FCGIRequest;
+
 FCGIApplication *FCGIApp;
 extern int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate);
 void handleSIGTERM(int signum);
@@ -37,7 +49,8 @@ void handleSIGTERM(int signum);
     CFRunLoopObserverRef mainRunLoopObserver;
     
     AsyncSocket *_listenSocket;
-    NSMutableArray *_connectedSockets;
+    NSMutableArray *_connectedSockets;    
+    NSMutableDictionary* _currentRequests;
 }
 
 @property (assign) id<FCGIApplicationDelegate> delegate;
@@ -51,6 +64,7 @@ void handleSIGTERM(int signum);
 @property (retain) NSMutableDictionary* environment;
 @property (retain) AsyncSocket* listenSocket;
 @property (retain) NSMutableArray* connectedSockets;
+@property (retain) NSMutableDictionary* currentRequests;
 
 + (FCGIApplication *)sharedApplication;
 

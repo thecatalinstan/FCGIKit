@@ -38,12 +38,6 @@
     return self;
 }
 
-- (void)dealloc {
-  [data release];
-    
-    [super dealloc];
-}
-
 -(void)processContentData:(NSData*)_data
 {
   self.data = [_data subdataWithRange:NSMakeRange(0, self.contentLength)];

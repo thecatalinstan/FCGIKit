@@ -8,17 +8,21 @@
 
 #import "FCGIKit.h"
 
-@class FCGIApplication;
+@class FCGIApplication, FCGIRequest;
 
 @protocol FCGIApplicationDelegate <NSObject>
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (void)applicationDidReceiveRequest:(FCGIRequest*)request;
 
 @optional
 
 - (NSError *)application:(FCGIApplication *)application willPresentError:(NSError *)error;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification;
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)notification;
+
+- (void)applicationDidReceiveRequestParameters:(FCGIRequest*)request;
 
 @end

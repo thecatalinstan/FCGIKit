@@ -39,11 +39,6 @@
     return self;
 }
 
-- (void)dealloc {
-    // Clean-up code here.
-    
-    [super dealloc];
-}
 
 -(NSData*)protocolData
 {

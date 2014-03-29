@@ -54,7 +54,6 @@
   stdErrRecord.data = data;
   
   [self.socket writeData:[stdErrRecord protocolData] withTimeout:-1 tag:0];
-  [stdErrRecord release];
 }
 
 -(void)writeDataToStdout:(NSData*)data
@@ -68,7 +67,6 @@
   stdOutRecord.data = data;
   
   [self.socket writeData:[stdOutRecord protocolData] withTimeout:-1 tag:0];
-  [stdOutRecord release];
 }
 
 -(void)doneWithProtocolStatus:(FCGIProtocolStatus)protocolStatus applicationStatus:(FCGIApplicationStatus)applicationStatus
@@ -83,7 +81,6 @@
   endRequestRecord.protocolStatus = protocolStatus;
     
   [self.socket writeData:[endRequestRecord protocolData] withTimeout:-1 tag:0];
-  [endRequestRecord release];
   
   if (!keepConnection)
   {
@@ -94,14 +91,5 @@
   }
 }
 
-
-- (void)dealloc {
-    // Clean-up code here.
-  [parameters release];
-  [socket release];
-  [stdinData release];
-
-  [super dealloc];
-}
 
 @end

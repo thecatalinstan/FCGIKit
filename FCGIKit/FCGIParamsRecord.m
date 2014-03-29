@@ -39,12 +39,6 @@
     return self;
 }
 
-- (void)dealloc {
-  [params release];
-  
-  [super dealloc];
-}
-
 -(NSString*)description
 {
   return [NSString stringWithFormat:@"FCGIParamsRecord - Params: %@, %@", self.params, [super description]];
@@ -60,7 +54,7 @@
   NSString *name, *value;
   
   //Remove Padding
-  NSMutableData* unpaddedData = [[[data subdataWithRange:NSMakeRange(0, self.contentLength)] mutableCopy] autorelease];
+    NSMutableData* unpaddedData = [[data subdataWithRange:NSMakeRange(0, self.contentLength)] mutableCopy];
   while ([unpaddedData length] > 0)
   {
     [unpaddedData getBytes:&pos0 range:NSMakeRange(0, 1)];
@@ -122,8 +116,6 @@
     [unpaddedData replaceBytesInRange:NSMakeRange(0, valueLength) withBytes:NULL length:0];
     
     [self.params setObject:value forKey:name];
-    [name release];
-    [value release];
   }
 }
 
