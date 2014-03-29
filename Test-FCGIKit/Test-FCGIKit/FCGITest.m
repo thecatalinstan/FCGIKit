@@ -40,6 +40,8 @@
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
     
+    NSLog(@"%s%@%@", __PRETTY_FUNCTION__, request, [NSThread currentThread]);
+    
     NSString* requestId = [[[NSString stringWithFormat:@"Thread: %@\nIs Main thread: %hhd\nRequest: %@", [NSThread currentThread], [[NSThread currentThread] isMainThread], request] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     
     [request writeDataToStdout:[@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n" dataUsingEncoding:NSUTF8StringEncoding]];

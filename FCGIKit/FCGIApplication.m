@@ -100,7 +100,7 @@ void handleSIGTERM(int signum) {
 //        NSLog(@"Port: %lu", (unsigned long)_portNumber);
 //    }
     
-    NSLog(@"%lu", _maxConnections);
+//    NSLog(@"%lu", _maxConnections);
     
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections];
     _currentRequests = [[NSMutableDictionary alloc] initWithCapacity:_maxConnections];
@@ -111,7 +111,7 @@ void handleSIGTERM(int signum) {
         [thread start];
         [_workerThreads addObject:thread];
     }
-    NSLog(@"%@", _workerThreads);
+//    NSLog(@"%@", [_workerThreads valueForKey:@"threadDictionary"]);
 
     // Create a run loop observer and attach it to the run loop.
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
@@ -220,20 +220,18 @@ void handleSIGTERM(int signum) {
     while ( [[NSRunLoop currentRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
 //        NSLog(@"* Processed event. %@", [NSThread currentThread]);
     }
-    
-    [_listenSocket disconnectAfterReadingAndWriting];
-    
-    NSLog(@"Exited: %@", [NSThread currentThread]);
+//    [_listenSocket disconnectAfterReadingAndWriting];
+//    NSLog(@"Exited: %@", [NSThread currentThread]);
 }
 
 - (void)workerThreadMain
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(ignore:) userInfo:nil repeats:YES] forMode:FCGIKitApplicationRunLoopMode];
     while ( [[NSRunLoop currentRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
 //        NSLog(@"* Processed event. %@", [NSThread currentThread]);
     }
-    NSLog(@"Exited: %s", __PRETTY_FUNCTION__);
+//    NSLog(@"Exited: %s", __PRETTY_FUNCTION__);
 }
 
 
@@ -400,7 +398,7 @@ void handleSIGTERM(int signum) {
 
 - (NSRunLoop *)onSocket:(AsyncSocket *)sock wantsRunLoopForNewSocket:(AsyncSocket *)newSocket
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSThread* thread = [self nextAvailableThread];
     @synchronized(thread.threadDictionary) {
         [thread.threadDictionary setObject: newSocket forKey: @"socket"];
@@ -410,7 +408,7 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 //    NSLog(@"%@: %hhd", [NSThread currentThread], [NSThread isMainThread]);
     @synchronized(_connectedSockets) {
 		[_connectedSockets addObject:sock];
@@ -439,7 +437,7 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)sock
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     @synchronized(_connectedSockets) {
         [_connectedSockets removeObject:sock];
     }
