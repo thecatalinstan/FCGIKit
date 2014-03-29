@@ -40,7 +40,8 @@
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
     
-    NSLog(@"%s%@%@", __PRETTY_FUNCTION__, request, [NSThread currentThread]);
+//    NSLog(@"%s%@%@", __PRETTY_FUNCTION__, request, [NSThread currentThread]);
+    NSLog(@"%@%@", [NSThread currentThread], [[NSThread currentThread] threadDictionary]);
     
     NSString* requestId = [[[NSString stringWithFormat:@"Thread: %@\nIs Main thread: %hhd\nRequest: %@", [NSThread currentThread], [[NSThread currentThread] isMainThread], request] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     
