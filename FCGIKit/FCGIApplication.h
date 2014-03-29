@@ -14,6 +14,7 @@
 #import "FCGIParamsRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
+#import "FCGIThread.h"
 
 
 #define FCGIRecordFixedLengthPartLength 8
@@ -51,6 +52,7 @@ void handleSIGTERM(int signum);
     AsyncSocket *_listenSocket;
     NSMutableArray *_connectedSockets;    
     NSMutableDictionary* _currentRequests;
+    NSMutableArray *_workerThreads;
 }
 
 @property (assign) id<FCGIApplicationDelegate> delegate;

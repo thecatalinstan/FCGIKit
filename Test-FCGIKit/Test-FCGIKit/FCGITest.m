@@ -22,26 +22,31 @@
 
 - (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     return FCGITerminateNow;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)applicationDidReceiveRequestParameters:(FCGIRequest *)request
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)applicationDidReceiveRequest:(FCGIRequest *)request
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-//    [request writeDataToStdout:[@"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 8\r\n\r\nTest" dataUsingEncoding:NSASCIIStringEncoding]];
-//    [request writeDataToStdout:[@"Test" dataUsingEncoding:NSASCIIStringEncoding]];
-//    [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+    NSString* requestId = [[[NSString stringWithFormat:@"Thread: %@\nIs Main thread: %hhd\nRequest: %@", [NSThread currentThread], [[NSThread currentThread] isMainThread], request] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    
+    [request writeDataToStdout:[@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request writeDataToStdout: [[NSString stringWithFormat: @"<pre>%@</pre>", requestId] dataUsingEncoding:NSUTF8StringEncoding]];
+    [request writeDataToStdout:[ [NSString stringWithFormat:@"<pre>%@</pre>", request.parameters] dataUsingEncoding:NSUTF8StringEncoding]];
+    [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
 }
 
 

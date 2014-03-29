@@ -18,6 +18,10 @@ NSString* const FCGIKitConnectionInfoPortKey = @"FCGIKitConnectionInfoPort";
 NSString* const FCGIKitConnectionInfoSocketKey = @"FCGIKitConnectionInfoSocket";
 
 NSUInteger const FCGIKitDefaultMaxConnections = 20;
+NSString* const FCGIKitDefaultSocketPath = @"/tmp/fcgikit.sock";
+NSUInteger const FCGIKitDefaultPortNumber = 10000;
+
+NSString* const FCGIKitRecordKey = @"FCGIKitRecord";
 
 NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";
 NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";

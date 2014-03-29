@@ -21,7 +21,12 @@ extern NSString* const FCGIKitMaxConnectionsKey;
 extern NSString* const FCGIKitConnectionInfoKey;
 extern NSString* const FCGIKitConnectionInfoPortKey;
 extern NSString* const FCGIKitConnectionInfoSocketKey;
+
 extern NSUInteger const FCGIKitDefaultMaxConnections;
+extern NSString* const FCGIKitDefaultSocketPath;
+extern NSUInteger const FCGIKitDefaultPortNumber;
+
+extern NSString* const FCGIKitRecordKey;
 
 extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;
 extern NSString* const FCGIKitApplicationDidFinishLaunchingNotification;

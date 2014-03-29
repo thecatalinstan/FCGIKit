@@ -16,5 +16,7 @@
     BOOL _isFinished;
 }
 
+- (NSRunLoop*)runLoop;
+
 
 @end
