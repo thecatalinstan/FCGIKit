@@ -10,6 +10,8 @@
 		AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9871728515D005C3923 /* FCGIApplication.m */; };
 		AD2ADACE18E6A83B008F5973 /* FCGIThread.h in Headers */ = {isa = PBXBuildFile; fileRef = AD2ADACC18E6A83B008F5973 /* FCGIThread.h */; };
 		AD2ADACF18E6A83B008F5973 /* FCGIThread.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2ADACD18E6A83B008F5973 /* FCGIThread.m */; };
+		AD4E975018E6DF6A007642EA /* NSThread+FCGIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD4E974E18E6DF6A007642EA /* NSThread+FCGIKit.h */; };
+		AD4E975118E6DF6A007642EA /* NSThread+FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */; };
 		AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66804818E65A49002805EC /* AsyncSocket.m */; };
 		AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */; };
 		AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806018E66C26002805EC /* FCGIByteStreamRecord.m */; };
@@ -43,6 +45,8 @@
 		AD2ADACC18E6A83B008F5973 /* FCGIThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIThread.h; sourceTree = "<group>"; };
 		AD2ADACD18E6A83B008F5973 /* FCGIThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIThread.m; sourceTree = "<group>"; };
 		AD2FA14F172B507E00EF47BB /* FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKit.h; sourceTree = "<group>"; };
+		AD4E974E18E6DF6A007642EA /* NSThread+FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+FCGIKit.h"; sourceTree = "<group>"; };
+		AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+FCGIKit.m"; sourceTree = "<group>"; };
 		AD66804718E65A49002805EC /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		AD66804818E65A49002805EC /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -125,6 +129,8 @@
 				AD0EA9871728515D005C3923 /* FCGIApplication.m */,
 				AD2ADACC18E6A83B008F5973 /* FCGIThread.h */,
 				AD2ADACD18E6A83B008F5973 /* FCGIThread.m */,
+				AD4E974E18E6DF6A007642EA /* NSThread+FCGIKit.h */,
+				AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */,
 			);
 			path = FCGIKit;
 			sourceTree = "<group>";
@@ -147,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD2ADACE18E6A83B008F5973 /* FCGIThread.h in Headers */,
+				AD4E975018E6DF6A007642EA /* NSThread+FCGIKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +216,7 @@
 				AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */,
 				AD66807318E66C54002805EC /* FCGIRequest.m in Sources */,
 				AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */,
+				AD4E975118E6DF6A007642EA /* NSThread+FCGIKit.m in Sources */,
 				AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */,
 				AD66807218E66C54002805EC /* FCGIRecord.m in Sources */,
 				ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */,

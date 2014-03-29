@@ -54,7 +54,7 @@
   NSString *name, *value;
   
   //Remove Padding
-    NSMutableData* unpaddedData = [[data subdataWithRange:NSMakeRange(0, self.contentLength)] mutableCopy];
+  NSMutableData* unpaddedData = [[data subdataWithRange:NSMakeRange(0, self.contentLength)] mutableCopy];
   while ([unpaddedData length] > 0)
   {
     [unpaddedData getBytes:&pos0 range:NSMakeRange(0, 1)];
