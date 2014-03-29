@@ -9,10 +9,14 @@
 #import "FCGIKit.h"
 
 NSString* const FCGIKit = @"FCGIKit";
-NSString* const FCGIKitApplicationRunLoopMode = @"NSDefaultRunLoopMode"; // This is a cheap hack. Will change to a custom runloop mode at some point
+NSString* const FCGIKitApplicationRunLoopMode = @"NSRunLoopCommonModes"; // This is a cheap hack. Will change to a custom runloop mode at some point
 NSString* const FCGIKitErrorFileKey = @"FCGIKitErrorFile";
 NSString* const FCGIKitErrorLineKey = @"FCGIKitErrorLine";
 NSString* const FCGIKitMaxConnectionsKey = @"FCGIKitMaxConnections";
+NSString* const FCGIKitConnectionInfoKey = @"FCGIKitConnectionInfo";
+NSString* const FCGIKitConnectionInfoPortKey = @"FCGIKitConnectionInfoPort";
+NSString* const FCGIKitConnectionInfoSocketKey = @"FCGIKitConnectionInfoSocket";
+
 NSUInteger const FCGIKitDefaultMaxConnections = 20;
 
 NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";

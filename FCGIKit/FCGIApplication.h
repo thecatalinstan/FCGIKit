@@ -8,20 +8,26 @@
 
 #import "FCGIKit.h"
 #import "FCGIApplicationDelegate.h"
-#import "FCGIServer.h"
+#import "AsyncSocket.h"
+#import "FCGIRecord.h"
+#import "FCGIBeginRequestRecord.h"
+#import "FCGIParamsRecord.h"
+#import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
-#import "FCGITypes.h"
 
 FCGIApplication *FCGIApp;
 extern int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate);
 void handleSIGTERM(int signum);
 
-@interface FCGIApplication : NSObject {
+@interface FCGIApplication : NSObject<AsyncSocketDelegate> {
     id<FCGIApplicationDelegate> _delegate;
     NSUInteger _maxConnections;
+    NSString* _socketPath;
+    NSUInteger _portNumber;
+    
+    BOOL _isListeningOnUnixSocket;
     BOOL _isRunning;
-    NSMutableArray* _workerThreads;
-    NSMutableSet* _requestIDs;
+    
     NSMutableDictionary* _environment;
     
     BOOL firstRunCompleted;
@@ -30,16 +36,21 @@ void handleSIGTERM(int signum);
     NSTimer* waitingOnTerminateLaterReplyTimer;
     CFRunLoopObserverRef mainRunLoopObserver;
     
-    NSFileHandle* inputStreamFileHandle;
-    FCGIServer* server;
+    AsyncSocket *_listenSocket;
+    NSMutableArray *_connectedSockets;
 }
 
 @property (assign) id<FCGIApplicationDelegate> delegate;
 @property (assign) NSUInteger maxConnections;
+@property (assign) NSUInteger portNumber;
+@property (retain) NSString* socketPath;
+@property (readonly) BOOL isListeningOnUnixSocket;
 @property (readonly) BOOL isRunning;
 @property (retain) NSMutableArray* workerThreads;
 @property (retain) NSMutableSet* requestIDs;
 @property (retain) NSMutableDictionary* environment;
+@property (retain) AsyncSocket* listenSocket;
+@property (retain) NSMutableArray* connectedSockets;
 
 + (FCGIApplication *)sharedApplication;
 

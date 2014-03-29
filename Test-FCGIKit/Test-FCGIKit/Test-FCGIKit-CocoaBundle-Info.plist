@@ -24,5 +24,12 @@
 	<string>Copyright © 2013 Catalin Stan. All rights reserved.</string>
 	<key>FCGIKitMaxConnections</key>
 	<integer>2</integer>
+	<key>FCGIKitConnectionInfo</key>
+	<dict>
+		<key>FCGIKitConnectionInfoSocket</key>
+		<string>/tmp/test-fcgikit.sock</string>
+		<key>FCGIKitConnectionInfoPort</key>
+		<integer>10000</integer>
+	</dict>
 </dict>
 </plist>

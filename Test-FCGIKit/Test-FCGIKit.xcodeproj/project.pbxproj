@@ -8,23 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		AD0EA9A017285C01005C3923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA99F17285C01005C3923 /* main.m */; };
-		AD0EA9A417285C01005C3923 /* Test_FCGIKit.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0EA9A317285C01005C3923 /* Test_FCGIKit.1 */; };
 		AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9DB1728682A005C3923 /* FCGITest.m */; };
 		AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */; };
-		AD0EACC91728BFCC005C3923 /* Test-FCGIKit in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0EA99917285C01005C3923 /* Test-FCGIKit */; };
-		AD0EACDD1728C38A005C3923 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0EAA3D17287DF0005C3923 /* libfcgikit.a */; };
-		AD285C4E1731C1C300987F63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD285C4D1731C1C300987F63 /* Foundation.framework */; };
-		ADC4A82D172961C800AEB78E /* Test-FCGIKit-CocoaBundle.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* Test-FCGIKit-CocoaBundle.bundle */; };
+		AD0EACC91728BFCC005C3923 /* Test-FCGIKit in Copy executable */ = {isa = PBXBuildFile; fileRef = AD0EA99917285C01005C3923 /* Test-FCGIKit */; };
+		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
+		AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD66804C18E65B0C002805EC /* Property List.plist */; };
+		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
+		AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805B18E6677A002805EC /* CFNetwork.framework */; };
+		ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to webroot */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AD0EAA3C17287DF0005C3923 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AD0EAA2C17287C06005C3923;
-			remoteInfo = fcgikit;
-		};
 		AD0EACCA1728BFE1005C3923 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0EA99117285C01005C3923 /* Project object */;
@@ -32,26 +26,16 @@
 			remoteGlobalIDString = AD0EA99817285C01005C3923;
 			remoteInfo = "Test-FCGIKit";
 		};
-		AD0EACDB1728C381005C3923 /* PBXContainerItemProxy */ = {
+		ADD46C4018E6508E008B6E19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AD0EAA2B17287C06005C3923;
+			proxyType = 2;
+			remoteGlobalIDString = AD0EAA2C17287C06005C3923;
 			remoteInfo = fcgikit;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AD0EA99717285C01005C3923 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				AD0EA9A417285C01005C3923 /* Test_FCGIKit.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		AD0EA9D51728652F005C3923 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,23 +45,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD0EACC81728BFAF005C3923 /* CopyFiles */ = {
+		AD0EACC81728BFAF005C3923 /* Copy executable */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				AD0EACC91728BFCC005C3923 /* Test-FCGIKit in CopyFiles */,
+				AD0EACC91728BFCC005C3923 /* Test-FCGIKit in Copy executable */,
 			);
+			name = "Copy executable";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD0EACCF1728C0CD005C3923 /* CopyFiles */ = {
+		AD0EACCF1728C0CD005C3923 /* Copy to webroot */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /Users/catalin/Sites/fcgi/;
 			dstSubfolderSpec = 0;
 			files = (
-				ADC4A82D172961C800AEB78E /* Test-FCGIKit-CocoaBundle.bundle in CopyFiles */,
+				ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to webroot */,
+			);
+			name = "Copy to webroot";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD66804E18E65B39002805EC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = Public;
+			dstSubfolderSpec = 1;
+			files = (
+				AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,15 +83,15 @@
 		AD0EA99917285C01005C3923 /* Test-FCGIKit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Test-FCGIKit"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0EA99F17285C01005C3923 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AD0EA9A217285C01005C3923 /* Test-FCGIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test-FCGIKit-Prefix.pch"; sourceTree = "<group>"; };
-		AD0EA9A317285C01005C3923 /* Test_FCGIKit.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Test_FCGIKit.1; sourceTree = "<group>"; };
-		AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FCGIKit.xcodeproj; path = ../FCGIKit/FCGIKit.xcodeproj; sourceTree = "<group>"; };
+		AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FCGIKit.xcodeproj; path = ../FCGIKit.xcodeproj; sourceTree = "<group>"; };
 		AD0EA9DA1728682A005C3923 /* FCGITest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITest.h; sourceTree = "<group>"; };
 		AD0EA9DB1728682A005C3923 /* FCGITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGITest.m; sourceTree = "<group>"; };
-		AD0EACB81728BF4C005C3923 /* Test-FCGIKit-CocoaBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Test-FCGIKit-CocoaBundle.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD0EACB81728BF4C005C3923 /* TestBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-CocoaBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Test-FCGIKit-CocoaBundle-Info.plist"; path = "Test-FCGIKit/Test-FCGIKit-CocoaBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AD0EACBE1728BF4C005C3923 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AD285C4D1731C1C300987F63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		ADE85C29177CD09E00636C96 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
+		AD66804C18E65B0C002805EC /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Property List.plist"; path = "Test-FCGIKit/Property List.plist"; sourceTree = "<group>"; };
+		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +99,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD285C4E1731C1C300987F63 /* Foundation.framework in Frameworks */,
-				AD0EACDD1728C38A005C3923 /* libfcgikit.a in Frameworks */,
+				AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */,
+				AD66805818E66712002805EC /* Foundation.framework in Frameworks */,
+				AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				AD0EA99917285C01005C3923 /* Test-FCGIKit */,
-				AD0EACB81728BF4C005C3923 /* Test-FCGIKit-CocoaBundle.bundle */,
+				AD0EACB81728BF4C005C3923 /* TestBundle.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,8 +137,8 @@
 		AD0EA99B17285C01005C3923 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ADE85C29177CD09E00636C96 /* libssl.dylib */,
-				AD285C4D1731C1C300987F63 /* Foundation.framework */,
+				AD66805B18E6677A002805EC /* CFNetwork.framework */,
+				AD66805718E66712002805EC /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -150,10 +147,10 @@
 			isa = PBXGroup;
 			children = (
 				AD0EA99F17285C01005C3923 /* main.m */,
-				AD0EA9A317285C01005C3923 /* Test_FCGIKit.1 */,
 				AD0EA9DA1728682A005C3923 /* FCGITest.h */,
 				AD0EA9DB1728682A005C3923 /* FCGITest.m */,
 				AD0EA9A117285C01005C3923 /* Supporting Files */,
+				AD66804B18E65ACF002805EC /* Public */,
 			);
 			path = "Test-FCGIKit";
 			sourceTree = "<group>";
@@ -168,10 +165,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		AD0EA9AB17285C11005C3923 /* Products */ = {
+		AD66804B18E65ACF002805EC /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				AD0EAA3D17287DF0005C3923 /* libfcgikit.a */,
+				AD66804C18E65B0C002805EC /* Property List.plist */,
+			);
+			name = Public;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		ADD46C3D18E6508E008B6E19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADD46C4118E6508E008B6E19 /* libfcgikit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,38 +191,36 @@
 			buildPhases = (
 				AD0EA99517285C01005C3923 /* Sources */,
 				AD0EA99617285C01005C3923 /* Frameworks */,
-				AD0EA99717285C01005C3923 /* CopyFiles */,
 				AD0EA9D51728652F005C3923 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AD0EACDC1728C381005C3923 /* PBXTargetDependency */,
 			);
 			name = "Test-FCGIKit";
 			productName = "Test-FCGIKit";
 			productReference = AD0EA99917285C01005C3923 /* Test-FCGIKit */;
 			productType = "com.apple.product-type.tool";
 		};
-		AD0EACB71728BF4C005C3923 /* Test-FCGIKit-CocoaBundle */ = {
+		AD0EACB71728BF4C005C3923 /* TestBundle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AD0EACC11728BF4C005C3923 /* Build configuration list for PBXNativeTarget "Test-FCGIKit-CocoaBundle" */;
+			buildConfigurationList = AD0EACC11728BF4C005C3923 /* Build configuration list for PBXNativeTarget "TestBundle" */;
 			buildPhases = (
 				AD0EACB41728BF4C005C3923 /* Sources */,
 				AD0EACB51728BF4C005C3923 /* Frameworks */,
 				AD0EACB61728BF4C005C3923 /* Resources */,
-				AD0EACC81728BFAF005C3923 /* CopyFiles */,
-				AD0EACCF1728C0CD005C3923 /* CopyFiles */,
-				AD3E8AAB177C71BE004C65F3 /* ShellScript */,
+				AD0EACC81728BFAF005C3923 /* Copy executable */,
+				AD0EACCF1728C0CD005C3923 /* Copy to webroot */,
+				AD66804E18E65B39002805EC /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				AD0EACCB1728BFE1005C3923 /* PBXTargetDependency */,
 			);
-			name = "Test-FCGIKit-CocoaBundle";
+			name = TestBundle;
 			productName = "Test-FCGIKit-CocoaBundle";
-			productReference = AD0EACB81728BF4C005C3923 /* Test-FCGIKit-CocoaBundle.bundle */;
+			productReference = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -225,7 +229,7 @@
 		AD0EA99117285C01005C3923 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Catalin Stan";
 			};
 			buildConfigurationList = AD0EA99417285C01005C3923 /* Build configuration list for PBXProject "Test-FCGIKit" */;
@@ -240,24 +244,24 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AD0EA9AB17285C11005C3923 /* Products */;
+					ProductGroup = ADD46C3D18E6508E008B6E19 /* Products */;
 					ProjectRef = AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				AD0EA99817285C01005C3923 /* Test-FCGIKit */,
-				AD0EACB71728BF4C005C3923 /* Test-FCGIKit-CocoaBundle */,
+				AD0EACB71728BF4C005C3923 /* TestBundle */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AD0EAA3D17287DF0005C3923 /* libfcgikit.a */ = {
+		ADD46C4118E6508E008B6E19 /* libfcgikit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libfcgikit.a;
-			remoteRef = AD0EAA3C17287DF0005C3923 /* PBXContainerItemProxy */;
+			remoteRef = ADD46C4018E6508E008B6E19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -272,22 +276,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		AD3E8AAB177C71BE004C65F3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo \"Lockmeout#2\"|sudo -S killall Test-FCGIKit\necho \"Lockmeout#2\"|sudo -S apachectl restart";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD0EA99517285C01005C3923 /* Sources */ = {
@@ -314,11 +302,6 @@
 			target = AD0EA99817285C01005C3923 /* Test-FCGIKit */;
 			targetProxy = AD0EACCA1728BFE1005C3923 /* PBXContainerItemProxy */;
 		};
-		AD0EACDC1728C381005C3923 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = fcgikit;
-			targetProxy = AD0EACDB1728C381005C3923 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -338,7 +321,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -364,7 +346,7 @@
 				LIBRARY_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -373,7 +355,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -392,7 +373,7 @@
 				HEADER_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
 				LIBRARY_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -400,7 +381,7 @@
 		AD0EA9A817285C01005C3923 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit/Test-FCGIKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
@@ -413,7 +394,7 @@
 		AD0EA9A917285C01005C3923 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit/Test-FCGIKit-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
@@ -426,7 +407,6 @@
 		AD0EACC21728BF4C005C3923 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit-CocoaBundle/Test-FCGIKit-CocoaBundle-Prefix.pch";
@@ -443,7 +423,6 @@
 		AD0EACC31728BF4C005C3923 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit-CocoaBundle/Test-FCGIKit-CocoaBundle-Prefix.pch";
@@ -478,7 +457,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD0EACC11728BF4C005C3923 /* Build configuration list for PBXNativeTarget "Test-FCGIKit-CocoaBundle" */ = {
+		AD0EACC11728BF4C005C3923 /* Build configuration list for PBXNativeTarget "TestBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AD0EACC21728BF4C005C3923 /* Debug */,

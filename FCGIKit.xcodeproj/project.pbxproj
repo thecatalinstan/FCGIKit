@@ -8,24 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9871728515D005C3923 /* FCGIApplication.m */; };
+		AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66804818E65A49002805EC /* AsyncSocket.m */; };
+		AD66806C18E66C45002805EC /* FCGIServer.h in Headers */ = {isa = PBXBuildFile; fileRef = AD66806A18E66C45002805EC /* FCGIServer.h */; };
+		AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */; };
+		AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806018E66C26002805EC /* FCGIByteStreamRecord.m */; };
+		AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806218E66C26002805EC /* FCGIEndRequestRecord.m */; };
+		AD66807118E66C54002805EC /* FCGIParamsRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806418E66C26002805EC /* FCGIParamsRecord.m */; };
+		AD66807218E66C54002805EC /* FCGIRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806618E66C26002805EC /* FCGIRecord.m */; };
+		AD66807318E66C54002805EC /* FCGIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806818E66C26002805EC /* FCGIRequest.m */; };
 		ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC1E011172CB29C0022E227 /* FCGIKit.m */; };
-		ADD955D2177D23EE008FD0C4 /* FCGIThread.h in Headers */ = {isa = PBXBuildFile; fileRef = ADD955D0177D23EE008FD0C4 /* FCGIThread.h */; };
-		ADD955D3177D23EE008FD0C4 /* FCGIThread.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD955D1177D23EE008FD0C4 /* FCGIThread.m */; };
-		ADE597B8177CB28E00EB2A02 /* FCGIBeginRequestRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597A7177CB28E00EB2A02 /* FCGIBeginRequestRecord.h */; };
-		ADE597B9177CB28E00EB2A02 /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597A8177CB28E00EB2A02 /* FCGIBeginRequestRecord.m */; };
-		ADE597BA177CB28E00EB2A02 /* FCGIByteStreamRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597A9177CB28E00EB2A02 /* FCGIByteStreamRecord.h */; };
-		ADE597BB177CB28E00EB2A02 /* FCGIByteStreamRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597AA177CB28E00EB2A02 /* FCGIByteStreamRecord.m */; };
-		ADE597BC177CB28E00EB2A02 /* FCGIEndRequestRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597AB177CB28E00EB2A02 /* FCGIEndRequestRecord.h */; };
-		ADE597BD177CB28E00EB2A02 /* FCGIEndRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597AC177CB28E00EB2A02 /* FCGIEndRequestRecord.m */; };
-		ADE597BE177CB28E00EB2A02 /* FCGIParamsRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597AD177CB28E00EB2A02 /* FCGIParamsRecord.h */; };
-		ADE597BF177CB28E00EB2A02 /* FCGIParamsRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597AE177CB28E00EB2A02 /* FCGIParamsRecord.m */; };
-		ADE597C0177CB28E00EB2A02 /* FCGIRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597AF177CB28E00EB2A02 /* FCGIRecord.h */; };
-		ADE597C1177CB28E00EB2A02 /* FCGIRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597B0177CB28E00EB2A02 /* FCGIRecord.m */; };
-		ADE597C2177CB28E00EB2A02 /* FCGIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597B1177CB28E00EB2A02 /* FCGIRequest.h */; };
-		ADE597C3177CB28E00EB2A02 /* FCGIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597B2177CB28E00EB2A02 /* FCGIRequest.m */; };
-		ADE597C4177CB28E00EB2A02 /* FCGIServer.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597B3177CB28E00EB2A02 /* FCGIServer.h */; };
-		ADE597C5177CB28E00EB2A02 /* FCGIServer.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE597B4177CB28E00EB2A02 /* FCGIServer.m */; };
-		ADE597C6177CB28E00EB2A02 /* FCGITypes.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE597B5177CB28E00EB2A02 /* FCGITypes.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,24 +40,25 @@
 		AD0EA9BB17285DBD005C3923 /* libfcgikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libfcgikit.h; sourceTree = "<group>"; };
 		AD0EAA2C17287C06005C3923 /* libfcgikit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfcgikit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD2FA14F172B507E00EF47BB /* FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKit.h; sourceTree = "<group>"; };
+		AD66804718E65A49002805EC /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		AD66804818E65A49002805EC /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		AD66805D18E66C26002805EC /* FCGIBeginRequestRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIBeginRequestRecord.h; sourceTree = "<group>"; };
+		AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIBeginRequestRecord.m; sourceTree = "<group>"; };
+		AD66805F18E66C26002805EC /* FCGIByteStreamRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIByteStreamRecord.h; sourceTree = "<group>"; };
+		AD66806018E66C26002805EC /* FCGIByteStreamRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIByteStreamRecord.m; sourceTree = "<group>"; };
+		AD66806118E66C26002805EC /* FCGIEndRequestRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIEndRequestRecord.h; sourceTree = "<group>"; };
+		AD66806218E66C26002805EC /* FCGIEndRequestRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIEndRequestRecord.m; sourceTree = "<group>"; };
+		AD66806318E66C26002805EC /* FCGIParamsRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIParamsRecord.h; sourceTree = "<group>"; };
+		AD66806418E66C26002805EC /* FCGIParamsRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIParamsRecord.m; sourceTree = "<group>"; };
+		AD66806518E66C26002805EC /* FCGIRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIRecord.h; sourceTree = "<group>"; };
+		AD66806618E66C26002805EC /* FCGIRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIRecord.m; sourceTree = "<group>"; };
+		AD66806718E66C26002805EC /* FCGIRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIRequest.h; sourceTree = "<group>"; };
+		AD66806818E66C26002805EC /* FCGIRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
+		AD66806918E66C26002805EC /* FCGITypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
+		AD66806A18E66C45002805EC /* FCGIServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIServer.h; sourceTree = "<group>"; };
+		AD66806B18E66C45002805EC /* FCGIServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIServer.m; sourceTree = "<group>"; };
 		ADC1E011172CB29C0022E227 /* FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKit.m; sourceTree = "<group>"; };
-		ADD955D0177D23EE008FD0C4 /* FCGIThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIThread.h; sourceTree = "<group>"; };
-		ADD955D1177D23EE008FD0C4 /* FCGIThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIThread.m; sourceTree = "<group>"; };
-		ADE597A7177CB28E00EB2A02 /* FCGIBeginRequestRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIBeginRequestRecord.h; sourceTree = "<group>"; };
-		ADE597A8177CB28E00EB2A02 /* FCGIBeginRequestRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIBeginRequestRecord.m; sourceTree = "<group>"; };
-		ADE597A9177CB28E00EB2A02 /* FCGIByteStreamRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIByteStreamRecord.h; sourceTree = "<group>"; };
-		ADE597AA177CB28E00EB2A02 /* FCGIByteStreamRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIByteStreamRecord.m; sourceTree = "<group>"; };
-		ADE597AB177CB28E00EB2A02 /* FCGIEndRequestRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIEndRequestRecord.h; sourceTree = "<group>"; };
-		ADE597AC177CB28E00EB2A02 /* FCGIEndRequestRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIEndRequestRecord.m; sourceTree = "<group>"; };
-		ADE597AD177CB28E00EB2A02 /* FCGIParamsRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIParamsRecord.h; sourceTree = "<group>"; };
-		ADE597AE177CB28E00EB2A02 /* FCGIParamsRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIParamsRecord.m; sourceTree = "<group>"; };
-		ADE597AF177CB28E00EB2A02 /* FCGIRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIRecord.h; sourceTree = "<group>"; };
-		ADE597B0177CB28E00EB2A02 /* FCGIRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIRecord.m; sourceTree = "<group>"; };
-		ADE597B1177CB28E00EB2A02 /* FCGIRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIRequest.h; sourceTree = "<group>"; };
-		ADE597B2177CB28E00EB2A02 /* FCGIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
-		ADE597B3177CB28E00EB2A02 /* FCGIServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIServer.h; sourceTree = "<group>"; };
-		ADE597B4177CB28E00EB2A02 /* FCGIServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIServer.m; sourceTree = "<group>"; };
-		ADE597B5177CB28E00EB2A02 /* FCGITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +93,7 @@
 		AD0EA94417284CB4005C3923 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD66805918E6674E002805EC /* CFNetwork.framework */,
 				AD0EA94A17284CB4005C3923 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -109,25 +102,25 @@
 		AD0EA94B17284CB4005C3923 /* FCGIKit */ = {
 			isa = PBXGroup;
 			children = (
-				ADD955D0177D23EE008FD0C4 /* FCGIThread.h */,
-				ADD955D1177D23EE008FD0C4 /* FCGIThread.m */,
+				AD66805D18E66C26002805EC /* FCGIBeginRequestRecord.h */,
+				AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */,
+				AD66805F18E66C26002805EC /* FCGIByteStreamRecord.h */,
+				AD66806018E66C26002805EC /* FCGIByteStreamRecord.m */,
+				AD66806118E66C26002805EC /* FCGIEndRequestRecord.h */,
+				AD66806218E66C26002805EC /* FCGIEndRequestRecord.m */,
+				AD66806318E66C26002805EC /* FCGIParamsRecord.h */,
+				AD66806418E66C26002805EC /* FCGIParamsRecord.m */,
+				AD66806518E66C26002805EC /* FCGIRecord.h */,
+				AD66806618E66C26002805EC /* FCGIRecord.m */,
+				AD66806718E66C26002805EC /* FCGIRequest.h */,
+				AD66806818E66C26002805EC /* FCGIRequest.m */,
+				AD66806918E66C26002805EC /* FCGITypes.h */,
+				AD66806A18E66C45002805EC /* FCGIServer.h */,
+				AD66806B18E66C45002805EC /* FCGIServer.m */,
+				AD66804718E65A49002805EC /* AsyncSocket.h */,
+				AD66804818E65A49002805EC /* AsyncSocket.m */,
 				AD2FA14F172B507E00EF47BB /* FCGIKit.h */,
 				ADC1E011172CB29C0022E227 /* FCGIKit.m */,
-				ADE597B5177CB28E00EB2A02 /* FCGITypes.h */,
-				ADE597A7177CB28E00EB2A02 /* FCGIBeginRequestRecord.h */,
-				ADE597A8177CB28E00EB2A02 /* FCGIBeginRequestRecord.m */,
-				ADE597A9177CB28E00EB2A02 /* FCGIByteStreamRecord.h */,
-				ADE597AA177CB28E00EB2A02 /* FCGIByteStreamRecord.m */,
-				ADE597AB177CB28E00EB2A02 /* FCGIEndRequestRecord.h */,
-				ADE597AC177CB28E00EB2A02 /* FCGIEndRequestRecord.m */,
-				ADE597AD177CB28E00EB2A02 /* FCGIParamsRecord.h */,
-				ADE597AE177CB28E00EB2A02 /* FCGIParamsRecord.m */,
-				ADE597AF177CB28E00EB2A02 /* FCGIRecord.h */,
-				ADE597B0177CB28E00EB2A02 /* FCGIRecord.m */,
-				ADE597B1177CB28E00EB2A02 /* FCGIRequest.h */,
-				ADE597B2177CB28E00EB2A02 /* FCGIRequest.m */,
-				ADE597B3177CB28E00EB2A02 /* FCGIServer.h */,
-				ADE597B4177CB28E00EB2A02 /* FCGIServer.m */,
 				AD0EA95A17284E0B005C3923 /* FCGIApplicationDelegate.h */,
 				AD0EA9861728515D005C3923 /* FCGIApplication.h */,
 				AD0EA9871728515D005C3923 /* FCGIApplication.m */,
@@ -152,15 +145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADE597B8177CB28E00EB2A02 /* FCGIBeginRequestRecord.h in Headers */,
-				ADE597BA177CB28E00EB2A02 /* FCGIByteStreamRecord.h in Headers */,
-				ADE597BC177CB28E00EB2A02 /* FCGIEndRequestRecord.h in Headers */,
-				ADE597BE177CB28E00EB2A02 /* FCGIParamsRecord.h in Headers */,
-				ADE597C0177CB28E00EB2A02 /* FCGIRecord.h in Headers */,
-				ADE597C2177CB28E00EB2A02 /* FCGIRequest.h in Headers */,
-				ADE597C4177CB28E00EB2A02 /* FCGIServer.h in Headers */,
-				ADE597C6177CB28E00EB2A02 /* FCGITypes.h in Headers */,
-				ADD955D2177D23EE008FD0C4 /* FCGIThread.h in Headers */,
+				AD66806C18E66C45002805EC /* FCGIServer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +176,7 @@
 		AD0EA93917284CB4005C3923 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Catalin Stan";
 			};
 			buildConfigurationList = AD0EA93C17284CB4005C3923 /* Build configuration list for PBXProject "FCGIKit" */;
@@ -216,16 +201,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */,
+				AD66807118E66C54002805EC /* FCGIParamsRecord.m in Sources */,
+				AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */,
+				AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */,
+				AD66807318E66C54002805EC /* FCGIRequest.m in Sources */,
 				AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */,
+				AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */,
+				AD66807218E66C54002805EC /* FCGIRecord.m in Sources */,
 				ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */,
-				ADE597B9177CB28E00EB2A02 /* FCGIBeginRequestRecord.m in Sources */,
-				ADE597BB177CB28E00EB2A02 /* FCGIByteStreamRecord.m in Sources */,
-				ADE597BD177CB28E00EB2A02 /* FCGIEndRequestRecord.m in Sources */,
-				ADE597BF177CB28E00EB2A02 /* FCGIParamsRecord.m in Sources */,
-				ADE597C1177CB28E00EB2A02 /* FCGIRecord.m in Sources */,
-				ADE597C3177CB28E00EB2A02 /* FCGIRequest.m in Sources */,
-				ADE597C5177CB28E00EB2A02 /* FCGIServer.m in Sources */,
-				ADD955D3177D23EE008FD0C4 /* FCGIThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,7 +220,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -262,8 +245,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -272,7 +255,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -292,7 +274,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -300,8 +282,7 @@
 		AD0EAA3517287C06005C3923 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DYLIB_CURRENT_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FCGIKit/libfcgikit-Prefix.pch";
@@ -320,8 +301,7 @@
 		AD0EAA3617287C06005C3923 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DYLIB_CURRENT_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FCGIKit/libfcgikit-Prefix.pch";

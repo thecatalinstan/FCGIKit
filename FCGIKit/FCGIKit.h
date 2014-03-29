@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-#define FCGI_LISTENSOCK_FILENO 0
-
 enum {
     FCGITerminateCancel = 0,
     FCGITerminateNow    = 1,
@@ -20,6 +18,9 @@ extern NSString* const FCGIKitApplicationRunLoopMode;
 extern NSString* const FCGIKitErrorFileKey;
 extern NSString* const FCGIKitErrorLineKey;
 extern NSString* const FCGIKitMaxConnectionsKey;
+extern NSString* const FCGIKitConnectionInfoKey;
+extern NSString* const FCGIKitConnectionInfoPortKey;
+extern NSString* const FCGIKitConnectionInfoSocketKey;
 extern NSUInteger const FCGIKitDefaultMaxConnections;
 
 extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;

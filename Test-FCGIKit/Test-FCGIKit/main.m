@@ -21,9 +21,7 @@
 
 int main(int argc, const char * argv[])
 {
-    FCGITest* delegate = [[FCGITest alloc] init];
-    int val = FCGIApplicationMain(argc, argv, delegate);
-    [delegate release];
+    int val = FCGIApplicationMain(argc, argv, [[FCGITest alloc] init]);
     return val;
 }
 

@@ -16,6 +16,11 @@
 #endif
 #endif
 
+#import "AsyncSocket.h"
 #import "FCGIApplicationDelegate.h"
 #import "FCGIApplication.h"
-#import "FCGITypes.h"
+#import "FCGIRecord.h"
+#import "FCGIBeginRequestRecord.h"
+#import "FCGIParamsRecord.h"
+#import "FCGIByteStreamRecord.h"
+#import "FCGIRequest.h"

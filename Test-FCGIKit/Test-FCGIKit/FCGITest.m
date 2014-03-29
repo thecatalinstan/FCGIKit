@@ -12,38 +12,23 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
-
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-//    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:17.0f target:self selector:@selector(terminate) userInfo:nil repeats:NO] forMode:FCGIKitApplicationRunLoopMode];
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
-
-- (void)terminate
-{
-    [FCGIApp terminate:self];
-}
-
-- (void)reply
-{
-    [FCGIApp replyToApplicationShouldTerminate:YES];
-}
-
-//NSMutableArray* _workerThreads;
 
 - (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-//    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:5.0f target:self selector:@selector(reply) userInfo:nil repeats:NO] forMode:FCGIKitApplicationRunLoopMode];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     return FCGITerminateNow;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 @end
