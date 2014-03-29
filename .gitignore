@@ -1,0 +1,25 @@
+# User dependand files related to the userinterface state
+*/xcuserdata/*/*
+*/xcuserdata/*/*/*
+
+*/*/xcuserdata/*/*
+*/*/xcuserdata/*/*/*
+
+Test-FCGIKit/Test-FCGIKit.xcodeproj/project.xcworkspace/xcuserdata/catalin.xcuserdatad/UserInterfaceState.xcuserstate
+
+# The junk
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+*/*/*/*/.DS_Store
+*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
+*/*/*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
