@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
+#import "AsyncSocket.h"
 #import "FCGIApplication.h"
 #import "FCGIKit.h"
 #import "FCGIRecord.h"
@@ -193,33 +194,41 @@ void handleSIGTERM(int signum) {
         } else {
             [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)socket.hash]];
             if ( _delegate && [_delegate respondsToSelector:@selector(applicationDidReceiveRequest:)] ) {
-                FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
-                NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest};
+                NSDictionary* userInfo = @{FCGIKitRequestKey:request};
                 [_delegate applicationDidReceiveRequest:userInfo];
             }
         }
         [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
     } else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
+//        NSLog(@"%@", record);
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
         FCGIRequest* request;
         @synchronized(_currentRequests) {
             request = [_currentRequests objectForKey:globalRequestId];
         }
-        [request.stdinData appendData:[(FCGIByteStreamRecord*)record data]];
+        NSData* data = [(FCGIByteStreamRecord*)record data];
+
+        [request.stdinData appendData:data];
+ 
+//        [request writeDataToStdout:[@"Status: 200\nContent-type: text/plain\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
+//        [request writeDataToStdout:data];
+//        [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
+    
         if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillSendResponse:)] ) {
             NSThread* thread = [self workerThreadForRequest:request];
-            if ( thread == nil ) {
-                NSLog(@"Thread limit (%lu) exceeded.", _maxThreads);
-                return;
-            } else {
-                FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
-                FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse requestWithHTTPRequest:httpRequest];
-                NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
-                [request.socket moveToRunLoop:thread.runLoop];
-                [_delegate performSelector:@selector(applicationWillSendResponse:) onThread:thread withObject:userInfo waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
-            }
+            [request.socket moveToRunLoop:thread.runLoop];
+            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:thread withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
         }
     }
+}
+
+- (void)callDelegateWillSendResponse:(FCGIRequest*)request
+{
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
+    FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse requestWithHTTPRequest:httpRequest];
+    NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
+    [_delegate applicationWillSendResponse:userInfo];
 }
 
 - (NSThread*)nextAvailableThread:(FCGIRequest*)request

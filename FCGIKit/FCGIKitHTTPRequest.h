@@ -25,7 +25,7 @@
 - (id)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 + (id)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 
-- (NSDictionary*)serverFitelds;
+- (NSDictionary*)serverFields;
 - (NSDictionary*)getFields;
 - (NSDictionary*)postFields;
 - (NSDictionary*)cookieFields;

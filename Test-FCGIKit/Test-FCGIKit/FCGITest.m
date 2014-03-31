@@ -43,15 +43,19 @@
     FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     
+    NSDictionary* requestDictionary = @{ @"GET": request.getFields,
+                                         @"POST": request.postFields };
+    
     // Headers
     [response writeString:@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n"];
-
+    
     // Body
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
     [response writeString:[NSString stringWithFormat:@"<h3>Thread: %@<br/>", [NSThread currentThread]]];
     [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary ]];
     [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.FCGIRequest.parameters]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverFields]];
 
 //    sleep(1);
     

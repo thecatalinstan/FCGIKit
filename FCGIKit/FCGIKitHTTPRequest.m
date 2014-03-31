@@ -19,8 +19,29 @@
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString
 {
-    NSMutableDictionary* get = [NSMutableDictionary dictionary];
-    return [NSDictionary dictionaryWithDictionary:get];
+
+    NSArray* tokens = [queryString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&"]];
+    NSMutableArray* keys = [NSMutableArray array];
+    NSMutableArray* objects = [NSMutableArray array];
+    
+    [tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
+        NSArray* pair = [token componentsSeparatedByString:@"="];
+        NSString* key = [pair objectAtIndex:0];
+        NSError *error;
+        
+        // test if the string is an array
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.+)" options:NSRegularExpressionCaseInsensitive error:&error];
+        NSArray* matches = [regex matchesInString:key options:0 range:NSMakeRange(0, key.length)];
+        NSLog(@"%@", key);
+        if ( error ) {
+            [[FCGIApplication sharedApplication] presentError:error];
+        } else {
+            NSLog(@"%@", matches);
+        }
+    }];
+    
+    NSMutableDictionary* vars = [NSMutableDictionary dictionary];
+    return [NSDictionary dictionaryWithDictionary:vars];
 }
 
 @end
@@ -31,21 +52,31 @@
 
 - (id)initWithFCGIRequest:(FCGIRequest *)anFCGIRequest
 {
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     self = [self init];
     if ( self != nil ) {
-        @synchronized(anFCGIRequest ) {
-            _FCGIRequest = anFCGIRequest;
-            _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
-            _get = [self parseQueryString:[_server  objectForKey:@"QUERY_STRING"]];
 
-            body = _FCGIRequest.stdinData;
-            
-            if ( [[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] ) {
-                NSLog(@"%@", [_server objectForKey:@"CONTENT_TYPE"] ) ;
-            }
-            
-            NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        _FCGIRequest = anFCGIRequest;
+        
+        body = _FCGIRequest.stdinData;
+        
+        _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
+        
+        if ( [_server.allKeys containsObject:@"QUERY_STRING"] ) {
+            _get = [self parseQueryString:[_server objectForKey:@"QUERY_STRING"]];
+        } else {
+            _get = [NSDictionary dictionary];
         }
+        
+        if ( [[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] && [[_server objectForKey:@"CONTENT_TYPE"] isEqualToString:@"application/x-www-form-urlencoded"] ) {
+            _post = [self parseQueryString:[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]];
+        } else if([[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] && [[_server objectForKey:@"CONTENT_TYPE"] isEqualToString:@"multipart/form-data"]) {
+            _post = [NSDictionary dictionary];
+        } else {
+            _post = [NSDictionary dictionary];
+        }
+        
+        
     }
     return self;
 }
@@ -55,7 +86,7 @@
     return [[FCGIKitHTTPRequest alloc] initWithFCGIRequest:anFCGIRequest];
 }
 
-- (NSDictionary *)serverFitelds
+- (NSDictionary *)serverFields
 {
     return _server;
 }
