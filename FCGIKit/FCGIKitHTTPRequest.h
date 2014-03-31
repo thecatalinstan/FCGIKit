@@ -16,6 +16,8 @@
     NSDictionary* _get;
     NSDictionary* _post;
     NSDictionary* _cookie;
+
+    NSMutableData* body;
 }
 
 @property (nonatomic, retain) FCGIRequest* FCGIRequest;

@@ -12,7 +12,6 @@
 		AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */; };
 		AD0EACC91728BFCC005C3923 /* Test-FCGIKit in Copy executable */ = {isa = PBXBuildFile; fileRef = AD0EA99917285C01005C3923 /* Test-FCGIKit */; };
 		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
-		AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD66804C18E65B0C002805EC /* Property List.plist */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
 		AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805B18E6677A002805EC /* CFNetwork.framework */; };
 		ADC7FD4E18E94A00005A00C2 /* testpost.html in Resources */ = {isa = PBXBuildFile; fileRef = ADC7FD4D18E94A00005A00C2 /* testpost.html */; };
@@ -76,7 +75,6 @@
 			dstSubfolderSpec = 1;
 			files = (
 				ADC7FD5018E94A40005A00C2 /* testpost.html in CopyFiles */,
-				AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +90,6 @@
 		AD0EACB81728BF4C005C3923 /* TestBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-CocoaBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Test-FCGIKit-CocoaBundle-Info.plist"; path = "Test-FCGIKit/Test-FCGIKit-CocoaBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AD0EACBE1728BF4C005C3923 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AD66804C18E65B0C002805EC /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Property List.plist"; path = "Test-FCGIKit/Property List.plist"; sourceTree = "<group>"; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		ADC7FD4D18E94A00005A00C2 /* testpost.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = testpost.html; path = "Test-FCGIKit/testpost.html"; sourceTree = "<group>"; };
@@ -172,7 +169,6 @@
 		AD66804B18E65ACF002805EC /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				AD66804C18E65B0C002805EC /* Property List.plist */,
 				ADC7FD4D18E94A00005A00C2 /* testpost.html */,
 			);
 			name = Public;

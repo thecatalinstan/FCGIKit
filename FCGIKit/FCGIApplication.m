@@ -397,7 +397,7 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
-    //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSLog(@"%@", err);
 }
 

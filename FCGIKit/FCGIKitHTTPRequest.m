@@ -33,9 +33,19 @@
 {
     self = [self init];
     if ( self != nil ) {
-        _FCGIRequest = anFCGIRequest;
-        _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
-        _get = [self parseQueryString:[_server  objectForKey:@"QUERY_STRING"]];
+        @synchronized(anFCGIRequest ) {
+            _FCGIRequest = anFCGIRequest;
+            _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
+            _get = [self parseQueryString:[_server  objectForKey:@"QUERY_STRING"]];
+
+            body = _FCGIRequest.stdinData;
+            
+            if ( [[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] ) {
+                NSLog(@"%@", [_server objectForKey:@"CONTENT_TYPE"] ) ;
+            }
+            
+            NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        }
     }
     return self;
 }
