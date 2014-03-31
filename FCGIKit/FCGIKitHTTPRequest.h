@@ -12,11 +12,20 @@
 
 @interface FCGIKitHTTPRequest : NSObject {
     FCGIRequest* _FCGIRequest;
+    NSDictionary* _server;
+    NSDictionary* _get;
+    NSDictionary* _post;
+    NSDictionary* _cookie;
 }
 
 @property (nonatomic, retain) FCGIRequest* FCGIRequest;
 
 - (id)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 + (id)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
+
+- (NSDictionary*)serverFitelds;
+- (NSDictionary*)getFields;
+- (NSDictionary*)postFields;
+- (NSDictionary*)cookieFields;
     
 @end

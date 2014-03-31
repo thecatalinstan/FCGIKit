@@ -15,6 +15,8 @@
 		AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD66804C18E65B0C002805EC /* Property List.plist */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
 		AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805B18E6677A002805EC /* CFNetwork.framework */; };
+		ADC7FD4E18E94A00005A00C2 /* testpost.html in Resources */ = {isa = PBXBuildFile; fileRef = ADC7FD4D18E94A00005A00C2 /* testpost.html */; };
+		ADC7FD5018E94A40005A00C2 /* testpost.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADC7FD4D18E94A00005A00C2 /* testpost.html */; };
 		ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to webroot */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 1;
 			files = (
+				ADC7FD5018E94A40005A00C2 /* testpost.html in CopyFiles */,
 				AD66804F18E65B71002805EC /* Property List.plist in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,6 +95,7 @@
 		AD66804C18E65B0C002805EC /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Property List.plist"; path = "Test-FCGIKit/Property List.plist"; sourceTree = "<group>"; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		ADC7FD4D18E94A00005A00C2 /* testpost.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = testpost.html; path = "Test-FCGIKit/testpost.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				AD66804C18E65B0C002805EC /* Property List.plist */,
+				ADC7FD4D18E94A00005A00C2 /* testpost.html */,
 			);
 			name = Public;
 			path = ..;
@@ -271,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC7FD4E18E94A00005A00C2 /* testpost.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

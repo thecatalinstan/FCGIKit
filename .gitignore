@@ -1,10 +1,13 @@
 # User dependand files related to the userinterface state
+*/xcuserdata/*
 */xcuserdata/*/*
 */xcuserdata/*/*/*
 
+*/*/xcuserdata/*
 */*/xcuserdata/*/*
 */*/xcuserdata/*/*/*
 
+*/*/*/xcuserdata/*
 */*/*/xcuserdata/*/*
 */*/*/xcuserdata/*/*/*
 
