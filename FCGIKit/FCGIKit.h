@@ -21,12 +21,22 @@ extern NSString* const FCGIKitMaxConnectionsKey;
 extern NSString* const FCGIKitConnectionInfoKey;
 extern NSString* const FCGIKitConnectionInfoPortKey;
 extern NSString* const FCGIKitConnectionInfoSocketKey;
+extern NSString* const FCGIKitRequestsPerThreadKey;
+extern NSString* const FCGIKitMaxThreadsKey;
+extern NSString* const FCGIKitInitialThreadsKey;
 
+extern NSUInteger const FCGIKitDefaultRequestsPerThread;
+extern NSUInteger const FCGIKitDefaultMaxThreads;
+extern NSUInteger const FCGIKitDefaultInitialThreads;
 extern NSUInteger const FCGIKitDefaultMaxConnections;
 extern NSString* const FCGIKitDefaultSocketPath;
 extern NSUInteger const FCGIKitDefaultPortNumber;
 
 extern NSString* const FCGIKitRecordKey;
+extern NSString* const FCGIKitSocketKey;
+extern NSString* const FCGIKitDataKey;
+extern NSString* const FCGIKitRequestKey;
+extern NSString* const FCGIKitResponseKey;
 
 extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;
 extern NSString* const FCGIKitApplicationDidFinishLaunchingNotification;

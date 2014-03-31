@@ -6,17 +6,8 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKit.h"
 #import "FCGIApplicationDelegate.h"
 #import "AsyncSocket.h"
-#import "FCGIRecord.h"
-#import "FCGIBeginRequestRecord.h"
-#import "FCGIParamsRecord.h"
-#import "FCGIByteStreamRecord.h"
-#import "FCGIRequest.h"
-#import "FCGIThread.h"
-#import "NSThread+FCGIKit.h"
-
 
 #define FCGIRecordFixedLengthPartLength 8
 #define FCGITimeout 5
@@ -28,16 +19,20 @@ enum _FCGISocketTag
 } FCGISocketTag;
 
 @class FCGIRequest;
+@protocol AsyncSocketDelegate;
 
 FCGIApplication *FCGIApp;
 extern int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate);
 void handleSIGTERM(int signum);
 
 @interface FCGIApplication : NSObject<AsyncSocketDelegate> {
-    id<FCGIApplicationDelegate> _delegate;
+    NSObject<FCGIApplicationDelegate> *_delegate;
     NSUInteger _maxConnections;
     NSString* _socketPath;
     NSUInteger _portNumber;
+    NSUInteger _initialThreads;
+    NSUInteger _maxThreads;
+    NSUInteger _requestsPerThread;
     
     BOOL _isListeningOnUnixSocket;
     BOOL _isRunning;
@@ -58,10 +53,13 @@ void handleSIGTERM(int signum);
     NSThread *_listeningSocketThread;
 }
 
-@property (assign) id<FCGIApplicationDelegate> delegate;
+@property (assign) NSObject<FCGIApplicationDelegate> *delegate;
 @property (assign) NSUInteger maxConnections;
 @property (assign) NSUInteger portNumber;
 @property (retain) NSString* socketPath;
+@property (assign) NSUInteger initialThreads;
+@property (assign) NSUInteger maxThreads;
+@property (assign) NSUInteger requestsPerThread;
 @property (readonly) BOOL isListeningOnUnixSocket;
 @property (readonly) BOOL isRunning;
 @property (retain) NSMutableArray* workerThreads;
@@ -83,5 +81,11 @@ void handleSIGTERM(int signum);
 - (void)stop:(id)sender;
 
 - (void)presentError:(NSError*)error;
+
+- (void)writeDataToStderr:(NSDictionary *)info;
+- (void)writeDataToStdout:(NSDictionary *)info;
+- (void)finishRequest:(FCGIRequest*)request;
+
+- (NSDictionary*)dumpConfig;
 
 @end

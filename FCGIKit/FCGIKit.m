@@ -16,12 +16,22 @@ NSString* const FCGIKitMaxConnectionsKey = @"FCGIKitMaxConnections";
 NSString* const FCGIKitConnectionInfoKey = @"FCGIKitConnectionInfo";
 NSString* const FCGIKitConnectionInfoPortKey = @"FCGIKitConnectionInfoPort";
 NSString* const FCGIKitConnectionInfoSocketKey = @"FCGIKitConnectionInfoSocket";
+NSString* const FCGIKitRequestsPerThreadKey = @"FCGIKitRequestsPerThread";
+NSString* const FCGIKitMaxThreadsKey = @"FCGIKitMaxThreads";
+NSString* const FCGIKitInitialThreadsKey = @"FCGIKitInitialThreads";
 
-NSUInteger const FCGIKitDefaultMaxConnections = 20;
+NSUInteger const FCGIKitDefaultRequestsPerThread = 5;
+NSUInteger const FCGIKitDefaultMaxThreads = 200;
+NSUInteger const FCGIKitDefaultInitialThreads = 50;
+NSUInteger const FCGIKitDefaultMaxConnections = 150;
 NSString* const FCGIKitDefaultSocketPath = @"/tmp/fcgikit.sock";
 NSUInteger const FCGIKitDefaultPortNumber = 10000;
 
 NSString* const FCGIKitRecordKey = @"FCGIKitRecord";
+NSString* const FCGIKitSocketKey = @"FCGIKitSocket";
+NSString* const FCGIKitDataKey = @"FCGIKitData";
+NSString* const FCGIKitRequestKey = @"FCGIKitRequest";
+NSString* const FCGIKitResponseKey = @"FCGIKitResponse";
 
 NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";
 NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";

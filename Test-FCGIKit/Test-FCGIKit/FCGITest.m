@@ -12,12 +12,12 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender
@@ -31,28 +31,32 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
-- (void)applicationDidReceiveRequestParameters:(FCGIRequest *)request
+- (void)applicationDidReceiveRequest:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
-- (void)applicationDidReceiveRequest:(FCGIRequest *)request
+- (void)applicationWillSendResponse:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     
-//    NSLog(@"%s%@%@", __PRETTY_FUNCTION__, request, [NSThread currentThread]);
-    NSLog(@"%@%@", [NSThread currentThread], [[NSThread currentThread] threadDictionary]);
+    FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
+    FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     
-    NSString* requestId = [[[NSString stringWithFormat:@"Thread: %@\nIs Main thread: %hhd\nRequest: %@", [NSThread currentThread], [[NSThread currentThread] isMainThread], request] stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"] stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    // Headers
+    [response writeString:@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n"];
+
+    // Body
+    [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
+    [response writeString:[NSString stringWithFormat:@"<h3>Thread: %@<br/>", [NSThread currentThread]]];
+    [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.FCGIRequest.parameters]];
+
+//    sleep(1);
     
-    [request writeDataToStdout:[@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request writeDataToStdout: [[NSString stringWithFormat: @"<pre>%@</pre>", requestId] dataUsingEncoding:NSUTF8StringEncoding]];
-    [request writeDataToStdout:[ [NSString stringWithFormat:@"<pre>%@</pre>", request.parameters] dataUsingEncoding:NSUTF8StringEncoding]];
-    [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
+    [response finish];
 }
-
-
 
 
 @end

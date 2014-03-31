@@ -1770,6 +1770,9 @@ Failed:
 			runLoop = [theDelegate onSocket:self wantsRunLoopForNewSocket:newSocket];
 		}
 		
+//        NSLog(@"%s%@", __PRETTY_FUNCTION__, [runLoop currentMode]);
+//        NSLog(@"%@", [self runLoopModes]);
+        
 		if(![newSocket attachStreamsToRunLoop:runLoop error:nil]) goto Failed;
 		if(![newSocket configureStreamsAndReturnError:nil])       goto Failed;
 		if(![newSocket openStreamsAndReturnError:nil])            goto Failed;

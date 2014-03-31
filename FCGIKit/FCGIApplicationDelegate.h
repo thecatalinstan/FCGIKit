@@ -8,12 +8,12 @@
 
 #import "FCGIKit.h"
 
-@class FCGIApplication, FCGIRequest;
+@class FCGIApplication, FCGIKitHTTPRequest, FCGIKitHTTPResponse;
 
 @protocol FCGIApplicationDelegate <NSObject>
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- (void)applicationDidReceiveRequest:(FCGIRequest*)request;
+- (void)applicationWillSendResponse:(NSDictionary*)userInfo;
 
 @optional
 
@@ -23,6 +23,6 @@
 - (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)notification;
 
-- (void)applicationDidReceiveRequestParameters:(FCGIRequest*)request;
+- (void)applicationDidReceiveRequest:(NSDictionary*)userInfo;
 
 @end

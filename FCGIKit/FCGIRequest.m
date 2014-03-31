@@ -45,50 +45,48 @@
 
 -(void)writeDataToStderr:(NSData*)data
 {
-  FCGIByteStreamRecord* stdErrRecord = [[FCGIByteStreamRecord alloc] init];
-  stdErrRecord.version = FCGI_VERSION_1;
-  stdErrRecord.type = FCGI_STDERR;
-  stdErrRecord.requestId = self.requestId;
-  stdErrRecord.contentLength = [data length];
-  stdErrRecord.paddingLength = 0;
-  stdErrRecord.data = data;
+    FCGIByteStreamRecord* stdErrRecord = [[FCGIByteStreamRecord alloc] init];
+    stdErrRecord.version = FCGI_VERSION_1;
+    stdErrRecord.type = FCGI_STDERR;
+    stdErrRecord.requestId = self.requestId;
+    stdErrRecord.contentLength = [data length];
+    stdErrRecord.paddingLength = 0;
+    stdErrRecord.data = data;
   
-  [self.socket writeData:[stdErrRecord protocolData] withTimeout:-1 tag:0];
+    [self.socket writeData:[stdErrRecord protocolData] withTimeout:-1 tag:0];
 }
 
 -(void)writeDataToStdout:(NSData*)data
 {
-  FCGIByteStreamRecord* stdOutRecord = [[FCGIByteStreamRecord alloc] init];
-  stdOutRecord.version = FCGI_VERSION_1;
-  stdOutRecord.type = FCGI_STDOUT;
-  stdOutRecord.requestId = self.requestId;
-  stdOutRecord.contentLength = [data length];
-  stdOutRecord.paddingLength = 0;
-  stdOutRecord.data = data;
-  
-  [self.socket writeData:[stdOutRecord protocolData] withTimeout:-1 tag:0];
+    FCGIByteStreamRecord* stdOutRecord = [[FCGIByteStreamRecord alloc] init];
+    stdOutRecord.version = FCGI_VERSION_1;
+    stdOutRecord.type = FCGI_STDOUT;
+    stdOutRecord.requestId = self.requestId;
+    stdOutRecord.contentLength = [data length];
+    stdOutRecord.paddingLength = 0;
+    stdOutRecord.data = data;
+
+    [self.socket writeData:[stdOutRecord protocolData] withTimeout:-1 tag:0];
 }
 
 -(void)doneWithProtocolStatus:(FCGIProtocolStatus)protocolStatus applicationStatus:(FCGIApplicationStatus)applicationStatus
 {
-  FCGIEndRequestRecord* endRequestRecord = [[FCGIEndRequestRecord alloc] init];
-  endRequestRecord.version = FCGI_VERSION_1;
-  endRequestRecord.type = FCGI_END_REQUEST;
-  endRequestRecord.requestId = self.requestId;
-  endRequestRecord.contentLength = 8;
-  endRequestRecord.paddingLength = 0;
-  endRequestRecord.applicationStatus = applicationStatus;
-  endRequestRecord.protocolStatus = protocolStatus;
-    
-  [self.socket writeData:[endRequestRecord protocolData] withTimeout:-1 tag:0];
-  
-  if (!keepConnection)
-  {
-    [self.socket disconnectAfterWriting];
-  }
-  else {
-    [self.socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
-  }
+    FCGIEndRequestRecord* endRequestRecord = [[FCGIEndRequestRecord alloc] init];
+    endRequestRecord.version = FCGI_VERSION_1;
+    endRequestRecord.type = FCGI_END_REQUEST;
+    endRequestRecord.requestId = self.requestId;
+    endRequestRecord.contentLength = 8;
+    endRequestRecord.paddingLength = 0;
+    endRequestRecord.applicationStatus = applicationStatus;
+    endRequestRecord.protocolStatus = protocolStatus;
+
+    [self.socket writeData:[endRequestRecord protocolData] withTimeout:-1 tag:0];
+
+    if (!keepConnection) {
+        [self.socket disconnectAfterWriting];
+    } else {
+        [self.socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+    }
 }
 
 

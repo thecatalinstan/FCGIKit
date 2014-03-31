@@ -24,6 +24,12 @@
 	<string>Copyright © 2013 Catalin Stan. All rights reserved.</string>
 	<key>FCGIKitMaxConnections</key>
 	<integer>2</integer>
+	<key>FCGIKitMaxThreads</key>
+	<integer>50</integer>
+	<key>FCGIKitInitialThreads</key>
+	<integer>20</integer>
+	<key>FCGIKitRequestsPerThread</key>
+	<integer>5</integer>
 	<key>FCGIKitConnectionInfo</key>
 	<dict>
 		<key>FCGIKitConnectionInfoSocket</key>

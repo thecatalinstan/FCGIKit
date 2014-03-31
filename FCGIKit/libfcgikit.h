@@ -24,3 +24,5 @@
 #import "FCGIParamsRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
+#import "FCGIKitHTTPRequest.h"
+#import "FCGIKitHTTPResponse.h"
