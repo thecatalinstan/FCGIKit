@@ -24,6 +24,8 @@
 		AD9EAED118E8B598005BEAEF /* FCGIKitHTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */; };
 		AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9EAED018E8B598005BEAEF /* FCGIKitHTTPResponse.m */; };
 		ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC1E011172CB29C0022E227 /* FCGIKit.m */; };
+		ADE1B3D018F8A5E5005F7B04 /* NSString+FCGIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE1B3CE18F8A5E5005F7B04 /* NSString+FCGIKit.h */; };
+		ADE1B3D118F8A5E5005F7B04 /* NSString+FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1B3CF18F8A5E5005F7B04 /* NSString+FCGIKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +74,8 @@
 		AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitHTTPResponse.h; sourceTree = "<group>"; };
 		AD9EAED018E8B598005BEAEF /* FCGIKitHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitHTTPResponse.m; sourceTree = "<group>"; };
 		ADC1E011172CB29C0022E227 /* FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKit.m; sourceTree = "<group>"; };
+		ADE1B3CE18F8A5E5005F7B04 /* NSString+FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FCGIKit.h"; sourceTree = "<group>"; };
+		ADE1B3CF18F8A5E5005F7B04 /* NSString+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FCGIKit.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,8 @@
 			children = (
 				AD0EA9BB17285DBD005C3923 /* libfcgikit.h */,
 				AD0EA9BA17285DBD005C3923 /* libfcgikit-Prefix.pch */,
+				ADE1B3CE18F8A5E5005F7B04 /* NSString+FCGIKit.h */,
+				ADE1B3CF18F8A5E5005F7B04 /* NSString+FCGIKit.m */,
 				AD4E974E18E6DF6A007642EA /* NSThread+FCGIKit.h */,
 				AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */,
 			);
@@ -174,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD2ADACE18E6A83B008F5973 /* FCGIThread.h in Headers */,
+				ADE1B3D018F8A5E5005F7B04 /* NSString+FCGIKit.h in Headers */,
 				AD4E975018E6DF6A007642EA /* NSThread+FCGIKit.h in Headers */,
 				AD9EAECC18E8B09A005BEAEF /* FCGIKitHTTPRequest.h in Headers */,
 				AD9EAED118E8B598005BEAEF /* FCGIKitHTTPResponse.h in Headers */,
@@ -245,6 +252,7 @@
 				AD9EAECD18E8B09A005BEAEF /* FCGIKitHTTPRequest.m in Sources */,
 				AD66807218E66C54002805EC /* FCGIRecord.m in Sources */,
 				ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */,
+				ADE1B3D118F8A5E5005F7B04 /* NSString+FCGIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
