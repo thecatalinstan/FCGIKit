@@ -9,9 +9,17 @@
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIRequest.h"
 
+typedef struct FCGIKitKeyParseResultStruct {
+    Class objectClass;      // the class of the entry in the corresponding dictionary (NSObject, NSDictionary, NSArray)
+    const char* baseName;
+    const char* key;        // set if the class is a Dictionary
+    const char* value;      // the string value;
+} FCGIKitKeyParseResult;
+
 @interface FCGIKitHTTPRequest (Private)
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString;
+- (FCGIKitKeyParseResult)parseKey:(NSString *)key withValue:(NSString*)value;
 
 @end
 
@@ -19,29 +27,112 @@
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString
 {
-
     NSArray* tokens = [queryString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&"]];
-    NSMutableArray* keys = [NSMutableArray array];
-    NSMutableArray* objects = [NSMutableArray array];
+    
+    FCGIKitKeyParseResult keyParsingResults[tokens.count];
+    FCGIKitKeyParseResult *keyInfoResults = keyParsingResults;
     
     [tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
         NSArray* pair = [token componentsSeparatedByString:@"="];
         NSString* key = [pair objectAtIndex:0];
-        NSError *error;
-        
-        // test if the string is an array
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.+)" options:NSRegularExpressionCaseInsensitive error:&error];
-        NSArray* matches = [regex matchesInString:key options:0 range:NSMakeRange(0, key.length)];
-        NSLog(@"%@", key);
-        if ( error ) {
-            [[FCGIApplication sharedApplication] presentError:error];
-        } else {
-            NSLog(@"%@", matches);
-        }
+        NSString* value = pair.count == 2 ? [pair objectAtIndex:1] : @"";
+        keyInfoResults[idx] = [self parseKey:key withValue:value];
     }];
+
+    NSMutableArray* keys = [NSMutableArray array];
+    NSMutableArray* objects = [NSMutableArray array];
     
-    NSMutableDictionary* vars = [NSMutableDictionary dictionary];
-    return [NSDictionary dictionaryWithDictionary:vars];
+    // Loop through the array and update types
+    for (NSUInteger idx = 0; idx < tokens.count; idx++, keyInfoResults++ ) {
+        NSString* baseNameString = [NSString stringWithCString:keyInfoResults->baseName encoding:NSUTF8StringEncoding];
+        if ( ![keys containsObject:baseNameString] ) {
+            [keys addObject:baseNameString];
+        }
+        NSUInteger currentKeyIdx = [keys indexOfObject:baseNameString];
+
+        NSString* valueString = [NSString stringWithCString:keyInfoResults->value encoding:NSUTF8StringEncoding];
+        NSString* keyString = [NSString stringWithCString:keyInfoResults->key encoding:NSUTF8StringEncoding];
+        
+        if ( keyInfoResults->objectClass == [NSObject class] ) {
+            [objects setObject:valueString atIndexedSubscript:currentKeyIdx];
+        } else if ( keyInfoResults->objectClass == [NSArray class] ) {
+            if ( objects.count - 1 < currentKeyIdx ) { // the item isn't there
+                [objects setObject:[NSMutableArray array] atIndexedSubscript:currentKeyIdx];
+            }
+            NSMutableArray* valueArray;
+            id existingValue = [objects objectAtIndex:currentKeyIdx];
+            if ( [existingValue isKindOfClass:[NSObject class]] ) {
+                valueArray = [NSMutableArray array];
+                [valueArray addObject:existingValue];
+            } else {
+                valueArray = existingValue;
+            }
+            [valueArray addObject:valueString];
+        } else if ( keyInfoResults->objectClass == [NSDictionary class] ) {
+            if ( objects.count - 1 < currentKeyIdx ) { // the item isn't there
+                [objects setObject:[NSMutableDictionary dictionary] atIndexedSubscript:currentKeyIdx];
+            }
+            NSMutableDictionary* valueDictionary;
+            id existingValue = [objects objectAtIndex:currentKeyIdx];
+            if ( [existingValue isKindOfClass:[NSObject class]] ) {
+                valueDictionary = [NSMutableDictionary dictionary];
+                [valueDictionary setObject:existingValue forKey:@"0"];
+            } else if ( [existingValue isKindOfClass:[NSArray class]] ) {
+                valueDictionary = [NSMutableDictionary dictionary];
+                for (NSUInteger i = 0; i < [existingValue count]; i++) {
+                    [valueDictionary setObject:[existingValue objectAtIndex:i] forKey:[NSString stringWithFormat:@"%lu", i]];
+                }
+            } else {
+                valueDictionary = existingValue;
+            }
+            [valueDictionary setObject:valueString forKey:keyString];
+        }
+        
+        
+        
+    }
+    
+    
+    return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+}
+
+- (FCGIKitKeyParseResult)parseKey:(NSString *)key withValue:(NSString*)value
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+    FCGIKitKeyParseResult result = { [NSObject class], "", "", [value cStringUsingEncoding:NSUTF8StringEncoding] } ;
+    NSError *error;
+    // test if the string is an array
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.+)\\[(.*)\\]" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSArray* matches = [regex matchesInString:key options:0 range:NSMakeRange(0, key.length)];
+    if ( matches.count == 0 ) {
+        result.objectClass = [NSObject class];
+        result.baseName = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    } else {
+        NSTextCheckingResult* match = [matches firstObject];
+        result.objectClass = [NSArray class];
+        result.baseName = [[key substringWithRange:[match rangeAtIndex:1]] cStringUsingEncoding:NSUTF8StringEncoding];
+
+//        for (NSUInteger i = 0; i < match.numberOfRanges; i++) {
+//            NSLog(@" * %@", [key substringWithRange: [match rangeAtIndex:i]]);
+//        }
+
+        if ( match.numberOfRanges > 2 ) { // this should be a dictionary
+            NSString* dictionaryKey = [key substringWithRange:[match rangeAtIndex:2]];
+            if ( [dictionaryKey isEqualToString:@""] ) { // this is an array
+                result.objectClass = [NSArray class];
+            } else { // this is a dictionary
+                result.objectClass = [NSDictionary class];
+                result.key = [dictionaryKey cStringUsingEncoding:NSUTF8StringEncoding];
+            }
+        } else { // this is an array
+            result.objectClass = [NSArray class];
+        }
+    }
+    
+    NSLog(@"{class: %@, baseName: %s, key: %s, value: %s }", result.objectClass, result.baseName, result.key, result.value );
+    
+    return result;
 }
 
 @end
