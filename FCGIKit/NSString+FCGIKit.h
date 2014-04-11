@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (FCGIKit)
+@interface NSString(FCGIKit)
 
 - (NSString *)stringByDecodingURLFormat;
 
