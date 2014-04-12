@@ -259,6 +259,11 @@ typedef enum AsyncSocketError AsyncSocketError;
 - (BOOL)acceptOnInterface:(NSString *)interface port:(UInt16)port error:(NSError **)errPtr;
 
 /**
+ * Accept connectins using the designated unix domain socket
+ **/
+- (BOOL)acceptOnSocket:(NSString *)socketPath error:(NSError **)errPtr;
+
+/**
  * Connects to the given host and port.
  * The host may be a domain name (e.g. "deusty.com") or an IP address string (e.g. "192.168.0.2")
 **/

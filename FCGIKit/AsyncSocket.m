@@ -1209,6 +1209,12 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 {
 	return [self acceptOnInterface:nil port:port error:errPtr];
 }
+
+
+- (BOOL)acceptOnSocket:(NSString *)socketPath error:(NSError *__autoreleasing *)errPtr
+{
+    return [self acceptOnInterface:socketPath port:0 error:errPtr];
+}
 	
 /**
  * To accept on a certain interface, pass the address to accept on.
@@ -1407,6 +1413,7 @@ Failed:
 	}
 	return NO;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Connecting

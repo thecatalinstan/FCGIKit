@@ -86,10 +86,12 @@ void handleSIGTERM(int signum) {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSError *error;
     BOOL listening = NO;
-    if ( self.isListeningOnAllInterfaces ) {
-        listening = [self.listenSocket acceptOnPort:_portNumber error:&error];
+
+    _isListeningOnUnixSocket = YES;
+    if ( self.isListeningOnUnixSocket) {
+        listening = [self.listenSocket acceptOnSocket:_socketPath error:&error];
     } else {
-        listening = [self.listenSocket acceptOnInterface:_listenIngInterface port:_portNumber error:&error];
+        listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
     }
     
     if ( !listening ) {
