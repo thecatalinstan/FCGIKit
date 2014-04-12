@@ -84,11 +84,19 @@ void handleSIGTERM(int signum) {
 - (void)startListening
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSError *error = nil;
-    if(![self.listenSocket acceptOnPort:_portNumber error:&error]) {
+    NSError *error;
+    BOOL listening = NO;
+    if ( self.isListeningOnAllInterfaces ) {
+        listening = [self.listenSocket acceptOnPort:_portNumber error:&error];
+    } else {
+        listening = [self.listenSocket acceptOnInterface:_listenIngInterface port:_portNumber error:&error];
+    }
+    
+    if ( !listening ) {
         [self presentError:error];
         [self terminate:self];
     }
+
 }
 
 - (void)stopListening
@@ -123,9 +131,15 @@ void handleSIGTERM(int signum) {
     
     if ( [self.infoDictionary.allKeys containsObject:FCGIKitConnectionInfoKey] ) {
         _portNumber = MIN(INT16_MAX, MAX(0, ((NSNumber*) [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] valueForKey:FCGIKitConnectionInfoPortKey]).integerValue)) ;
+        
+        if ( [[[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] allKeys] containsObject:FCGIKitConnectionInfoInterfaceKey] ) {
+            _listenIngInterface = [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] objectForKey:FCGIKitConnectionInfoInterfaceKey];
+        }
+        
         _socketPath = [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] objectForKey:FCGIKitConnectionInfoSocketKey];
     }
     _isListeningOnUnixSocket = _portNumber == 0;
+    _isListeningOnAllInterfaces = _listenIngInterface.length == 0;
     
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections + 1];
     _currentRequests = [[NSMutableDictionary alloc] init];
@@ -424,7 +438,9 @@ void handleSIGTERM(int signum) {
 @synthesize maxConnections = _maxConnections;
 @synthesize socketPath = _socketPath;
 @synthesize portNumber = _portNumber;
+@synthesize listeningInterface = _listenIngInterface;
 @synthesize isListeningOnUnixSocket = _isListeningOnUnixSocket;
+@synthesize isListeningOnAllInterfaces = _isListeningOnAllInterfaces;
 @synthesize isRunning = _isRunning;
 @synthesize workerThreads = _workerThreads;
 @synthesize requestIDs = _requestIDs;
@@ -432,7 +448,6 @@ void handleSIGTERM(int signum) {
 @synthesize listenSocket = _listenSocket;
 @synthesize connectedSockets = _connectedSockets;
 @synthesize currentRequests = _currentRequests;
-
 
 - (NSThread *)listeningSocketThread
 {
@@ -494,8 +509,10 @@ void handleSIGTERM(int signum) {
         _isRunning = NO;
         _maxConnections = FCGIKitDefaultMaxConnections;
         _isListeningOnUnixSocket = YES;
+        _isListeningOnAllInterfaces = YES;
         _socketPath = FCGIKitDefaultSocketPath;
         _portNumber = FCGIKitDefaultPortNumber;
+        _listenIngInterface = [NSString string];
         _maxThreads = FCGIKitDefaultMaxThreads;
         _initialThreads = FCGIKitDefaultInitialThreads;
         _requestsPerThread = FCGIKitDefaultRequestsPerThread;

@@ -25,17 +25,19 @@
 	<key>FCGIKitMaxConnections</key>
 	<integer>2</integer>
 	<key>FCGIKitMaxThreads</key>
-	<integer>50</integer>
+	<integer>150</integer>
 	<key>FCGIKitInitialThreads</key>
-	<integer>20</integer>
+	<integer>50</integer>
 	<key>FCGIKitRequestsPerThread</key>
-	<integer>5</integer>
+	<integer>2</integer>
 	<key>FCGIKitConnectionInfo</key>
 	<dict>
 		<key>FCGIKitConnectionInfoSocket</key>
 		<string>/tmp/test-fcgikit.sock</string>
 		<key>FCGIKitConnectionInfoPort</key>
 		<integer>10000</integer>
+		<key>FCGIKitConnectionInfoInterface</key>
+		<string>127.0.0.1</string>
 	</dict>
 </dict>
 </plist>

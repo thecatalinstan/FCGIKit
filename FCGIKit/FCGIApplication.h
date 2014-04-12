@@ -30,11 +30,13 @@ void handleSIGTERM(int signum);
     NSUInteger _maxConnections;
     NSString* _socketPath;
     NSUInteger _portNumber;
+    NSString* _listenIngInterface;
     NSUInteger _initialThreads;
     NSUInteger _maxThreads;
     NSUInteger _requestsPerThread;
     
     BOOL _isListeningOnUnixSocket;
+    BOOL _isListeningOnAllInterfaces;
     BOOL _isRunning;
     
     NSMutableDictionary* _environment;
@@ -56,11 +58,13 @@ void handleSIGTERM(int signum);
 @property (assign) NSObject<FCGIApplicationDelegate> *delegate;
 @property (assign) NSUInteger maxConnections;
 @property (assign) NSUInteger portNumber;
+@property (retain) NSString* listeningInterface;
 @property (retain) NSString* socketPath;
 @property (assign) NSUInteger initialThreads;
 @property (assign) NSUInteger maxThreads;
 @property (assign) NSUInteger requestsPerThread;
 @property (readonly) BOOL isListeningOnUnixSocket;
+@property (readonly) BOOL isListeningOnAllInterfaces;
 @property (readonly) BOOL isRunning;
 @property (retain) NSMutableArray* workerThreads;
 @property (retain) NSMutableSet* requestIDs;

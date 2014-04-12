@@ -20,6 +20,7 @@ extern NSString* const FCGIKitErrorLineKey;
 extern NSString* const FCGIKitMaxConnectionsKey;
 extern NSString* const FCGIKitConnectionInfoKey;
 extern NSString* const FCGIKitConnectionInfoPortKey;
+extern NSString* const FCGIKitConnectionInfoInterfaceKey;
 extern NSString* const FCGIKitConnectionInfoSocketKey;
 extern NSString* const FCGIKitRequestsPerThreadKey;
 extern NSString* const FCGIKitMaxThreadsKey;
