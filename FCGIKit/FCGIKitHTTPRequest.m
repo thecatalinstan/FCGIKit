@@ -187,6 +187,8 @@
         
         body = _FCGIRequest.stdinData;
         
+//        NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        
         _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
         
         if ( [_server.allKeys containsObject:@"QUERY_STRING"] ) {
