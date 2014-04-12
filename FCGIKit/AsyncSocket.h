@@ -9,10 +9,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sys/un.h>
 #import <sys/socket.h>
 #import <netinet/in.h>
 #import <arpa/inet.h>
 #import <netdb.h>
+#import <pwd.h>
+#import <grp.h>
 #if TARGET_OS_IPHONE
 // Note: You may need to add the CFNetwork Framework to your project
 #import <CFNetwork/CFNetwork.h>
@@ -36,6 +39,13 @@ enum AsyncSocketError
 	AsyncSocketWriteTimeoutError
 };
 typedef enum AsyncSocketError AsyncSocketError;
+
+struct AsyncSocketUnixPeer
+{
+    struct passwd* passwd;
+    struct group* group;
+};
+typedef struct AsyncSocketUnixPeer AsyncSocketUnixPeer;
 
 @protocol AsyncSocketDelegate
 @optional
@@ -163,15 +173,18 @@ typedef enum AsyncSocketError AsyncSocketError;
 {
 	CFSocketNativeHandle theNativeSocket4;
 	CFSocketNativeHandle theNativeSocket6;
+    CFSocketNativeHandle theNativeSocketUnix;
 	
 	CFSocketRef theSocket4;            // IPv4 accept or connect socket
 	CFSocketRef theSocket6;            // IPv6 accept or connect socket
+    CFSocketRef theSocketUnix;         // Unix accept
 	
 	CFReadStreamRef theReadStream;
 	CFWriteStreamRef theWriteStream;
 
 	CFRunLoopSourceRef theSource4;     // For theSocket4
 	CFRunLoopSourceRef theSource6;     // For theSocket6
+    CFRunLoopSourceRef theSourceUnix;  // For theSocketUnix
 	CFRunLoopRef theRunLoop;
 	CFSocketContext theContext;
 	NSArray *theRunLoopModes;
@@ -245,6 +258,11 @@ typedef enum AsyncSocketError AsyncSocketError;
  * The socket will listen on all available interfaces (e.g. wifi, ethernet, etc)
 **/
 - (BOOL)acceptOnPort:(UInt16)port error:(NSError **)errPtr;
+
+/**
+ * Accept connectins using the designated unix domain socket
+ **/
+- (BOOL)acceptOnSocket:(NSString *)socketPath error:(NSError **)errPtr;
 
 /**
  * This method is the same as acceptOnPort:error: with the additional option
@@ -335,9 +353,11 @@ typedef enum AsyncSocketError AsyncSocketError;
 **/
 - (NSString *)connectedHost;
 - (UInt16)connectedPort;
+- (NSString *)connectedPeerUnix;
 
 - (NSString *)localHost;
 - (UInt16)localPort;
+- (NSString *)localSocketPath;
 
 /**
  * Returns the local or remote address to which this socket is connected,
@@ -354,6 +374,7 @@ typedef enum AsyncSocketError AsyncSocketError;
 **/
 - (BOOL)isIPv4;
 - (BOOL)isIPv6;
+- (BOOL)isUnix;
 
 // The readData and writeData methods won't block (they are asynchronous).
 // 

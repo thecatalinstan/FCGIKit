@@ -1209,6 +1209,12 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 {
 	return [self acceptOnInterface:nil port:port error:errPtr];
 }
+
+
+- (BOOL)acceptOnSocket:(NSString *)socketPath error:(NSError *__autoreleasing *)errPtr
+{
+    return [self acceptOnInterface:socketPath port:0 error:errPtr];
+}
 	
 /**
  * To accept on a certain interface, pass the address to accept on.
@@ -1231,10 +1237,9 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 	
 	// Clear queues (spurious read/write requests post disconnect)
 	[self emptyQueues];
-
+    
 	// Set up the listen sockaddr structs if needed.
-	
-	NSData *address4 = nil, *address6 = nil;
+	NSData *address4 = nil, *address6 = nil, *addressUnix = nil;
 	if(interface == nil || ([interface length] == 0))
 	{
 		// Accept on ANY address
@@ -1278,7 +1283,17 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 		// Wrap the native address structures for CFSocketSetAddress.
 		address4 = [NSData dataWithBytes:&nativeAddr4 length:sizeof(nativeAddr4)];
 		address6 = [NSData dataWithBytes:&nativeAddr6 length:sizeof(nativeAddr6)];
+
 	}
+    else if( [interface isAbsolutePath] && port == 0 )
+    {
+        // Listen on Unix domain sockets
+        struct sockaddr_un nativeAddrUnix;
+        nativeAddrUnix.sun_family = AF_UNIX;
+        [interface getFileSystemRepresentation:nativeAddrUnix.sun_path maxLength:interface.length+1];
+        nativeAddrUnix.sun_len = SUN_LEN( &nativeAddrUnix );
+        addressUnix = [NSData dataWithBytes:&nativeAddrUnix length:sizeof(nativeAddrUnix)];
+    }
 	else
 	{
 		NSString *portStr = [NSString stringWithFormat:@"%hu", port];
@@ -1344,19 +1359,27 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 		if (theSocket6 == NULL) goto Failed;
 #endif
 	}
+    
+    if ( addressUnix ) {
+        theSocketUnix = [self newAcceptSocketForAddress:addressUnix error:errPtr];
+    }
 	
 	// Attach the sockets to the run loop so that callback methods work
-	
 	[self attachSocketsToRunLoop:nil error:nil];
 	
 	// Set the SO_REUSEADDR flags.
-
 	int reuseOn = 1;
 	if (theSocket4)	setsockopt(CFSocketGetNative(theSocket4), SOL_SOCKET, SO_REUSEADDR, &reuseOn, sizeof(reuseOn));
 	if (theSocket6)	setsockopt(CFSocketGetNative(theSocket6), SOL_SOCKET, SO_REUSEADDR, &reuseOn, sizeof(reuseOn));
+    if (theSocketUnix)
+    {
+        setsockopt(CFSocketGetNative(theSocketUnix), SOL_SOCKET, SO_REUSEADDR, &reuseOn, sizeof(reuseOn));
+        // Set the SO_NOSIGPIPE flags.
+        int nosigpipeOn = 1;
+        setsockopt(CFSocketGetNative(theSocketUnix), SOL_SOCKET, SO_NOSIGPIPE, &nosigpipeOn, sizeof(nosigpipeOn));
+    }
 
 	// Set the local bindings which causes the sockets to start listening.
-
 	CFSocketError err;
 	if (theSocket4)
 	{
@@ -1385,8 +1408,17 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 		err = CFSocketSetAddress(theSocket6, (__bridge CFDataRef)address6);
 		if (err != kCFSocketSuccess) goto Failed;
 		
-		//NSLog(@"theSocket6: %hu", [self localPortFromCFSocket6:theSocket6]);
+//        NSLog(@"theSocket6: %hu", [self localPortFromCFSocket6:theSocket6]);
 	}
+    
+    if (theSocketUnix)
+    {
+        unlink( [interface fileSystemRepresentation] );
+        err = CFSocketSetAddress(theSocketUnix, (__bridge CFDataRef)addressUnix);
+		if (err != kCFSocketSuccess) goto Failed;
+      
+//        NSLog(@"theSocketUnix: %@", [self localSocketPath]);
+    }
 
 	theFlags |= kDidStartDelegate;
 	return YES;
@@ -1405,8 +1437,16 @@ Failed:
 		CFRelease(theSocket6);
 		theSocket6 = NULL;
 	}
+    if(theSocketUnix)
+    {
+        unlink( [interface fileSystemRepresentation] );
+        CFSocketInvalidate(theSocketUnix);
+		CFRelease(theSocketUnix);
+		theSocketUnix = NULL;
+    }
 	return NO;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Connecting
@@ -1687,6 +1727,12 @@ Failed:
 		theSource6 = CFSocketCreateRunLoopSource (kCFAllocatorDefault, theSocket6, 0);
         [self runLoopAddSource:theSource6];
 	}
+    
+    if(theSocketUnix)
+    {
+        theSourceUnix = CFSocketCreateRunLoopSource (kCFAllocatorDefault, theSocketUnix, 0);
+        [self runLoopAddSource:theSourceUnix];
+    }
 	
 	return YES;
 }
@@ -1756,8 +1802,10 @@ Failed:
 		
 		if (parentSocket == theSocket4)
 			newSocket->theNativeSocket4 = newNativeSocket;
-		else
+		else if (parentSocket == theSocket6)
 			newSocket->theNativeSocket6 = newNativeSocket;
+        else
+            newSocket->theNativeSocketUnix = newNativeSocket;
 		
 		if ([theDelegate respondsToSelector:@selector(onSocket:didAcceptNewSocket:)])
 			[theDelegate onSocket:self didAcceptNewSocket:newSocket];
@@ -2212,10 +2260,17 @@ Failed:
 		CFRelease (theSocket6);
 		theSocket6 = NULL;
 	}
+    if (theSocketUnix != NULL)
+    {
+        CFSocketInvalidate(theSocketUnix);
+        CFRelease(theSocketUnix);
+        theSocketUnix = NULL;
+    }
 	
 	// Closing the streams or sockets resulted in closing the underlying native socket
 	theNativeSocket4 = 0;
 	theNativeSocket6 = 0;
+    theNativeSocketUnix = 0;
 	
 	// Remove run loop sources
     if (theSource4 != NULL) 
@@ -2230,6 +2285,11 @@ Failed:
 		CFRelease (theSource6);
 		theSource6 = NULL;
 	}
+    if (theSourceUnix != NULL) {
+        [self runLoopRemoveSource:theSourceUnix];
+        CFRelease(theSourceUnix);
+        theSourceUnix = NULL;
+    }
 	theRunLoop = NULL;
 	
 	// If the client has passed the connect/accept method, then the connection has at least begun.
@@ -2570,9 +2630,11 @@ Failed:
 	
 	if (theNativeSocket4 > 0) return NO;
 	if (theNativeSocket6 > 0) return NO;
+    if (theNativeSocketUnix > 0) return NO;
 	
 	if (theSocket4) return NO;
 	if (theSocket6) return NO;
+    if (theSocketUnix) return NO;
 	
 	if (theReadStream)  return NO;
 	if (theWriteStream) return NO;
@@ -2665,6 +2727,7 @@ Failed:
 	return 0;
 }
 
+
 - (NSString *)connectedHost4
 {
 	if(theSocket4)
@@ -2681,6 +2744,16 @@ Failed:
 		return [self connectedHostFromCFSocket6:theSocket6];
 	if(theNativeSocket6 > 0)
 		return [self connectedHostFromNativeSocket6:theNativeSocket6];
+	
+	return nil;
+}
+
+- (NSString *)connectedPeerUnix
+{
+	if(theSocketUnix)
+		return [self connectedPeerFromSocketUnix:theSocketUnix];
+	if(theNativeSocketUnix > 0)
+		return [self connectedPeerFromNativeSocketUnix:theNativeSocketUnix];
 	
 	return nil;
 }
@@ -2745,6 +2818,16 @@ Failed:
 	return 0;
 }
 
+- (NSString *)localSocketPath
+{
+	if(theSocketUnix)
+		return [self socketPathFromCFSocketUnix:theSocketUnix];
+	if(theNativeSocketUnix > 0)
+		return [self socketPathFromNativeSocketUnix:theNativeSocketUnix];
+	
+	return nil;
+}
+
 - (NSString *)connectedHostFromNativeSocket4:(CFSocketNativeHandle)theNativeSocket
 {
 	struct sockaddr_in sockaddr4;
@@ -2768,6 +2851,19 @@ Failed:
 	}
 	return [self hostFromAddress6:&sockaddr6];
 }
+
+- (NSString *)connectedPeerFromNativeSocketUnix:(CFSocketNativeHandle)theNativeSocket
+{
+    
+	uid_t uid;
+    gid_t gid;
+    if ( getpeereid(theNativeSocketUnix, &uid, &gid) < 0 ) {
+        return nil;
+    }
+    
+	return [self socketPeerFromUID:uid GID:gid];
+}
+
 
 - (NSString *)connectedHostFromCFSocket4:(CFSocketRef)theSocket
 {
@@ -2799,6 +2895,11 @@ Failed:
 	}
 
 	return peerstr;
+}
+
+- (NSString *)connectedPeerFromSocketUnix:(CFSocketRef)theSocket
+{
+    return [self connectedPeerFromNativeSocketUnix:CFSocketGetNative(theSocket)];
 }
 
 - (UInt16)connectedPortFromNativeSocket4:(CFSocketNativeHandle)theNativeSocket
@@ -2881,6 +2982,18 @@ Failed:
 	return [self hostFromAddress6:&sockaddr6];
 }
 
+- (NSString *)socketPathFromNativeSocketUnix:(CFSocketNativeHandle)theNativeSocket
+{
+	struct sockaddr_un sockaddrUnix;
+	socklen_t sockaddrUnixlen = sizeof(sockaddrUnix);
+	
+	if(getsockname(theNativeSocket, (struct sockaddr *)&sockaddrUnix, &sockaddrUnixlen) < 0)
+	{
+		return nil;
+	}
+	return [self socketPathFromAddressUnix:&sockaddrUnix];
+}
+
 - (NSString *)localHostFromCFSocket4:(CFSocketRef)theSocket
 {
 	CFDataRef selfaddr;
@@ -2910,6 +3023,22 @@ Failed:
 		CFRelease (selfaddr);
 	}
 
+	return selfstr;
+}
+
+- (NSString *)socketPathFromCFSocketUnix:(CFSocketRef)theSocket
+{
+	CFDataRef selfaddr;
+	NSString *selfstr = nil;
+    
+	if((selfaddr = CFSocketCopyAddress(theSocket)))
+	{
+		struct sockaddr_un *pSockAddr = (struct sockaddr_un *)CFDataGetBytePtr(selfaddr);
+		
+		selfstr = [self socketPathFromAddressUnix:pSockAddr];
+		CFRelease (selfaddr);
+	}
+    
 	return selfstr;
 }
 
@@ -3003,6 +3132,26 @@ Failed:
 	return ntohs(pSockaddr6->sin6_port);
 }
 
+- (NSString *)socketPathFromAddressUnix:(struct sockaddr_un *)pSockaddrUnix
+{
+    const char* sockAddr = pSockaddrUnix->sun_path;
+    NSString* path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:sockAddr length:strlen(sockAddr)];
+
+	if( ![path isAbsolutePath] )
+	{
+		[NSException raise:NSInternalInconsistencyException format:@"Cannot get socket path."];
+	}
+	
+	return path;
+}
+
+- (NSString *)socketPeerFromUID:(uid_t)uid GID:(gid_t)gid
+{
+    struct passwd* passwd = getpwuid (uid);
+    struct group* group = getgrgid(gid);    
+    return [NSString stringWithFormat:@"%s:%s (%d:%d)", passwd->pw_name, group->gr_name, passwd->pw_uid, group->gr_gid];
+}
+
 - (NSData *)connectedAddress
 {
 #if DEBUG_THREAD_SAFETY
@@ -3010,15 +3159,16 @@ Failed:
 #endif
 	
 	// Extract address from CFSocket
-	
     CFSocketRef theSocket;
     
     if (theSocket4)
         theSocket = theSocket4;
-    else
+    else if (theSocket6)
         theSocket = theSocket6;
+    else
+        theSocket = theSocketUnix;
     
-    if (theSocket)
+    if (theSocket != theSocketUnix )
     {
 		CFDataRef peeraddr = CFSocketCopyPeerAddress(theSocket);
 		
@@ -3027,9 +3177,8 @@ Failed:
 		NSData *result = (__bridge_transfer NSData *)peeraddr;
 		return result;
 	}
-	
+    
 	// Extract address from CFSocketNativeHandle
-	
 	socklen_t sockaddrlen;
 	CFSocketNativeHandle theNativeSocket = 0;
 	
@@ -3038,23 +3187,47 @@ Failed:
 		theNativeSocket = theNativeSocket4;
 		sockaddrlen = sizeof(struct sockaddr_in);
 	}
-	else
+	else if (theNativeSocket6 > 0)
 	{
 		theNativeSocket = theNativeSocket6;
 		sockaddrlen = sizeof(struct sockaddr_in6);
 	}
+    else
+    {
+        theNativeSocket = theNativeSocketUnix;
+        sockaddrlen = sizeof(AsyncSocketUnixPeer);
+    }
 	
 	NSData *result = nil;
-	void *sockaddr = malloc(sockaddrlen);
-	
-	if(getpeername(theNativeSocket, (struct sockaddr *)sockaddr, &sockaddrlen) >= 0)
-	{
-		result = [NSData dataWithBytesNoCopy:sockaddr length:sockaddrlen freeWhenDone:YES];
-	}
-	else
-	{
-		free(sockaddr);
-	}
+
+    if ( theNativeSocket == theNativeSocketUnix )
+    {
+        uid_t uid;
+        gid_t gid;
+
+        AsyncSocketUnixPeer* peer = malloc(sockaddrlen);
+        if(getpeereid(theNativeSocket, &uid, &gid) >= 0)
+        {
+            peer->group = getgrgid(gid);
+            peer->passwd = getpwuid (uid);
+            result = [NSData dataWithBytesNoCopy:peer length:sockaddrlen freeWhenDone:YES];
+        } else {
+            free(peer);
+        }
+        
+    }
+    else
+    {
+        void *sockaddr = malloc(sockaddrlen);
+        if(getpeername(theNativeSocket, (struct sockaddr *)sockaddr, &sockaddrlen) >= 0)
+        {
+            result = [NSData dataWithBytesNoCopy:sockaddr length:sockaddrlen freeWhenDone:YES];
+        }
+        else
+        {
+            free(sockaddr);
+        }
+    }
 	
 	return result;
 }
@@ -3071,8 +3244,11 @@ Failed:
     
     if (theSocket4)
         theSocket = theSocket4;
-    else
+    else if (theSocket6)
         theSocket = theSocket6;
+    else
+        theSocket = theSocketUnix;
+    
     
     if (theSocket)
     {
@@ -3094,11 +3270,16 @@ Failed:
 		theNativeSocket = theNativeSocket4;
 		sockaddrlen = sizeof(struct sockaddr_in);
 	}
-	else
+	else if (theNativeSocket6 > 0)
 	{
 		theNativeSocket = theNativeSocket6;
 		sockaddrlen = sizeof(struct sockaddr_in6);
 	}
+    else
+    {
+        theNativeSocket = theNativeSocketUnix;
+        sockaddrlen = sizeof(struct sockaddr_un);
+    }
 	
 	NSData *result = nil;
 	void *sockaddr = malloc(sockaddrlen);
@@ -3131,6 +3312,15 @@ Failed:
 #endif
 	
 	return (theNativeSocket6 > 0 || theSocket6 != NULL);
+}
+
+- (BOOL)isUnix
+{
+#if DEBUG_THREAD_SAFETY
+	[self checkForThreadSafety];
+#endif
+	
+	return (theNativeSocketUnix > 0 || theSocketUnix != NULL);
 }
 
 - (BOOL)areStreamsConnected
@@ -3170,8 +3360,9 @@ Failed:
 
 	BOOL is4 = [self isIPv4];
 	BOOL is6 = [self isIPv6];
+    BOOL isUnix = [self isUnix];
 	
-	if (is4 || is6)
+	if (is4 || is6 || isUnix)
 	{
 		if (is4 && is6)
 		{
@@ -3186,16 +3377,22 @@ Failed:
 					   [self connectedHost4],
 					   [self connectedPort4]];
 		}
-		else
+		else if (is6)
 		{
 			peerstr = [NSString stringWithFormat: @"%@ %u",
 					   [self connectedHost6],
 					   [self connectedPort6]];
 		}
+        else
+        {
+            // TODO:: getTheOtherEnd
+            peerstr = [NSString stringWithFormat: @"%@",
+					   [self connectedPeerUnix]];
+        }
 	}
 	else peerstr = @"nowhere";
 
-	if (is4 || is6)
+	if (is4 || is6 || isUnix)
 	{
 		if (is4 && is6)
 		{
@@ -3210,18 +3407,22 @@ Failed:
 					   [self localHost4],
 					   [self localPort4]];
 		}
-		else
+		else if (is6)
 		{
 			selfstr = [NSString stringWithFormat: @"%@ %u",
 					   [self localHost6],
 					   [self localPort6]];
 		}
+        else
+        {
+            selfstr = [NSString stringWithFormat: @"%@", [self localSocketPath]];
+        }
 	}
 	else selfstr = @"nowhere";
 	
-	NSMutableString *ms = [[NSMutableString alloc] initWithCapacity:150];
+	NSMutableString *ms = [[NSMutableString alloc] initWithCapacity:UINT64_MAX];
 	
-	[ms appendString:[NSString stringWithFormat:@"<AsyncSocket %p", self]];
+	[ms appendString:[NSString stringWithFormat:@"<AsyncSocket %p>", self]];
 	[ms appendString:[NSString stringWithFormat:@" local %@ remote %@ ", selfstr, peerstr]];
 	
 	unsigned readQueueCount  = (unsigned)[theReadQueue count];
@@ -4151,7 +4352,7 @@ Failed:
 {
 	#pragma unused(address)
 	
-	NSParameterAssert ((sock == theSocket4) || (sock == theSocket6));
+	NSParameterAssert ((sock == theSocket4) || (sock == theSocket6) || (sock == theSocketUnix) );
 	
 	switch (type)
 	{

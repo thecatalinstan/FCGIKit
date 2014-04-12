@@ -26,3 +26,5 @@
 #import "FCGIRequest.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
+#import "NSString+FCGIKit.h"
+#import "NSThread+FCGIKit.h"
