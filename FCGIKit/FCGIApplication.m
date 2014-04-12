@@ -87,9 +87,8 @@ void handleSIGTERM(int signum) {
     NSError *error;
     BOOL listening = NO;
 
-    _isListeningOnUnixSocket = YES;
     if ( self.isListeningOnUnixSocket) {
-        listening = [self.listenSocket acceptOnSocket:_socketPath error:&error];
+        listening = [self.listenSocket acceptOnSocket:_socketPath error:&error];        
     } else {
         listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
     }
@@ -392,8 +391,9 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
 {
-    //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [_connectedSockets addObject:sock];
+//    NSLog(@"%@", newSocket);
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
