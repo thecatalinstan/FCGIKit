@@ -10,17 +10,14 @@
 #import "FCGIRequest.h"
 #import "NSString+FCGIKit.h"
 
-//typedef struct FCGIKitKeyParseResultStruct {
-//    Class objectClass;          // the class of the entry in the corresponding dictionary (NSObject, NSDictionary, NSArray)
-//    const char* key;            // the key name
-//    const char* dictionaryKey;  // set if the class is a Dictionary
-//    const char* value;          // the string value;
-//} FCGIKitKeyParseResult;
-
 @interface FCGIKitKeyParseResult : NSObject {
+    Class _objectClass;
+    NSString* _key;
+    NSString* _dictionaryKey;
+    NSString* _value;
 }
 
-@property (nonatomic, retain) Class objectClass;
+@property (atomic, assign) Class objectClass;
 @property (nonatomic, retain) NSString* key;
 @property (nonatomic, retain) NSString* dictionaryKey;
 @property (nonatomic, retain) NSString* value;
@@ -28,6 +25,11 @@
 @end
 
 @implementation FCGIKitKeyParseResult
+
+@synthesize objectClass = _objectClass;
+@synthesize key = _key;
+@synthesize dictionaryKey = _dictionaryKey;
+@synthesize value = _value;
 
 - (NSString *)description
 {
@@ -74,43 +76,57 @@
         NSUInteger currentKeyIdx = [keys indexOfObject:keyInfo.key];
 
         if ( keyInfo.objectClass == [NSString class] ) {
-            [objects setObject:keyInfo.value atIndexedSubscript:currentKeyIdx];
+            
+            if ( [[NSNumber numberWithLong:( objects.count - 1 )] compare:[NSNumber numberWithUnsignedLong:currentKeyIdx]] == NSOrderedAscending ) {
+                [objects setObject:[NSString string] atIndexedSubscript:currentKeyIdx];
+            }
+            id existingValue = [objects objectAtIndex:currentKeyIdx];
+            
+            if ( [existingValue isKindOfClass:[NSArray class]] ) {
+                [existingValue addObject:keyInfo.value];
+            } else if ( [existingValue isKindOfClass:[NSDictionary class]] ) {
+                [existingValue setObject:keyInfo.value forKey:[NSUUID UUID]];
+            } else {
+                [objects setObject:keyInfo.value atIndexedSubscript:currentKeyIdx];
+            }
+            
         } else if ( keyInfo.objectClass == [NSArray class] ) {
-            if ( objects.count - 1 < currentKeyIdx ) { // the item isn't there
+            
+            if ( [[NSNumber numberWithLong:( objects.count - 1 )] compare:[NSNumber numberWithUnsignedLong:currentKeyIdx]] == NSOrderedAscending ) {
                 [objects setObject:[NSMutableArray array] atIndexedSubscript:currentKeyIdx];
             }
-            NSMutableArray* valueArray;
             id existingValue = [objects objectAtIndex:currentKeyIdx];
+
             if ( [existingValue isKindOfClass:[NSString class]] ) {
-                valueArray = [NSMutableArray array];
-                [valueArray addObject:existingValue];
+                NSMutableArray* valueArray = [NSMutableArray arrayWithObjects:existingValue, keyInfo.value, nil];
+                [objects setObject:valueArray atIndexedSubscript:currentKeyIdx];
             } else if ([existingValue isKindOfClass:[NSDictionary class]]) {
-                valueArray = existingValue;
-                //TODO: asdf as
+                [existingValue setObject:keyInfo.value forKey:[NSUUID UUID]];
             } else {
-                valueArray = existingValue;
+                [existingValue addObject:keyInfo.value];
             }
-            [valueArray addObject:keyInfo.value];
-            [objects setObject:valueArray atIndexedSubscript:currentKeyIdx];
+            
         } else if ( keyInfo.objectClass == [NSDictionary class] ) {
-            if ( objects.count - 1 < currentKeyIdx ) { // the item isn't there
+            
+            if ( [[NSNumber numberWithLong:( objects.count - 1 )] compare:[NSNumber numberWithUnsignedLong:currentKeyIdx]] == NSOrderedAscending ) {
                 [objects setObject:[NSMutableDictionary dictionary] atIndexedSubscript:currentKeyIdx];
             }
-            NSMutableDictionary* valueDictionary;
             id existingValue = [objects objectAtIndex:currentKeyIdx];
+            
             if ( [existingValue isKindOfClass:[NSString class]] ) {
-                valueDictionary = [NSMutableDictionary dictionary];
-                [valueDictionary setObject:existingValue forKey:@"0"];
+                NSMutableDictionary* valueDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:existingValue, [NSUUID UUID], keyInfo.value, keyInfo.dictionaryKey, nil];
+                [objects setObject:valueDictionary atIndexedSubscript:currentKeyIdx];
             } else if ( [existingValue isKindOfClass:[NSArray class]] ) {
-                valueDictionary = [NSMutableDictionary dictionary];
-                for (NSUInteger i = 0; i < [existingValue count]; i++) {
-                    [valueDictionary setObject:[existingValue objectAtIndex:i] forKey:[NSString stringWithFormat:@"%lu", i]];
-                }
+                NSMutableDictionary* valueDictionary = [NSMutableDictionary dictionary];
+                [existingValue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    [valueDictionary setObject:obj forKey:[NSUUID UUID]];
+                }];
+                [valueDictionary setObject:keyInfo.value forKey:keyInfo.dictionaryKey];
+                [objects setObject:valueDictionary atIndexedSubscript:currentKeyIdx];
             } else {
-                valueDictionary = existingValue;
+                [existingValue setObject:keyInfo.value forKey:keyInfo.dictionaryKey];
             }
-            [valueDictionary setObject:keyInfo.value forKey:keyInfo.dictionaryKey];
-            [objects setObject:valueDictionary atIndexedSubscript:currentKeyIdx];
+
         }
     }];
     
