@@ -635,6 +635,7 @@ void handleSIGTERM(int signum) {
                              FCGIKitInitialThreadsKey: [NSNumber numberWithInteger:self.initialThreads],
                              FCGIKitRequestsPerThreadKey: [NSNumber numberWithInteger:self.requestsPerThread],
                              FCGIKitConnectionInfoSocketKey: self.socketPath,
+                             FCGIKitConnectionInfoInterfaceKey: self.listeningInterface,
                              FCGIKitConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
                              FCGIKitConnectionInfoKey: self.isListeningOnUnixSocket ? FCGIKitConnectionInfoSocketKey : FCGIKitConnectionInfoPortKey,
                              };
