@@ -247,6 +247,10 @@ void handleSIGTERM(int signum) {
     FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse requestWithHTTPRequest:httpRequest];
     NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
     [_delegate applicationWillSendResponse:userInfo];
+    NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
+    @synchronized(_currentRequests) {
+        [_currentRequests removeObjectForKey:globalRequestId];
+    }
 }
 
 - (NSThread*)nextAvailableThread:(FCGIRequest*)request
@@ -395,7 +399,7 @@ void handleSIGTERM(int signum) {
 - (void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    [_connectedSockets addObject:sock];
+    [_connectedSockets addObject:newSocket];
 //    NSLog(@"%@", newSocket);
 }
 
@@ -431,9 +435,12 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)sock
 {
-    //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    [_connectedSockets removeObject:sock];
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [[[[NSThread currentThread] threadDictionary] objectForKey:FCGIKitRequestKey] className]);
+//    NSLog(@"%hhd", [_connectedSockets containsObject:sock]);
     [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)sock.hash]];
+    [_connectedSockets removeObject:sock];
+
+    sock = nil;
 }
 
 @end
@@ -638,6 +645,7 @@ void handleSIGTERM(int signum) {
                              FCGIKitInitialThreadsKey: [NSNumber numberWithInteger:self.initialThreads],
                              FCGIKitRequestsPerThreadKey: [NSNumber numberWithInteger:self.requestsPerThread],
                              FCGIKitConnectionInfoSocketKey: self.socketPath,
+                             FCGIKitConnectionInfoInterfaceKey: self.listeningInterface,
                              FCGIKitConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
                              FCGIKitConnectionInfoKey: self.isListeningOnUnixSocket ? FCGIKitConnectionInfoSocketKey : FCGIKitConnectionInfoPortKey,
                              };
