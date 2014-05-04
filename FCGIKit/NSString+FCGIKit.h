@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString(FCGIKit)
+@interface NSString (FCGIKit)
 
-- (NSString *)stringByDecodingURLFormat;
+- (NSString *)stringByDecodingURLEncodedString;
+- (NSString *)URLEncodedString;
 
 @end

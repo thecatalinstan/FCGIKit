@@ -8,13 +8,22 @@
 
 #import "NSString+FCGIKit.h"
 
-@implementation NSString(FCGIKit)
+@implementation NSString (FCGIKit)
 
-- (NSString *)stringByDecodingURLFormat
+- (NSString *)stringByDecodingURLEncodedString
 {
-    NSString *result = [(NSString *)self stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-    result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    return result;
+    CFStringRef encodedCFString = (__bridge CFStringRef)self;
+    CFStringRef returnCFString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, encodedCFString, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUnicode);
+    NSString* returnString = (__bridge_transfer NSString*)returnCFString;
+    return returnString;
+}
+
+- (NSString *)URLEncodedString
+{
+    CFStringRef encodedCFString = (__bridge CFStringRef)self;
+    CFStringRef returnCFString = CFURLCreateStringByAddingPercentEscapes(NULL, encodedCFString, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUnicode );
+    NSString *returnString = (__bridge_transfer NSString *)returnCFString;
+    return returnString;
 }
 
 @end

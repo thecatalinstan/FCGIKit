@@ -230,9 +230,12 @@ void handleSIGTERM(int signum) {
 //        [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
     
         if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillSendResponse:)] ) {
-            NSThread* thread = [self workerThreadForRequest:request];
-            [request.socket moveToRunLoop:thread.runLoop];
-            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:thread withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+            
+//            NSThread* thread = [self workerThreadForRequest:request];
+//            [request.socket moveToRunLoop:thread.runLoop];
+//            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:thread withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+            
+            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
         }
     }
 }

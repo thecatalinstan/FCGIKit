@@ -68,8 +68,9 @@
     
     // Loop through the array and update types
     [keyParsingResults enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
         FCGIKitKeyParseResult* keyInfo = obj;
+//        keyInfo.key = [keyInfo.key stringByDecodingURLEncodedString];
+        
         if ( ![keys containsObject:keyInfo.key] ) {
             [keys addObject:keyInfo.key];
         }
@@ -129,7 +130,6 @@
 
         }
     }];
-    
     
     return [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 }
