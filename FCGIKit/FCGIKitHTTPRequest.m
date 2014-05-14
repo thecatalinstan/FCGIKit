@@ -187,7 +187,9 @@
         
         body = _FCGIRequest.stdinData;
         
-//        NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        
+        NSLog(@"Body: %@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
+        NSLog(@"Length: %lu", _FCGIRequest.stdinData.length);
         
         _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
         

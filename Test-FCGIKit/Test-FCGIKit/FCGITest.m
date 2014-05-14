@@ -44,8 +44,7 @@
     FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     
-    NSDictionary* requestDictionary = @{ @"GET": request.getFields,
-                                         @"POST": request.postFields };
+    NSDictionary* requestDictionary = @{ @"GET": request.getFields, @"POST": request.postFields };
     
     // Headers
     [response writeString:@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n"];
@@ -66,7 +65,7 @@
                                    FCGIKitResponseKey: response,
                                    FCGIKitRequestKey: request};
     [FCGIApp performBackgroundSelector:@selector(performSomeLongRunningTask:) onTarget:self userInfo:taskUserInfo didEndSelector:@selector(didEndSomeLongRunningTask:)];
-
+    
 //    [response finish];
 }
 
@@ -74,7 +73,9 @@
 {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSString* result = [NSString stringWithFormat:@"This is the result of <a href="">%s</a>", __PRETTY_FUNCTION__];
-    sleep(5);
+
+//    sleep(2);
+    
     return result;
 }
 
