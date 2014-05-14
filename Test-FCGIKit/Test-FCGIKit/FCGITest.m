@@ -53,19 +53,41 @@
     // Body
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
     [response writeString:[NSString stringWithFormat:@"<h3>Thread: %@<br/>", [NSThread currentThread]]];
-    [response writeString:[NSString stringWithFormat:@"Sockets:%lu<br/>", (unsigned long)[[FCGIApp connectedSockets] count] ]];
-    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
+    [response writeString:[NSString stringWithFormat:@"Current Sockets:%lu<br/>", (unsigned long)[[FCGIApp connectedSockets] count] ]];
+//    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
     [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
     [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary ]];
 //    [response writeString:[NSString stringWithFormat:@"<h2>Current Requests:</h2><pre>%@</pre>", [FCGIApp currentRequests] ]];
-    [response writeString:[NSString stringWithFormat:@"<h2>RequestIDs:</h2><pre>%@</pre>", [FCGIApp requestIDs] ]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
+//    [response writeString:[NSString stringWithFormat:@"<h2>RequestIDs:</h2><pre>%@</pre>", [FCGIApp requestIDs] ]];
+//    [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
     [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverFields]];
 
-//    sleep(1);
+    NSDictionary* taskUserInfo = @{@"A UserInfo Key": [NSUUID UUID],
+                                   FCGIKitResponseKey: response,
+                                   FCGIKitRequestKey: request};
+    [FCGIApp performBackgroundSelector:@selector(performSomeLongRunningTask:) onTarget:self userInfo:taskUserInfo didEndSelector:@selector(didEndSomeLongRunningTask:)];
+
+//    [response finish];
+}
+
+- (NSString *)performSomeLongRunningTask:(NSDictionary *)userInfo
+{
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSString* result = [NSString stringWithFormat:@"This is the result of <a href="">%s</a>", __PRETTY_FUNCTION__];
+    sleep(5);
+    return result;
+}
+
+- (void)didEndSomeLongRunningTask:(NSDictionary *)userInfo
+{
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
+    [response writeString:[NSString stringWithFormat:@"<h1>%s</h1><h2>UserInfo</h2>", __PRETTY_FUNCTION__]];
     
+    [response writeString:[NSString stringWithFormat:@"<pre>%@</pre>", userInfo]];
     [response finish];
 }
+
 
 
 @end

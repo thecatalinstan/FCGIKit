@@ -92,4 +92,7 @@ void handleSIGTERM(int signum);
 
 - (NSDictionary*)dumpConfig;
 
+- (void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector;
+- (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary*)userInfo;
+
 @end

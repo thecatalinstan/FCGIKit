@@ -17,6 +17,8 @@
 		AD66807118E66C54002805EC /* FCGIParamsRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806418E66C26002805EC /* FCGIParamsRecord.m */; };
 		AD66807218E66C54002805EC /* FCGIRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806618E66C26002805EC /* FCGIRecord.m */; };
 		AD66807318E66C54002805EC /* FCGIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806818E66C26002805EC /* FCGIRequest.m */; };
+		AD6FB76619229A3500BCF338 /* FCGIKitBackgroundThread.h in Headers */ = {isa = PBXBuildFile; fileRef = AD6FB76419229A3500BCF338 /* FCGIKitBackgroundThread.h */; };
+		AD6FB76719229A3500BCF338 /* FCGIKitBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6FB76519229A3500BCF338 /* FCGIKitBackgroundThread.m */; };
 		AD9EAECD18E8B09A005BEAEF /* FCGIKitHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9EAECB18E8B09A005BEAEF /* FCGIKitHTTPRequest.m */; };
 		AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9EAED018E8B598005BEAEF /* FCGIKitHTTPResponse.m */; };
 		ADC1E012172CB29C0022E227 /* FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC1E011172CB29C0022E227 /* FCGIKit.m */; };
@@ -64,6 +66,8 @@
 		AD66806718E66C26002805EC /* FCGIRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGIRequest.h; sourceTree = "<group>"; };
 		AD66806818E66C26002805EC /* FCGIRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
 		AD66806918E66C26002805EC /* FCGITypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
+		AD6FB76419229A3500BCF338 /* FCGIKitBackgroundThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitBackgroundThread.h; sourceTree = "<group>"; };
+		AD6FB76519229A3500BCF338 /* FCGIKitBackgroundThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitBackgroundThread.m; sourceTree = "<group>"; };
 		AD9EAECA18E8B09A005BEAEF /* FCGIKitHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitHTTPRequest.h; sourceTree = "<group>"; };
 		AD9EAECB18E8B09A005BEAEF /* FCGIKitHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitHTTPRequest.m; sourceTree = "<group>"; };
 		AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitHTTPResponse.h; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 				AD9EAECB18E8B09A005BEAEF /* FCGIKitHTTPRequest.m */,
 				AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */,
 				AD9EAED018E8B598005BEAEF /* FCGIKitHTTPResponse.m */,
+				AD6FB76419229A3500BCF338 /* FCGIKitBackgroundThread.h */,
+				AD6FB76519229A3500BCF338 /* FCGIKitBackgroundThread.m */,
 			);
 			path = FCGIKit;
 			sourceTree = "<group>";
@@ -174,6 +180,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6FB76619229A3500BCF338 /* FCGIKitBackgroundThread.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +239,7 @@
 				AD2ADACF18E6A83B008F5973 /* FCGIThread.m in Sources */,
 				AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */,
 				AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */,
+				AD6FB76719229A3500BCF338 /* FCGIKitBackgroundThread.m in Sources */,
 				AD66807118E66C54002805EC /* FCGIParamsRecord.m in Sources */,
 				AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */,
 				AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */,

@@ -33,6 +33,7 @@ NSString* const FCGIKitSocketKey = @"FCGIKitSocket";
 NSString* const FCGIKitDataKey = @"FCGIKitData";
 NSString* const FCGIKitRequestKey = @"FCGIKitRequest";
 NSString* const FCGIKitResponseKey = @"FCGIKitResponse";
+NSString* const FCGIKitResultKey = @"FCGIKitResult";
 
 NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";
 NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";

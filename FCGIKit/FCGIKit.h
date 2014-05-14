@@ -38,6 +38,7 @@ extern NSString* const FCGIKitSocketKey;
 extern NSString* const FCGIKitDataKey;
 extern NSString* const FCGIKitRequestKey;
 extern NSString* const FCGIKitResponseKey;
+extern NSString* const FCGIKitResultKey;
 
 extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;
 extern NSString* const FCGIKitApplicationDidFinishLaunchingNotification;

@@ -12,4 +12,7 @@
     
 }
 
+- (NSString*)performSomeLongRunningTask:(NSDictionary*)userInfo;
+- (void)didEndSomeLongRunningTask:(NSDictionary*)userInfo;
+
 @end

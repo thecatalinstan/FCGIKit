@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
+#import <objc/message.h>
+
 #import "AsyncSocket.h"
 #import "FCGIApplication.h"
 #import "FCGIKit.h"
@@ -17,6 +19,7 @@
 #import "FCGIThread.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
+#import "FCGIKitBackgroundThread.h"
 
 int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate)
 {
@@ -251,6 +254,12 @@ void handleSIGTERM(int signum) {
     @synchronized(_currentRequests) {
         [_currentRequests removeObjectForKey:globalRequestId];
     }
+}
+
+- (void)callBackgroundDidEndSelector:(NSArray*)argsArray
+{
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
 }
 
 - (NSThread*)nextAvailableThread:(FCGIRequest*)request
@@ -635,6 +644,20 @@ void handleSIGTERM(int signum) {
 {
     [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
     [self removeWorkerThreadForRequest:request];
+}
+
+-(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
+{
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    FCGIKitBackgroundThread* workerThread = [[FCGIKitBackgroundThread alloc] initWithTarget:target selector:aSelector userInfo:userInfo didEndSelector:didEndSelector];
+    [workerThread start];
+}
+
+- (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo
+{
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSArray* argsArray = @[ NSStringFromSelector(didEndSelector), target, userInfo ];
+    [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
 }
 
 
