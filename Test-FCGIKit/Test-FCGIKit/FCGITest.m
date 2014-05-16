@@ -71,17 +71,18 @@
 
 - (NSString *)performSomeLongRunningTask:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    NSString* result = [NSString stringWithFormat:@"This is the result of <a href="">%s</a>", __PRETTY_FUNCTION__];
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 
-//    sleep(2);
-    
+    unsigned int sleepInterval = 1 + ( arc4random() % 4 );
+    sleep(sleepInterval);
+
+    NSString* result = [NSString stringWithFormat:@"This is the result of %s. We have slept for %u seconds", __PRETTY_FUNCTION__, sleepInterval];
     return result;
 }
 
 - (void)didEndSomeLongRunningTask:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1><h2>UserInfo</h2>", __PRETTY_FUNCTION__]];
     
