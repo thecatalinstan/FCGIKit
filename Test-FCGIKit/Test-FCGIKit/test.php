@@ -6,24 +6,44 @@
         <script>
             function commit() {
             	var url = $('#url').text();
-            	var type = $('#type').text();
-            	var data = {            
-                   	name: $('#name').text(),
-                   	email: $('#email').text(),
-                   	message: $('#message').text()
-                };
+            	var type = $('#type').val();
+ 				var data;
+ 				var processData = true;
+ 				var contentType = 'application/x-www-form-urlencoded' ;
+ 				
+
+				if ( $('#file')[0].files.length > 0 ) {
+					data = new FormData();
+					data.append('name', $('#name').text());
+					data.append('email', $('#email').text());
+					data.append('message', $('#message').text());
+					data.append('file', $('#file')[0].files[0]);
+					processData = false;
+					contentType =false;
+
+				} else {
+					data = {
+						name: $('#name').text(),
+						email: $('#email').text(),
+						message: $('#message').text()
+					};
+				}         	
+
                 var options = {
                     url: url,
                     type : type,
-                    data: data
+                    data: data,
+                    processData: processData,
+                    contentType: contentType
                 };
                 $('#output').html("");
                 $('#request').text(JSON.stringify(options, undefined, 2));
 
-                $.ajax(options).done( function(postResult) { 
-                	// console.log(postResult);
+                $.ajax(options).success( function(postResult) { 
                 	$('#output').html(postResult);
-                });
+                }).fail( function(postResult) { 
+                	$('#output').html(postResult);
+                } );
             }
         	$(document).ready(function() { $('#send').click(function() { commit(); }); });
         </script>
@@ -33,6 +53,7 @@
             section { border-bottom: 1px dotted #ccc; padding: 0 0 20px 0; }
             #message, #name, #email, #type, #url { padding: 5px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 5px }
             #name, #email, #type, #url { width: 400px; }
+            #type, #url { display: inline-block; }
             #message { min-height: 100px; }
             #send { font-family: "Helvetica Neue", Helvetica, sans-serif; font-weight: 200; font-size: 16px; margin-top: 20px; padding: 10px;  }
             .result { overflow: auto; padding: 5px; border-radius: 5px; min-height: 100px; margin-bottom: 5px; background-color: #eee; }
@@ -43,10 +64,11 @@
         <div id="content">
             <h1>A simple contact form</h1>
             <section id="config">
-            	<p class="label">Name:</p>
+            	<select id="type">
+            		<option value="POST">POST</option>
+            		<option value="GET">GET</option>
+            	</select>
                 <div id="url" contenteditable="true">/app</div>
-                <p class="label">Method:</p>
-                <div id="type" contenteditable="true">POST</div>
             </section>
             <section id="form">
                 <p class="label">Name:</p>
@@ -55,6 +77,8 @@
                 <div id="email" contenteditable="true"></div>
                 <p class="label">Message:</p>
                 <div id="message" contenteditable="true"></div>
+                <p class="label">Message:</p>
+				<input id="file" type="file" value="" />
                 <input id="send" type="submit" value="Send Commit Message" />
             </section>
             <section id="params">

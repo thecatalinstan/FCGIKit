@@ -40,6 +40,11 @@ extern NSString* const FCGIKitRequestKey;
 extern NSString* const FCGIKitResponseKey;
 extern NSString* const FCGIKitResultKey;
 
+extern NSString* const FCGIKitFileNameKey;
+extern NSString* const FCGIKitFileTmpNameKey;
+extern NSString* const FCGIKitFileSizeKey;
+extern NSString* const FCGIKitFileContentTypeKey;
+
 extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;
 extern NSString* const FCGIKitApplicationDidFinishLaunchingNotification;
 extern NSString* const FCGIKitApplicationWillTerminateNotification;

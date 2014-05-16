@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
+		AD05885A19266120005CE999 /* upload.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD058859192660B4005CE999 /* upload.php */; };
 		AD0EA9A017285C01005C3923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA99F17285C01005C3923 /* main.m */; };
 		AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9DB1728682A005C3923 /* FCGITest.m */; };
 		AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */; };
@@ -95,6 +96,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 1;
 			files = (
+				AD05885A19266120005CE999 /* upload.php in CopyFiles */,
 				AD05885619261758005CE999 /* test.php in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +105,7 @@
 
 /* Begin PBXFileReference section */
 		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
+		AD058859192660B4005CE999 /* upload.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = upload.php; sourceTree = "<group>"; };
 		AD0EA99917285C01005C3923 /* Test-FCGIKit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Test-FCGIKit"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0EA99F17285C01005C3923 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AD0EA9A217285C01005C3923 /* Test-FCGIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test-FCGIKit-Prefix.pch"; sourceTree = "<group>"; };
@@ -193,6 +196,7 @@
 		AD66804B18E65ACF002805EC /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				AD058859192660B4005CE999 /* upload.php */,
 				AD0588541926173F005CE999 /* test.php */,
 			);
 			name = Public;

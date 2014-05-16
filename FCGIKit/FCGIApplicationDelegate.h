@@ -24,5 +24,4 @@
 - (void)applicationWillTerminate:(NSNotification *)notification;
 
 - (void)applicationDidReceiveRequest:(NSDictionary*)userInfo;
-
 @end

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
+#import "FCGIKit.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIRequest.h"
 #import "NSString+FCGIKit.h"
@@ -44,6 +45,10 @@
 - (NSDictionary*)parseQueryString:(NSString*)queryString;
 - (FCGIKitKeyParseResult*)parseKey:(NSString *)key withValue:(NSString*)value;
 
+- (NSArray*)parseMultipartFormData:(NSData*)data boundary:(NSString*)boundary;
+- (NSDictionary*)parseMultipartFormDataPart:(NSData*)data;
+- (NSDictionary*)parseHeaderValue:(NSString*)value;
+
 @end
 
 @implementation FCGIKitHTTPRequest (Private)
@@ -52,16 +57,23 @@
 {
     NSArray* tokens = [queryString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&"]];
     
-    NSMutableArray* keyParsingResults = [NSMutableArray arrayWithCapacity:tokens.count];
+    NSMutableDictionary* result = [NSMutableDictionary dictionaryWithCapacity:tokens.count];
+    [tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
+        NSArray* pair = [token componentsSeparatedByString:@"="];
+        NSString* key = [pair objectAtIndex:0];
+        NSString* value = pair.count == 2 ? [pair objectAtIndex:1] : @"";
+        [result setObject:value.stringByDecodingURLEncodedString forKey:key.stringByDecodingURLEncodedString];
+    }];
     
+    return result.copy;
+
+    NSMutableArray* keyParsingResults = [NSMutableArray arrayWithCapacity:tokens.count];
     [tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
         NSArray* pair = [token componentsSeparatedByString:@"="];
         NSString* key = [pair objectAtIndex:0];
         NSString* value = pair.count == 2 ? [pair objectAtIndex:1] : @"";
         FCGIKitKeyParseResult* result = [self parseKey:key withValue:value];
         [keyParsingResults setObject:result atIndexedSubscript:idx];
-        
-//        NSLog(@"%s: %@", __PRETTY_FUNCTION__, result);
     }];
 
     __block NSMutableArray* keys = [NSMutableArray array];
@@ -140,9 +152,7 @@
 
     key = [key stringByDecodingURLEncodedString];
     result.value = [value stringByDecodingURLEncodedString];
-    
-    
-    // test if the string is an array
+
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.+)\\[(.*)\\]" options:NSRegularExpressionCaseInsensitive error:nil];
     NSArray* matches = [regex matchesInString:key options:0 range:NSMakeRange(0, key.length)];
     if ( matches.count == 0 ) {
@@ -173,6 +183,99 @@
     return result;
 }
 
+
+- (NSArray*)parseMultipartFormData:(NSData*)data boundary:(NSString*)boundary
+{
+    if ( boundary == nil ) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Boundary cannot be nil." userInfo:nil];
+        return nil;
+    }
+
+    NSMutableDictionary* post = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* files = [[NSMutableDictionary alloc] init];
+    
+    boundary = [NSString stringWithFormat:@"--%@", boundary];
+    NSData* boundaryData = [boundary dataUsingEncoding:NSASCIIStringEncoding];
+    
+    NSRange partRange = NSMakeRange(boundaryData.length + 2, 0);
+    NSRange searchRange = NSMakeRange(boundaryData.length, data.length - boundaryData.length);
+    NSRange resultRange;
+    
+    do {
+        resultRange = [data rangeOfData:boundaryData options:0 range:searchRange];
+        if ( resultRange.location != NSNotFound ) {
+            partRange.length = resultRange.location - partRange.location - 2;
+            
+            NSDictionary* part = [self parseMultipartFormDataPart:[data subdataWithRange:partRange]];
+            NSString* key = part.allKeys[0];
+            id value = part[key];
+            if ( [value isKindOfClass:[NSString class]] ) {
+                [post setObject:value forKey:key];
+            } else {
+                [files setObject:value forKey:key];
+            }
+            
+            partRange.location = resultRange.location + resultRange.length + 2;
+        }
+        
+        searchRange.location = resultRange.location + resultRange.length;
+        searchRange.length = data.length - resultRange.location - resultRange.length;
+        
+    } while (resultRange.location != NSNotFound);
+    
+    
+    return @[post.copy, files.copy];
+}
+
+- (NSDictionary*)parseMultipartFormDataPart:(NSData*)data
+{
+    NSData* headersSeparator = [@"\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding];
+    
+    NSRange separatorRange = [data rangeOfData:headersSeparator options:0 range:NSMakeRange(0, data.length)];
+    if ( separatorRange.location == NSNotFound ) {
+        return nil;
+    }
+    
+    __block NSMutableDictionary* headers = [NSMutableDictionary dictionary];
+    NSArray* headerLines = [[[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, separatorRange.location)] encoding:NSUTF8StringEncoding] componentsSeparatedByString:@"\r\n"];
+    [headerLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSArray* parts = [obj componentsSeparatedByString:@": "];
+        [headers setObject:[self parseHeaderValue:parts[1]] forKey:parts[0]];
+    }];
+    
+    NSData* bodyData = [data subdataWithRange:NSMakeRange(separatorRange.location + separatorRange.length, data.length - separatorRange.location - separatorRange.length)];
+    NSString* key = headers[@"Content-Disposition"][@"name"];
+    if ( headers[@"Content-Disposition"][@"filename"] == nil ) {
+        NSString* value = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
+        return @{ key: value};
+    } else {
+        NSString* tmpFilename = [FCGIApp.temporaryDirectoryLocation stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+        [bodyData writeToFile:tmpFilename atomically:NO];
+        NSDictionary* value = @{ FCGIKitFileNameKey: headers[@"Content-Disposition"][@"filename"],
+                                 FCGIKitFileTmpNameKey: tmpFilename,
+                                 FCGIKitFileContentTypeKey: headers[@"Content-Type"][@"_"],
+                                 FCGIKitFileSizeKey: [NSNumber numberWithLong:bodyData.length]};
+        return @{ key: value };
+    }
+}
+
+
+- (NSDictionary*)parseHeaderValue:(NSString*)value
+{
+    __block NSMutableDictionary* paramsDictionary = [NSMutableDictionary dictionary];
+    NSArray* parts = [value componentsSeparatedByString:@";"];
+    [parts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSArray* partKV = [obj componentsSeparatedByString:@"="];
+        if ( partKV.count == 1 ) {
+            [paramsDictionary setObject:partKV[0] forKey:@"_"];
+        } else {
+            [paramsDictionary setObject:[partKV[1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \""]] forKey:[partKV[0] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]]];
+        }
+    }];
+    return [paramsDictionary copy];
+}
+
+
 @end
 
 @implementation FCGIKitHTTPRequest
@@ -189,25 +292,33 @@
         
         body = _FCGIRequest.stdinData;
         
-        NSLog(@"Body: %@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
-        NSLog(@"Length: %lu", _FCGIRequest.stdinData.length);
-        
+        // Server
         _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
         
+        // GET
         if ( [_server.allKeys containsObject:@"QUERY_STRING"] ) {
-            _get = [self parseQueryString:[_server objectForKey:@"QUERY_STRING"]];
+            _get = [self parseQueryString:_server[@"QUERY_STRING"]];
         } else {
             _get = [NSDictionary dictionary];
         }
         
-        NSArray* contentType = [_server[@"CONTENT_TYPE"] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@";"]];
-        
-        if ( [_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[0] isEqualToString:@"application/x-www-form-urlencoded"] ) {
+        // POST
+        NSDictionary* contentType = [self parseHeaderValue:_server[@"CONTENT_TYPE"]];
+        if ( [_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"application/x-www-form-urlencoded"] ) {
             _post = [self parseQueryString:[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]];
-        } else if([_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[0] isEqualToString:@"multipart/form-data"]) {
-            _post = [NSDictionary dictionary];
+            _files = [NSDictionary dictionary];
+        } else if([_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"multipart/form-data"]) {
+            if ( body.length == 0 || contentType[@"boundary"] == nil ) {
+                _post = [NSDictionary dictionary];
+                _files = [NSDictionary dictionary];
+            } else {
+                NSArray* postInfo = [self parseMultipartFormData:body boundary:contentType[@"boundary"]];
+                _post = postInfo[0];
+                _files = postInfo[1];
+            }
         } else {
             _post = [NSDictionary dictionary];
+            _files = [NSDictionary dictionary];
         }
         
         
@@ -220,24 +331,30 @@
     return [[FCGIKitHTTPRequest alloc] initWithFCGIRequest:anFCGIRequest];
 }
 
-- (NSDictionary *)serverFields
+- (NSDictionary *)serverVars
 {
     return _server;
 }
 
-- (NSDictionary *)getFields
+- (NSDictionary *)getVars
 {
     return _get;
 }
 
-- (NSDictionary *)cookieFields
+- (NSDictionary *)cookieVars
 {
     return _cookie;
 }
 
-- (NSDictionary *)postFields
+- (NSDictionary *)postVars
 {
     return _post;
 }
+
+- (NSDictionary *)files
+{
+    return _files;
+}
+
 
 @end

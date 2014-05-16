@@ -15,6 +15,7 @@
     NSDictionary* _server;
     NSDictionary* _get;
     NSDictionary* _post;
+    NSDictionary* _files;
     NSDictionary* _cookie;
 
     NSMutableData* body;
@@ -25,9 +26,10 @@
 - (id)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 + (id)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 
-- (NSDictionary*)serverFields;
-- (NSDictionary*)getFields;
-- (NSDictionary*)postFields;
-- (NSDictionary*)cookieFields;
+- (NSDictionary*)serverVars;
+- (NSDictionary*)getVars;
+- (NSDictionary*)postVars;
+- (NSDictionary*)cookieVars;
+- (NSDictionary*)files;
     
 @end

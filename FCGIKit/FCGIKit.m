@@ -35,6 +35,11 @@ NSString* const FCGIKitRequestKey = @"FCGIKitRequest";
 NSString* const FCGIKitResponseKey = @"FCGIKitResponse";
 NSString* const FCGIKitResultKey = @"FCGIKitResult";
 
+NSString* const FCGIKitFileNameKey = @"FCGIKitFileName";
+NSString* const FCGIKitFileTmpNameKey = @"FCGIKitFileTmpName";
+NSString* const FCGIKitFileSizeKey = @"FCGIKitFileSize";
+NSString* const FCGIKitFileContentTypeKey = @"FCGIKitFileContentType";
+
 NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";
 NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";
 NSString* const FCGIKitApplicationWillTerminateNotification = @"FCGIKitApplicationWillTerminateNotification";

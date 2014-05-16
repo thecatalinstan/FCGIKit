@@ -44,13 +44,13 @@
     FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     
-    NSDictionary* requestDictionary = @{ @"GET": request.getFields, @"POST": request.postFields };
+    NSDictionary* requestDictionary = @{ @"GET": request.getVars, @"POST": request.postVars, @"FILES": request.files };
     
     // Headers
     [response setHTTPStatus:200];
     [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
-    [response redirectToLocation:@"/redirectUrl" withStatus:301];
+//    [response redirectToLocation:@"/redirectUrl" withStatus:301];
     
     // Body
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
@@ -58,7 +58,7 @@
     [response writeString:[NSString stringWithFormat:@"Current Sockets:%lu<br/>", (unsigned long)[[FCGIApp connectedSockets] count] ]];
     [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
     [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverFields]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverVars]];
 
 //    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
 //    [response writeString:[NSString stringWithFormat:@"<h2>Current Requests:</h2><pre>%@</pre>", [FCGIApp currentRequests] ]];

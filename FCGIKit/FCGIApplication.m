@@ -192,6 +192,8 @@ void handleSIGTERM(int signum) {
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
+//    NSLog(@"%@: %hu", record.className, record.contentLength);
+    
     if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
         FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
         request.socket = socket;
@@ -200,7 +202,9 @@ void handleSIGTERM(int signum) {
             [_currentRequests setObject:request forKey:globalRequestId];
         }
         [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+        
     } else if ([record isKindOfClass:[FCGIParamsRecord class]]) {
+        
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
         FCGIRequest* request;
         @synchronized(_currentRequests) {
@@ -212,35 +216,35 @@ void handleSIGTERM(int signum) {
         } else {
             [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)socket.hash]];
             if ( _delegate && [_delegate respondsToSelector:@selector(applicationDidReceiveRequest:)] ) {
-                NSDictionary* userInfo = @{FCGIKitRequestKey:request};
-                [_delegate applicationDidReceiveRequest:userInfo];
+                [self performSelector:@selector(callDelegateDidReceiveRequest:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
             }
         }
         [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+        
     } else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
-//        NSLog(@"%@", record);
+        
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
         FCGIRequest* request;
         @synchronized(_currentRequests) {
             request = [_currentRequests objectForKey:globalRequestId];
         }
         NSData* data = [(FCGIByteStreamRecord*)record data];
-
-        [request.stdinData appendData:data];
- 
-//        [request writeDataToStdout:[@"Status: 200\nContent-type: text/plain\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
-//        [request writeDataToStdout:data];
-//        [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
-    
-        if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillSendResponse:)] ) {
-            
-//            NSThread* thread = [self workerThreadForRequest:request];
-//            [request.socket moveToRunLoop:thread.runLoop];
-//            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:thread withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
-            
-            [self performSelector:@selector(callDelegateWillSendResponse:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+        if ( [data length] > 0 ) {
+            [request.stdinData appendData:data];
+            [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+        } else {
+            if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillSendResponse:)] ) {
+                [self performSelector:@selector(callDelegateWillSendResponse:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+            }
         }
     }
+}
+
+- (void)callDelegateDidReceiveRequest:(FCGIRequest*)request
+{
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSDictionary* userInfo = @{FCGIKitRequestKey:request};
+    [_delegate applicationDidReceiveRequest:userInfo];
 }
 
 - (void)callDelegateWillSendResponse:(FCGIRequest*)request
@@ -420,8 +424,10 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-    //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    
     if (tag == FCGIRecordAwaitingHeaderTag) {
+//        NSLog(@"%@", @"FCGIRecordAwaitingHeaderTag");
         FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
         if (record.contentLength == 0) {
             [self handleRecord:record fromSocket:sock];
@@ -430,6 +436,7 @@ void handleSIGTERM(int signum) {
             [sock readDataToLength:record.contentLength+record.paddingLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingContentAndPaddingTag];
         }
     } else if (tag == FCGIRecordAwaitingContentAndPaddingTag) {
+//        NSLog(@"%@", @"FCGIRecordAwaitingContentAndPaddingTag");
         FCGIRecord* record = [self threadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)sock.hash]];
         [record processContentData:data];
         [self handleRecord:record fromSocket:sock];
@@ -658,6 +665,30 @@ void handleSIGTERM(int signum) {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSArray* argsArray = @[ NSStringFromSelector(didEndSelector), target, userInfo ];
     [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+}
+
+- (NSString *)temporaryDirectoryLocation
+{
+    NSString* tmpDirName =[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), [[NSBundle mainBundle] bundleIdentifier]];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    if ( ! [fm fileExistsAtPath:tmpDirName isDirectory:&isDir] ) {
+        BOOL ok = [fm createDirectoryAtPath:tmpDirName withIntermediateDirectories:NO attributes:nil error:nil];
+        if ( ! ok ) {
+            return [tmpDirName stringByDeletingLastPathComponent];
+        }
+    } else if( !isDir ){
+        [fm removeItemAtPath:tmpDirName error:nil];
+        BOOL ok = [fm createDirectoryAtPath:tmpDirName withIntermediateDirectories:NO attributes:nil error:nil];
+        if ( ! ok ) {
+            return [tmpDirName stringByDeletingLastPathComponent];
+        }
+    } else {
+        if ( ! [fm isWritableFileAtPath:tmpDirName] ) {
+            return [tmpDirName stringByDeletingLastPathComponent];
+        }
+    }
+    return tmpDirName;
 }
 
 
