@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
 		AD0EA9A017285C01005C3923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA99F17285C01005C3923 /* main.m */; };
 		AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9DB1728682A005C3923 /* FCGITest.m */; };
 		AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */; };
@@ -15,10 +16,29 @@
 		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
 		AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805B18E6677A002805EC /* CFNetwork.framework */; };
-		ADC7FD4E18E94A00005A00C2 /* testpost.html in Resources */ = {isa = PBXBuildFile; fileRef = ADC7FD4D18E94A00005A00C2 /* testpost.html */; };
-		ADC7FD5018E94A40005A00C2 /* testpost.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADC7FD4D18E94A00005A00C2 /* testpost.html */; };
-		ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to webroot */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */; };
+		ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to Web */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		AD058857192617BE005CE999 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = file.xib;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# ibtool\n";
+		};
+		AD058858192617CA005CE999 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = wrapper.nib;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# ibtool\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		AD0EACCA1728BFE1005C3923 /* PBXContainerItemProxy */ = {
@@ -58,15 +78,15 @@
 			name = "Copy executable";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AD0EACCF1728C0CD005C3923 /* Copy to webroot */ = {
+		AD0EACCF1728C0CD005C3923 /* Copy to Web */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Users/catalin/Sites/fcgi/;
+			dstPath = /Users/catalin/Sites/fcgi;
 			dstSubfolderSpec = 0;
 			files = (
-				ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to webroot */,
+				ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to Web */,
 			);
-			name = "Copy to webroot";
+			name = "Copy to Web";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AD66804E18E65B39002805EC /* CopyFiles */ = {
@@ -75,13 +95,14 @@
 			dstPath = Public;
 			dstSubfolderSpec = 1;
 			files = (
-				ADC7FD5018E94A40005A00C2 /* testpost.html in CopyFiles */,
+				AD05885619261758005CE999 /* test.php in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
 		AD0EA99917285C01005C3923 /* Test-FCGIKit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Test-FCGIKit"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD0EA99F17285C01005C3923 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AD0EA9A217285C01005C3923 /* Test-FCGIKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test-FCGIKit-Prefix.pch"; sourceTree = "<group>"; };
@@ -94,7 +115,6 @@
 		AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		ADC7FD4D18E94A00005A00C2 /* testpost.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = testpost.html; path = "Test-FCGIKit/testpost.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +193,7 @@
 		AD66804B18E65ACF002805EC /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				ADC7FD4D18E94A00005A00C2 /* testpost.html */,
+				AD0588541926173F005CE999 /* test.php */,
 			);
 			name = Public;
 			path = ..;
@@ -215,10 +235,12 @@
 				AD0EACB51728BF4C005C3923 /* Frameworks */,
 				AD0EACB61728BF4C005C3923 /* Resources */,
 				AD0EACC81728BFAF005C3923 /* Copy executable */,
-				AD0EACCF1728C0CD005C3923 /* Copy to webroot */,
+				AD0EACCF1728C0CD005C3923 /* Copy to Web */,
 				AD66804E18E65B39002805EC /* CopyFiles */,
 			);
 			buildRules = (
+				AD058858192617CA005CE999 /* PBXBuildRule */,
+				AD058857192617BE005CE999 /* PBXBuildRule */,
 			);
 			dependencies = (
 				AD0EACCB1728BFE1005C3923 /* PBXTargetDependency */,
@@ -276,7 +298,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADC7FD4E18E94A00005A00C2 /* testpost.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,7 +414,7 @@
 				HEADER_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
 				LIBRARY_SEARCH_PATHS = "${EXECUTABLE_FOLDER}";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -407,7 +428,7 @@
 				HEADER_SEARCH_PATHS = "${EXECUTABLE_PATH}/../../**";
 				LIBRARY_SEARCH_PATHS = "${EXECUTABLE_FOLDER}";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

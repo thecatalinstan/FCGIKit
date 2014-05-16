@@ -247,7 +247,7 @@ void handleSIGTERM(int signum) {
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
-    FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse requestWithHTTPRequest:httpRequest];
+    FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse responseWithHTTPRequest:httpRequest];
     NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
     [_delegate applicationWillSendResponse:userInfo];
     NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];

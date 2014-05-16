@@ -47,20 +47,24 @@
     NSDictionary* requestDictionary = @{ @"GET": request.getFields, @"POST": request.postFields };
     
     // Headers
-    [response writeString:@"Status: 200\nContent-Type: text/html;charset=utf-8\n\n"];
+    [response setHTTPStatus:200];
+    [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [response redirectToLocation:@"/redirectUrl" withStatus:301];
     
     // Body
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
     [response writeString:[NSString stringWithFormat:@"<h3>Thread: %@<br/>", [NSThread currentThread]]];
     [response writeString:[NSString stringWithFormat:@"Current Sockets:%lu<br/>", (unsigned long)[[FCGIApp connectedSockets] count] ]];
-//    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
     [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary ]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary]];
+    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverFields]];
+
+//    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
 //    [response writeString:[NSString stringWithFormat:@"<h2>Current Requests:</h2><pre>%@</pre>", [FCGIApp currentRequests] ]];
 //    [response writeString:[NSString stringWithFormat:@"<h2>RequestIDs:</h2><pre>%@</pre>", [FCGIApp requestIDs] ]];
 //    [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverFields]];
-
+    
     NSDictionary* taskUserInfo = @{@"A UserInfo Key": [NSUUID UUID],
                                    FCGIKitResponseKey: response,
                                    FCGIKitRequestKey: request};
@@ -71,10 +75,10 @@
 
 - (NSString *)performSomeLongRunningTask:(NSDictionary *)userInfo
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 
     unsigned int sleepInterval = 1 + ( arc4random() % 4 );
-    sleep(sleepInterval);
+//    sleep(sleepInterval);
 
     NSString* result = [NSString stringWithFormat:@"This is the result of %s. We have slept for %u seconds", __PRETTY_FUNCTION__, sleepInterval];
     return result;
@@ -82,7 +86,7 @@
 
 - (void)didEndSomeLongRunningTask:(NSDictionary *)userInfo
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     [response writeString:[NSString stringWithFormat:@"<h1>%s</h1><h2>UserInfo</h2>", __PRETTY_FUNCTION__]];
     

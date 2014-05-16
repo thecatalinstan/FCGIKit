@@ -13,4 +13,6 @@
 - (NSString *)stringByDecodingURLEncodedString;
 - (NSString *)URLEncodedString;
 
+- (NSString*)uppercaseFirstLetterString;
+
 @end

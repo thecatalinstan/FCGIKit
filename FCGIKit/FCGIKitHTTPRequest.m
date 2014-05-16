@@ -60,6 +60,7 @@
         NSString* value = pair.count == 2 ? [pair objectAtIndex:1] : @"";
         FCGIKitKeyParseResult* result = [self parseKey:key withValue:value];
         [keyParsingResults setObject:result atIndexedSubscript:idx];
+        
 //        NSLog(@"%s: %@", __PRETTY_FUNCTION__, result);
     }];
 
@@ -69,7 +70,6 @@
     // Loop through the array and update types
     [keyParsingResults enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         FCGIKitKeyParseResult* keyInfo = obj;
-//        keyInfo.key = [keyInfo.key stringByDecodingURLEncodedString];
         
         if ( ![keys containsObject:keyInfo.key] ) {
             [keys addObject:keyInfo.key];
@@ -138,8 +138,10 @@
 {
     FCGIKitKeyParseResult* result = [[FCGIKitKeyParseResult alloc] init];
 
-    result.value = value;
-
+    key = [key stringByDecodingURLEncodedString];
+    result.value = [value stringByDecodingURLEncodedString];
+    
+    
     // test if the string is an array
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.+)\\[(.*)\\]" options:NSRegularExpressionCaseInsensitive error:nil];
     NSArray* matches = [regex matchesInString:key options:0 range:NSMakeRange(0, key.length)];
@@ -187,7 +189,6 @@
         
         body = _FCGIRequest.stdinData;
         
-        
         NSLog(@"Body: %@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
         NSLog(@"Length: %lu", _FCGIRequest.stdinData.length);
         
@@ -199,9 +200,11 @@
             _get = [NSDictionary dictionary];
         }
         
-        if ( [[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] && [[_server objectForKey:@"CONTENT_TYPE"] isEqualToString:@"application/x-www-form-urlencoded"] ) {
+        NSArray* contentType = [_server[@"CONTENT_TYPE"] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@";"]];
+        
+        if ( [_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[0] isEqualToString:@"application/x-www-form-urlencoded"] ) {
             _post = [self parseQueryString:[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]];
-        } else if([[_server objectForKey:@"REQUEST_METHOD"] isEqualToString:@"POST"] && [[_server objectForKey:@"CONTENT_TYPE"] isEqualToString:@"multipart/form-data"]) {
+        } else if([_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[0] isEqualToString:@"multipart/form-data"]) {
             _post = [NSDictionary dictionary];
         } else {
             _post = [NSDictionary dictionary];
