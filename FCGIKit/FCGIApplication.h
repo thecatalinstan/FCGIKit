@@ -53,28 +53,33 @@ void handleSIGTERM(int signum);
     NSMutableArray *_workerThreads;
     
     NSThread *_listeningSocketThread;
+    
+    NSArray* _startupArguments;
 }
 
-@property (assign) NSObject<FCGIApplicationDelegate> *delegate;
-@property (assign) NSUInteger maxConnections;
-@property (assign) NSUInteger portNumber;
-@property (retain) NSString* listeningInterface;
-@property (retain) NSString* socketPath;
-@property (assign) NSUInteger initialThreads;
-@property (assign) NSUInteger maxThreads;
-@property (assign) NSUInteger requestsPerThread;
-@property (readonly) BOOL isListeningOnUnixSocket;
-@property (readonly) BOOL isListeningOnAllInterfaces;
-@property (readonly) BOOL isRunning;
-@property (retain) NSMutableArray* workerThreads;
-@property (retain) NSMutableSet* requestIDs;
-@property (retain) NSMutableDictionary* environment;
-@property (retain) AsyncSocket* listenSocket;
-@property (retain) NSMutableArray* connectedSockets;
-@property (retain) NSMutableDictionary* currentRequests;
-@property (retain) NSThread* listeningSocketThread;
+@property (nonatomic, assign) NSObject<FCGIApplicationDelegate> *delegate;
+@property (atomic, assign) NSUInteger maxConnections;
+@property (atomic, assign) NSUInteger portNumber;
+@property (nonatomic, retain) NSString* listeningInterface;
+@property (nonatomic, retain) NSString* socketPath;
+@property (atomic, assign) NSUInteger initialThreads;
+@property (atomic, assign) NSUInteger maxThreads;
+@property (atomic, assign) NSUInteger requestsPerThread;
+@property (atomic, readonly) BOOL isListeningOnUnixSocket;
+@property (atomic, readonly) BOOL isListeningOnAllInterfaces;
+@property (atomic, readonly) BOOL isRunning;
+@property (nonatomic, retain) NSMutableArray* workerThreads;
+@property (nonatomic, retain) NSMutableSet* requestIDs;
+@property (nonatomic, retain) NSMutableDictionary* environment;
+@property (nonatomic, retain) AsyncSocket* listenSocket;
+@property (nonatomic, retain) NSMutableArray* connectedSockets;
+@property (nonatomic, retain) NSMutableDictionary* currentRequests;
+@property (nonatomic, retain) NSThread* listeningSocketThread;
+@property (nonatomic, readonly, retain) NSArray* startupArguments;
 
 + (FCGIApplication *)sharedApplication;
+
+- initWithArguments:(const char **)argv count:(int)argc;
 
 - (NSDictionary*)infoDictionary;
 

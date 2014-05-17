@@ -21,7 +21,9 @@
 
 int main(int argc, const char * argv[])
 {
-    int val = FCGIApplicationMain(argc, argv, [[FCGITest alloc] init]);
-    return val;
+    @autoreleasepool {
+        int val = FCGIApplicationMain(argc, argv, [[FCGITest alloc] init]);
+        return val;
+    }
 }
 

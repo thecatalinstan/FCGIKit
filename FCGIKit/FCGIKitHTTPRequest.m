@@ -207,14 +207,15 @@
             partRange.length = resultRange.location - partRange.location - 2;
             
             NSDictionary* part = [self parseMultipartFormDataPart:[data subdataWithRange:partRange]];
-            NSString* key = part.allKeys[0];
-            id value = part[key];
-            if ( [value isKindOfClass:[NSString class]] ) {
-                [post setObject:value forKey:key];
-            } else {
-                [files setObject:value forKey:key];
+            if ( part != nil ) {
+                NSString* key = part.allKeys[0];
+                id value = part[key];
+                if ( [value isKindOfClass:[NSString class]] ) {
+                    [post setObject:value forKey:key];
+                } else {
+                    [files setObject:value forKey:key];
+                }
             }
-            
             partRange.location = resultRange.location + resultRange.length + 2;
         }
         
@@ -245,7 +246,7 @@
     
     NSData* bodyData = [data subdataWithRange:NSMakeRange(separatorRange.location + separatorRange.length, data.length - separatorRange.location - separatorRange.length)];
     NSString* key = headers[@"Content-Disposition"][@"name"];
-    if ( headers[@"Content-Disposition"][@"filename"] == nil ) {
+    if ( headers[@"Content-Disposition"][@"filename"] == nil || [headers[@"Content-Disposition"][@"filename"] isEqualToString:@""] ) {
         NSString* value = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
         return @{ key: value};
     } else {
