@@ -31,9 +31,6 @@ void handleSIGTERM(int signum);
     NSString* _socketPath;
     NSUInteger _portNumber;
     NSString* _listenIngInterface;
-    NSUInteger _initialThreads;
-    NSUInteger _maxThreads;
-    NSUInteger _requestsPerThread;
     
     BOOL _isListeningOnUnixSocket;
     BOOL _isListeningOnAllInterfaces;
@@ -50,7 +47,6 @@ void handleSIGTERM(int signum);
     AsyncSocket *_listenSocket;
     NSMutableArray *_connectedSockets;    
     NSMutableDictionary* _currentRequests;
-    NSMutableArray *_workerThreads;
     
     NSThread *_listeningSocketThread;
     
@@ -62,15 +58,10 @@ void handleSIGTERM(int signum);
 @property (atomic, assign) NSUInteger portNumber;
 @property (nonatomic, retain) NSString* listeningInterface;
 @property (nonatomic, retain) NSString* socketPath;
-@property (atomic, assign) NSUInteger initialThreads;
-@property (atomic, assign) NSUInteger maxThreads;
-@property (atomic, assign) NSUInteger requestsPerThread;
 @property (atomic, readonly) BOOL isListeningOnUnixSocket;
 @property (atomic, readonly) BOOL isListeningOnAllInterfaces;
 @property (atomic, readonly) BOOL isRunning;
-@property (nonatomic, retain) NSMutableArray* workerThreads;
 @property (nonatomic, retain) NSMutableSet* requestIDs;
-@property (nonatomic, retain) NSMutableDictionary* environment;
 @property (nonatomic, retain) AsyncSocket* listenSocket;
 @property (nonatomic, retain) NSMutableArray* connectedSockets;
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;

@@ -45,11 +45,8 @@ void handleSIGTERM(int signum) {
 - (void)stopListening;
 
 - (void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket*)socket;
-- (NSThread*)nextAvailableThread:(FCGIRequest*)request;
-- (NSThread *)newWorkerThread:(FCGIRequest*)request;
 
 - (void)listeningThreadMain;
-- (void)workerThreadMain;
 
 - (void)timerCallback;
 
@@ -57,19 +54,14 @@ void handleSIGTERM(int signum) {
 - (void)setThreadInfoObject:(id)object forKey:(id)key;
 - (void)removeThreadInfoObjectForKey:(id)key;
 
-- (NSThread*)workerThreadForRequest:(FCGIRequest*)request;
-- (void)setWorkerThread:(NSThread*)thread forRequest:(FCGIRequest*)request;
-- (void)removeWorkerThreadForRequest:(FCGIRequest*)request;
-
 @end
 
 @implementation FCGIApplication(Private)
 
 - (void)quit
 {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
-
-    [self stopListening];
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self performSelector:@selector(stopListening) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FCGIKitApplicationRunLoopMode]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FCGIKitApplicationWillTerminateNotification object:self];
     CFRunLoopRemoveObserver([[NSRunLoop mainRunLoop] getCFRunLoop], mainRunLoopObserver, kCFRunLoopDefaultMode);
@@ -121,18 +113,6 @@ void handleSIGTERM(int signum) {
         _maxConnections = MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FCGIKitMaxConnectionsKey]).integerValue);
     }
     
-    if ( [self.infoDictionary.allKeys containsObject:FCGIKitMaxThreadsKey] ) {
-        _maxThreads = MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FCGIKitMaxThreadsKey]).integerValue);
-    }
-    
-    if ( [self.infoDictionary.allKeys containsObject:FCGIKitInitialThreadsKey] ) {
-        _initialThreads = MIN(_maxThreads, MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FCGIKitInitialThreadsKey]).integerValue));
-    }
-    
-    if ( [self.infoDictionary.allKeys containsObject:FCGIKitRequestsPerThreadKey] ) {
-        _requestsPerThread = MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FCGIKitRequestsPerThreadKey]).integerValue);
-    }
-    
     if ( [self.infoDictionary.allKeys containsObject:FCGIKitConnectionInfoKey] ) {
         _portNumber = MIN(INT16_MAX, MAX(0, ((NSNumber*) [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] valueForKey:FCGIKitConnectionInfoPortKey]).integerValue)) ;
         
@@ -147,7 +127,6 @@ void handleSIGTERM(int signum) {
     
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections + 1];
     _currentRequests = [[NSMutableDictionary alloc] init];
-//    _workerThreads = [[NSMutableArray alloc] initWithCapacity:_initialThreads];
     
     // Create a run loop observer and attach it to the run loop.
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
@@ -171,12 +150,7 @@ void handleSIGTERM(int signum) {
     [self setListeningSocketThread: [[NSThread alloc] initWithTarget:self selector:@selector(listeningThreadMain) object:nil]];
     [self.listeningSocketThread setName:@"FCGIKitListeningThread"];
     [self.listeningSocketThread start];
-    
-    // Start the pool of worker threads
-//    for ( NSUInteger i = 0; i < _initialThreads; i++ ) {
-//        [_workerThreads addObject:[self newWorkerThread: nil]];
-//    }
-    
+
     // All startup is complete, let the delegate know they can do their own init here
     [[NSNotificationCenter defaultCenter] postNotificationName:FCGIKitApplicationDidFinishLaunchingNotification object:self];
     
@@ -191,24 +165,19 @@ void handleSIGTERM(int signum) {
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
-//    NSLog(@"%@: %hu", record.className, record.contentLength);
-    
+//    NSLog(@"%s %@: %hu", __PRETTY_FUNTION__ record.className, record.contentLength);
     if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
+        
         FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
         request.socket = socket;
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, socket.connectedPort];
-//        @synchronized(_currentRequests) {
-            [_currentRequests setObject:request forKey:globalRequestId];
-//        }
+        [_currentRequests setObject:request forKey:globalRequestId];
         [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
         
     } else if ([record isKindOfClass:[FCGIParamsRecord class]]) {
         
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-        FCGIRequest* request;
-//        @synchronized(_currentRequests) {
-            request = [_currentRequests objectForKey:globalRequestId];
-//        }
+        FCGIRequest* request = [_currentRequests objectForKey:globalRequestId];
         NSDictionary* params = [(FCGIParamsRecord*)record params];
         if ([params count] > 0) {
             [request.parameters addEntriesFromDictionary:params];
@@ -223,10 +192,7 @@ void handleSIGTERM(int signum) {
     } else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
         
         NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-        FCGIRequest* request;
-//        @synchronized(_currentRequests) {
-            request = [_currentRequests objectForKey:globalRequestId];
-//        }
+        FCGIRequest* request = [_currentRequests objectForKey:globalRequestId];
         NSData* data = [(FCGIByteStreamRecord*)record data];
         if ( [data length] > 0 ) {
             [request.stdinData appendData:data];
@@ -254,68 +220,13 @@ void handleSIGTERM(int signum) {
     NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
     [_delegate applicationWillSendResponse:userInfo];
     NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
-//    @synchronized(_currentRequests) {
-        [_currentRequests removeObjectForKey:globalRequestId];
-//    }
+    [_currentRequests removeObjectForKey:globalRequestId];
 }
 
 - (void)callBackgroundDidEndSelector:(NSArray*)argsArray
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
-}
-
-- (NSThread*)nextAvailableThread:(FCGIRequest*)request
-{
-    @synchronized(_workerThreads) {    
-        NSThread* thread;
-        // Get the free threads
-        NSPredicate* freeThreadsPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-            NSThread* t = evaluatedObject;
-            return [t.threadDictionary.allKeys containsObject:FCGIKitRequestKey] && [t.threadDictionary objectForKey:FCGIKitRequestKey] != nil && [[t.threadDictionary objectForKey:FCGIKitRequestKey] count] == 0;
-        }];
-        NSArray* freeThreads = [_workerThreads filteredArrayUsingPredicate: freeThreadsPredicate ];
-        
-        if ( freeThreads.count == 0 ) {
-            if ( _workerThreads.count < _maxThreads ) {
-                thread = [self newWorkerThread:request];
-                [_workerThreads addObject:thread];
-            } else {
-                NSArray* availableThreads = [_workerThreads sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                    NSUInteger count1 = [[[obj1 threadDictionary] objectForKey:FCGIKitRequestKey] count];
-                    NSUInteger count2 = [[[obj2 threadDictionary] objectForKey:FCGIKitRequestKey] count];
-                    return [[NSNumber numberWithInteger:count1] compare:[NSNumber numberWithInteger:count2]];
-                }];
-                thread = [availableThreads firstObject];
-                if ( [[thread.threadDictionary objectForKey:FCGIKitRequestKey] count] == _requestsPerThread ) {
-                    [request doneWithProtocolStatus:FCGI_OVERLOADED applicationStatus:-1];
-                    return nil;
-                }
-            }
-        
-        } else {
-            thread = [freeThreads firstObject];
-        }
-        
-        [self setWorkerThread:thread forRequest:request];
-        return thread;
-    }
-}
-
-- (NSThread *)newWorkerThread:(FCGIRequest*)request
-{
-    NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(workerThreadMain) object:nil];
-    [thread setName:[NSString stringWithFormat:@"FCGIKitWorkerThread %lu", _workerThreads.count + 1]];
-    [thread.threadDictionary setObject:[NSMutableSet set] forKey:FCGIKitRequestKey];
-    [thread start];
-    
-    if ( request != nil ) {
-        [self setWorkerThread:thread forRequest:request];
-    }
-
-//    NSLog(@" * New thread: %@", thread);
-    
-    return thread;
 }
 
 - (void)listeningThreadMain
@@ -330,76 +241,29 @@ void handleSIGTERM(int signum) {
     }
 }
 
-- (void)workerThreadMain
-{
-    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    @autoreleasepool {
-        NSRunLoop* runLoop = [NSRunLoop currentRunLoop];
-        [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FCGIKitApplicationRunLoopMode];
-        while ( [runLoop runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {}
-    }
-}
-
 - (void)timerCallback
 {
-    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
 - (id)threadInfoObjectForKey:(id)key
 {
-//    @synchronized(_listeningSocketThread) {
-        if ( [_listeningSocketThread.threadDictionary.allKeys containsObject:key] ) {
-            return [_listeningSocketThread.threadDictionary objectForKey:key];
-        } else {
-            return nil;
-        }
-//    }
+    if ( [_listeningSocketThread.threadDictionary.allKeys containsObject:key] ) {
+        return [_listeningSocketThread.threadDictionary objectForKey:key];
+    } else {
+        return nil;
+    }
 }
 
 - (void)setThreadInfoObject:(id)object forKey:(id)key
 {
-//    @synchronized(_listeningSocketThread) {
-        [_listeningSocketThread.threadDictionary setObject:object forKey:key];
-//    }
+    [_listeningSocketThread.threadDictionary setObject:object forKey:key];
 }
 
 - (void)removeThreadInfoObjectForKey:(id)key
 {
-//    @synchronized(_listeningSocketThread) {
-        [_listeningSocketThread.threadDictionary removeObjectForKey:key];
-//    }
+    [_listeningSocketThread.threadDictionary removeObjectForKey:key];
 }
-
-- (NSThread *)workerThreadForRequest:(FCGIRequest *)request
-{
-    NSString* key = [NSString stringWithFormat:@"%lu", (unsigned long)request.hash];
-    NSThread* thread = [self threadInfoObjectForKey:key];
-    if ( thread == nil ) {
-        thread = [self nextAvailableThread:request];
-    }
-    return thread;
-}
-
-- (void)setWorkerThread:(NSThread *)thread forRequest:(FCGIRequest *)request
-{
-    NSString* key = [NSString stringWithFormat:@"%lu", (unsigned long)request.hash];
-    [self setThreadInfoObject:thread forKey:key];
-    if ( ![thread.threadDictionary.allKeys containsObject:FCGIKitRequestKey] || [thread.threadDictionary objectForKey:FCGIKitRequestKey] == nil ) {
-        [thread.threadDictionary setObject:[NSMutableSet set] forKey:FCGIKitRequestKey];
-    }
-    [[thread.threadDictionary objectForKey:FCGIKitRequestKey] addObject:request];
-}
-
-- (void)removeWorkerThreadForRequest:(FCGIRequest *)request
-{
-    NSString* key = [NSString stringWithFormat:@"%lu", (unsigned long)request.hash];
-    NSThread* thread = [self workerThreadForRequest:request];
-    [self removeThreadInfoObjectForKey:key];
-    if ( [thread.threadDictionary.allKeys containsObject:FCGIKitRequestKey] && [thread.threadDictionary objectForKey:FCGIKitRequestKey] != nil ) {
-        [[thread.threadDictionary objectForKey:FCGIKitRequestKey] removeObject:request];
-    }
-}
-
 
 #pragma mark -
 #pragma mark AsyncSocket delegate
@@ -414,7 +278,6 @@ void handleSIGTERM(int signum) {
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [_connectedSockets addObject:newSocket];
-//    NSLog(@"%@", newSocket);
 }
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
@@ -426,7 +289,6 @@ void handleSIGTERM(int signum) {
 - (void)onSocket:(AsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    
     if (tag == FCGIRecordAwaitingHeaderTag) {
         FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
         if (record.contentLength == 0) {
@@ -445,16 +307,14 @@ void handleSIGTERM(int signum) {
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
     NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    NSLog(@"%@", err);
+    [FCGIApp presentError:err];
 }
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)sock
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [[[[NSThread currentThread] threadDictionary] objectForKey:FCGIKitRequestKey] className]);
-//    NSLog(@"%hhd", [_connectedSockets containsObject:sock]);
     [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)sock.hash]];
     [_connectedSockets removeObject:sock];
-
     sock = nil;
 }
 
@@ -469,27 +329,12 @@ void handleSIGTERM(int signum) {
 @synthesize isListeningOnUnixSocket = _isListeningOnUnixSocket;
 @synthesize isListeningOnAllInterfaces = _isListeningOnAllInterfaces;
 @synthesize isRunning = _isRunning;
-@synthesize workerThreads = _workerThreads;
 @synthesize requestIDs = _requestIDs;
-@synthesize environment = _environment;
 @synthesize listenSocket = _listenSocket;
 @synthesize connectedSockets = _connectedSockets;
 @synthesize currentRequests = _currentRequests;
 @synthesize startupArguments = _startupArguments;
-
-- (NSThread *)listeningSocketThread
-{
-//    @synchronized(_listeningSocketThread) {
-        return _listeningSocketThread;
-//    }
-}
-
-- (void)setListeningSocketThread:(NSThread *)listeningSocketThread
-{
-//    @synchronized(_listeningSocketThread) {
-        _listeningSocketThread = listeningSocketThread;
-//    }
-}
+@synthesize listeningSocketThread = _listeningSocketThread;
 
 - (NSDictionary*)infoDictionary {
     return [[NSBundle mainBundle] infoDictionary];
@@ -529,7 +374,6 @@ void handleSIGTERM(int signum) {
 }
 
 - (id)init {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [super init];
     if ( self != nil ) {
         _isRunning = NO;
@@ -539,9 +383,6 @@ void handleSIGTERM(int signum) {
         _socketPath = FCGIKitDefaultSocketPath;
         _portNumber = FCGIKitDefaultPortNumber;
         _listenIngInterface = [NSString string];
-        _maxThreads = FCGIKitDefaultMaxThreads;
-        _initialThreads = FCGIKitDefaultInitialThreads;
-        _requestsPerThread = FCGIKitDefaultRequestsPerThread;
         _startupArguments = [NSArray array];
     }
     return self;
@@ -563,8 +404,6 @@ void handleSIGTERM(int signum) {
 
 - (void)terminate:(id)sender
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     // Stop the main run loop
     [self performSelectorOnMainThread:@selector(stop:) withObject:nil waitUntilDone:YES];
     
@@ -603,7 +442,6 @@ void handleSIGTERM(int signum) {
 - (void)replyToApplicationShouldTerminate:(BOOL)shouldTerminate
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     isWaitingOnTerminateLaterReply = NO;
     [waitingOnTerminateLaterReplyTimer invalidate];
     
@@ -663,7 +501,6 @@ void handleSIGTERM(int signum) {
 - (void)finishRequest:(FCGIRequest*)request
 {
     [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
-//    [self removeWorkerThreadForRequest:request];
 }
 
 -(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
@@ -705,13 +542,9 @@ void handleSIGTERM(int signum) {
     return tmpDirName;
 }
 
-
 - (NSDictionary*)dumpConfig
 {
     NSDictionary* config = @{FCGIKitMaxConnectionsKey: [NSNumber numberWithInteger:self.maxConnections],
-                             FCGIKitMaxThreadsKey: [NSNumber numberWithInteger:self.maxThreads],
-                             FCGIKitInitialThreadsKey: [NSNumber numberWithInteger:self.initialThreads],
-                             FCGIKitRequestsPerThreadKey: [NSNumber numberWithInteger:self.requestsPerThread],
                              FCGIKitConnectionInfoSocketKey: self.socketPath,
                              FCGIKitConnectionInfoInterfaceKey: self.listeningInterface,
                              FCGIKitConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
@@ -719,6 +552,5 @@ void handleSIGTERM(int signum) {
                              };
     return config;
 }
-
 
 @end
