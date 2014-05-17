@@ -16,7 +16,6 @@
 #import "FCGIParamsRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
-#import "FCGIThread.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"
