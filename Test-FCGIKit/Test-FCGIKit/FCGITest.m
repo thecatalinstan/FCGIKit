@@ -51,8 +51,9 @@
     [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-type"];
     [response setValue:[FCGIApp.startupArguments[0] lastPathComponent] forHTTPHeaderField:@"X-Powered-by"];
     
-    [response setCookie:@"sessionid" value:[[NSUUID UUID] UUIDString]  expires:[[NSDate date] dateByAddingTimeInterval:24*3600] path:@"/" domain:nil secure:NO];
-    [response setCookie:@"AnotherCookie" value:@"the cookie" expires:[NSDate distantFuture] path:@"/" domain:nil secure:NO];
+//    [response setCookie:@"sessionid" value:[[NSUUID UUID] UUIDString]  expires:[[NSDate date] dateByAddingTimeInterval:24*3600] path:@"/" domain:nil secure:NO];
+//    [response setCookie:@"AnotherCookie" value:@"the cookie" expires:[NSDate distantFuture] path:@"/" domain:nil secure:NO];
+//    [response setCookie:@"SessionOnlyCoookie" value:@"the cookie" expires:nil path:@"/" domain:nil secure:NO];
     
 //    [response redirectToLocation:@"/redirectUrl" withStatus:301];
     

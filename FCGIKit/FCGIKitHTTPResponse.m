@@ -130,6 +130,8 @@
     [cookieProperties setObject:value forKey:NSHTTPCookieValue];
     if ( expires != nil ) {
         [cookieProperties setObject:expires forKey:NSHTTPCookieExpires];
+    } else {
+        [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieDiscard];
     }
     if ( path != nil ) {
         [cookieProperties setObject:path forKey:NSHTTPCookiePath];
