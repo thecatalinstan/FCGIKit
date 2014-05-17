@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9871728515D005C3923 /* FCGIApplication.m */; };
-		AD2ADACF18E6A83B008F5973 /* FCGIThread.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2ADACD18E6A83B008F5973 /* FCGIThread.m */; };
 		AD4E975118E6DF6A007642EA /* NSThread+FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */; };
 		AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66804818E65A49002805EC /* AsyncSocket.m */; };
 		AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */; };
@@ -45,8 +44,6 @@
 		AD0EA9BA17285DBD005C3923 /* libfcgikit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libfcgikit-Prefix.pch"; sourceTree = "<group>"; };
 		AD0EA9BB17285DBD005C3923 /* libfcgikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libfcgikit.h; sourceTree = "<group>"; };
 		AD0EAA2C17287C06005C3923 /* libfcgikit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfcgikit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD2ADACC18E6A83B008F5973 /* FCGIThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIThread.h; sourceTree = "<group>"; };
-		AD2ADACD18E6A83B008F5973 /* FCGIThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIThread.m; sourceTree = "<group>"; };
 		AD2FA14F172B507E00EF47BB /* FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKit.h; sourceTree = "<group>"; };
 		AD4E974E18E6DF6A007642EA /* NSThread+FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+FCGIKit.h"; sourceTree = "<group>"; };
 		AD4E974F18E6DF6A007642EA /* NSThread+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+FCGIKit.m"; sourceTree = "<group>"; };
@@ -124,8 +121,6 @@
 				AD0EA95A17284E0B005C3923 /* FCGIApplicationDelegate.h */,
 				AD0EA9861728515D005C3923 /* FCGIApplication.h */,
 				AD0EA9871728515D005C3923 /* FCGIApplication.m */,
-				AD2ADACC18E6A83B008F5973 /* FCGIThread.h */,
-				AD2ADACD18E6A83B008F5973 /* FCGIThread.m */,
 				AD9EAECA18E8B09A005BEAEF /* FCGIKitHTTPRequest.h */,
 				AD9EAECB18E8B09A005BEAEF /* FCGIKitHTTPRequest.m */,
 				AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */,
@@ -236,7 +231,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD2ADACF18E6A83B008F5973 /* FCGIThread.m in Sources */,
 				AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */,
 				AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */,
 				AD6FB76719229A3500BCF338 /* FCGIKitBackgroundThread.m in Sources */,
