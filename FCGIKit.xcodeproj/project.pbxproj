@@ -24,6 +24,10 @@
 		ADC554B41927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC554B21927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m */; };
 		ADC554B71927D181000AA4B7 /* NSDate+RFC1123.h in Headers */ = {isa = PBXBuildFile; fileRef = ADC554B51927D181000AA4B7 /* NSDate+RFC1123.h */; };
 		ADC554B81927D181000AA4B7 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC554B61927D181000AA4B7 /* NSDate+RFC1123.m */; };
+		ADC554BC1927F454000AA4B7 /* FCGIKitView.h in Headers */ = {isa = PBXBuildFile; fileRef = ADC554BA1927F454000AA4B7 /* FCGIKitView.h */; };
+		ADC554BD1927F454000AA4B7 /* FCGIKitView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC554BB1927F454000AA4B7 /* FCGIKitView.m */; };
+		ADC554C01927F4C4000AA4B7 /* FCGIKitViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = ADC554BE1927F4C4000AA4B7 /* FCGIKitViewController.h */; };
+		ADC554C11927F4C4000AA4B7 /* FCGIKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC554BF1927F4C4000AA4B7 /* FCGIKitViewController.m */; };
 		ADE1B3D118F8A5E5005F7B04 /* NSString+FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE1B3CF18F8A5E5005F7B04 /* NSString+FCGIKit.m */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +79,10 @@
 		ADC554B21927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSHTTPCookie+FCGIKit.m"; sourceTree = "<group>"; };
 		ADC554B51927D181000AA4B7 /* NSDate+RFC1123.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RFC1123.h"; sourceTree = "<group>"; };
 		ADC554B61927D181000AA4B7 /* NSDate+RFC1123.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RFC1123.m"; sourceTree = "<group>"; };
+		ADC554BA1927F454000AA4B7 /* FCGIKitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitView.h; sourceTree = "<group>"; };
+		ADC554BB1927F454000AA4B7 /* FCGIKitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitView.m; sourceTree = "<group>"; };
+		ADC554BE1927F4C4000AA4B7 /* FCGIKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitViewController.h; sourceTree = "<group>"; };
+		ADC554BF1927F4C4000AA4B7 /* FCGIKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitViewController.m; sourceTree = "<group>"; };
 		ADE1B3CE18F8A5E5005F7B04 /* NSString+FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FCGIKit.h"; sourceTree = "<group>"; };
 		ADE1B3CF18F8A5E5005F7B04 /* NSString+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FCGIKit.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				AD0EA94B17284CB4005C3923 /* FCGIKit */,
-				AD9EAECE18E8B0AD005BEAEF /* FCGIKit (Protocol) */,
 				AD0EA94C17284CB4005C3923 /* Supporting Files */,
 				AD0EA94417284CB4005C3923 /* Frameworks */,
 				AD0EA94317284CB4005C3923 /* Products */,
@@ -121,6 +128,8 @@
 		AD0EA94B17284CB4005C3923 /* FCGIKit */ = {
 			isa = PBXGroup;
 			children = (
+				ADC554B91927F423000AA4B7 /* View */,
+				AD9EAECE18E8B0AD005BEAEF /* FCGI Protocol */,
 				AD2FA14F172B507E00EF47BB /* FCGIKit.h */,
 				ADC1E011172CB29C0022E227 /* FCGIKit.m */,
 				AD0EA95A17284E0B005C3923 /* FCGIApplicationDelegate.h */,
@@ -154,7 +163,7 @@
 			path = FCGIKit;
 			sourceTree = "<group>";
 		};
-		AD9EAECE18E8B0AD005BEAEF /* FCGIKit (Protocol) */ = {
+		AD9EAECE18E8B0AD005BEAEF /* FCGI Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				AD66805D18E66C26002805EC /* FCGIBeginRequestRecord.h */,
@@ -171,8 +180,18 @@
 				AD66806818E66C26002805EC /* FCGIRequest.m */,
 				AD66806918E66C26002805EC /* FCGITypes.h */,
 			);
-			name = "FCGIKit (Protocol)";
-			path = FCGIKit;
+			name = "FCGI Protocol";
+			sourceTree = "<group>";
+		};
+		ADC554B91927F423000AA4B7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ADC554BA1927F454000AA4B7 /* FCGIKitView.h */,
+				ADC554BB1927F454000AA4B7 /* FCGIKitView.m */,
+				ADC554BE1927F4C4000AA4B7 /* FCGIKitViewController.h */,
+				ADC554BF1927F4C4000AA4B7 /* FCGIKitViewController.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,7 +203,9 @@
 			files = (
 				AD6FB76619229A3500BCF338 /* FCGIKitBackgroundThread.h in Headers */,
 				ADC554B71927D181000AA4B7 /* NSDate+RFC1123.h in Headers */,
+				ADC554C01927F4C4000AA4B7 /* FCGIKitViewController.h in Headers */,
 				ADC554B31927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.h in Headers */,
+				ADC554BC1927F454000AA4B7 /* FCGIKitView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,9 +265,11 @@
 				ADC554B41927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m in Sources */,
 				AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */,
 				AD6FB76719229A3500BCF338 /* FCGIKitBackgroundThread.m in Sources */,
+				ADC554BD1927F454000AA4B7 /* FCGIKitView.m in Sources */,
 				AD66807118E66C54002805EC /* FCGIParamsRecord.m in Sources */,
 				AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */,
 				AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */,
+				ADC554C11927F4C4000AA4B7 /* FCGIKitViewController.m in Sources */,
 				AD66807318E66C54002805EC /* FCGIRequest.m in Sources */,
 				ADC554B81927D181000AA4B7 /* NSDate+RFC1123.m in Sources */,
 				AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */,
