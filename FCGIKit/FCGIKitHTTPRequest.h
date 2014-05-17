@@ -19,9 +19,12 @@
     NSDictionary* _cookie;
 
     NSMutableData* body;
+    
+    NSURL* _url;
 }
 
 @property (nonatomic, retain) FCGIRequest* FCGIRequest;
+@property (nonatomic, readonly, retain) NSURL* url;
 
 - (id)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 + (id)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;

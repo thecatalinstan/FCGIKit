@@ -44,11 +44,15 @@
     FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
     FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
     
-    NSDictionary* requestDictionary = @{ @"GET": request.getVars, @"POST": request.postVars, @"FILES": request.files };
+    NSDictionary* requestDictionary = @{ @"GET": request.getVars, @"POST": request.postVars, @"FILES": request.files, @"COOKIE": request.cookieVars };
     
     // Headers
     [response setHTTPStatus:200];
-    [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-type"];
+    [response setValue:[FCGIApp.startupArguments[0] lastPathComponent] forHTTPHeaderField:@"X-Powered-by"];
+    
+    [response setCookie:@"sessionid" value:[[NSUUID UUID] UUIDString]  expires:[[NSDate date] dateByAddingTimeInterval:24*3600] path:@"/" domain:nil secure:NO];
+    [response setCookie:@"AnotherCookie" value:@"the cookie" expires:[NSDate distantFuture] path:@"/" domain:nil secure:NO];
     
 //    [response redirectToLocation:@"/redirectUrl" withStatus:301];
     

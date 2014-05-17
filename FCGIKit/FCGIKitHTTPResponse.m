@@ -12,6 +12,7 @@
 #import "FCGIRequest.h"
 #import "FCGIKit.h"
 #import "NSString+FCGIKit.h"
+#import "NSHTTPCookie+FCGIKit.h"
 
 @interface FCGIKitHTTPResponse(Private)
 
@@ -37,18 +38,23 @@
 
 - (NSString *)buildHTTPHeaders
 {
+    // Add the cookie headers
+    NSDictionary * cookieHeaders = [NSHTTPCookie responseHeaderFieldsWithCookies:HTTPCookies.allValues];
+    [self setAllHTTPHeaderFields:cookieHeaders];
+        
+    // Compile all the headers
     __block NSMutableArray* compiledHeaders = [[NSMutableArray alloc] initWithCapacity:HTTPHeaders.count];
     [HTTPHeaders enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [compiledHeaders addObject:[NSString stringWithFormat:@"%@: %@", key, obj]];
     }];
-    return [compiledHeaders componentsJoinedByString:@"\n"];
+    return [compiledHeaders componentsJoinedByString:@"\r\n"];
 }
 
 - (void)sendHTTPHeaders
 {
     [self sendHTTPStatus];
     
-    NSData* data = [[self.buildHTTPHeaders stringByAppendingString:@"\n\n"] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [[self.buildHTTPHeaders stringByAppendingString:@"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
     [[FCGIApplication sharedApplication] writeDataToStdout:userInfo];
 
@@ -71,6 +77,7 @@
         _HTTPRequest = anHTTPRequest;
         _HTTPStatus = 200;
         HTTPHeaders = [[NSMutableDictionary alloc] init];
+        HTTPCookies = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -84,9 +91,11 @@
 {
     id obj = [HTTPHeaders objectForKey:field];
     if ([obj isKindOfClass:[NSString class]] ) {
-        value = [value stringByAppendingFormat:@",%@", value];
+        value = [value stringByAppendingFormat:@", %@", value];
     }
-    [self setValue:value forHTTPHeaderField:field.uppercaseFirstLetterString];
+    [self setValue:value forHTTPHeaderField:field.stringbyFormattingHTTPHeader];
+    
+    [[[NSMutableURLRequest alloc] init] setAllHTTPHeaderFields:nil];
 }
 
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field
@@ -95,7 +104,43 @@
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
         return;
     }
-    [HTTPHeaders setObject:value forKey:field.uppercaseFirstLetterString];
+    [HTTPHeaders setObject:value forKey:field.stringbyFormattingHTTPHeader];
+}
+
+- (void)setAllHTTPHeaderFields:(NSDictionary *)headerFields
+{
+    [headerFields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if ( [key isKindOfClass:[NSString class]] && [obj isKindOfClass:[NSString class]] ) {
+            [self addValue:obj forHTTPHeaderField:key];
+        }
+    }];
+}
+
+- (void)setCookie:(NSHTTPCookie *)cookie
+{
+    if ( cookie != nil ) {
+        [HTTPCookies setObject:cookie forKey:cookie.name];
+    }
+}
+
+- (void)setCookie:(NSString*)name value:(NSString*)value expires:(NSDate*)expires path:(NSString*)path domain:(NSString*)domain secure:(BOOL)secure
+{
+    NSMutableDictionary* cookieProperties = [[NSMutableDictionary alloc] init];
+    [cookieProperties setObject:name forKey:NSHTTPCookieName];
+    [cookieProperties setObject:value forKey:NSHTTPCookieValue];
+    if ( expires != nil ) {
+        [cookieProperties setObject:expires forKey:NSHTTPCookieExpires];
+    }
+    if ( path != nil ) {
+        [cookieProperties setObject:path forKey:NSHTTPCookiePath];
+    }
+    [cookieProperties setObject:(domain == nil ? _HTTPRequest.serverVars[@"HTTP_HOST"] : domain ) forKey:NSHTTPCookieDomain];
+    if ( secure ) {
+        [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+    }
+
+    NSHTTPCookie* cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+    [self setCookie:cookie];
 }
 
 - (void)redirectToLocation:(NSString *)location withStatus:(NSUInteger)redirectStatus
@@ -123,7 +168,6 @@
         [self sendHTTPHeaders];
     }
     
-    
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
     [[FCGIApplication sharedApplication] writeDataToStdout:userInfo];
 }
@@ -148,6 +192,7 @@
 {
     [[FCGIApplication sharedApplication]  finishRequest:self.HTTPRequest.FCGIRequest];
 }
+
 
 
 @end

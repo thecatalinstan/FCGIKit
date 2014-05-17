@@ -17,14 +17,15 @@
 #endif
 
 #import "AsyncSocket.h"
-#import "FCGIApplicationDelegate.h"
-#import "FCGIApplication.h"
 #import "FCGIRecord.h"
 #import "FCGIBeginRequestRecord.h"
 #import "FCGIParamsRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
+#import "FCGIApplicationDelegate.h"
+#import "FCGIApplication.h"
+#import "FCGIKitBackgroundThread.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 #import "NSString+FCGIKit.h"
-#import "NSThread+FCGIKit.h"
+#import "NSHTTPCookie+FCGIKit.h"

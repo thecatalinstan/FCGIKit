@@ -276,7 +276,6 @@
     return [paramsDictionary copy];
 }
 
-
 @end
 
 @implementation FCGIKitHTTPRequest
@@ -286,6 +285,7 @@
 - (id)initWithFCGIRequest:(FCGIRequest *)anFCGIRequest
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    
     self = [self init];
     if ( self != nil ) {
 
@@ -293,7 +293,9 @@
         
         body = _FCGIRequest.stdinData;
         
-        // Server
+        _url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@", @"http", _FCGIRequest.parameters[@"HTTP_HOST"], _FCGIRequest.parameters[@"REQUEST_URI"]]];
+                
+        // SERVER
         _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
         
         // GET
@@ -322,7 +324,8 @@
             _files = [NSDictionary dictionary];
         }
         
-        
+        // COOKIE
+        _cookie = [self parseHeaderValue:_server[@"HTTP_COOKIE"]];
     }
     return self;
 }

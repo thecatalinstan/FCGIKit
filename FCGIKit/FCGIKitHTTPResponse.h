@@ -14,6 +14,7 @@
     FCGIKitHTTPRequest* _HTTPRequest;
 
     NSMutableDictionary* HTTPHeaders;
+    NSMutableDictionary* HTTPCookies;
 
     BOOL _headersAlreadySent;
     NSUInteger _HTTPStatus;
@@ -37,6 +38,10 @@
 
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
+- (void)setAllHTTPHeaderFields:(NSDictionary*)headerFields;
+
+- (void)setCookie:(NSHTTPCookie*)cookie;
+- (void)setCookie:(NSString*)name value:(NSString*)value expires:(NSDate*)expires path:(NSString*)path domain:(NSString*)domain secure:(BOOL)secure;
 
 - (void)redirectToLocation:(NSString *)location withStatus:(NSUInteger)redirectStatus;
 

@@ -14,5 +14,6 @@
 - (NSString *)URLEncodedString;
 
 - (NSString*)uppercaseFirstLetterString;
+- (NSString *)stringbyFormattingHTTPHeader;
 
 @end

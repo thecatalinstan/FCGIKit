@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+    session_start();
+    setcookie("acookie", "a cookie value", time() + 24 * 3600, "/", "fcgi.app", false, false);
+    setcookie("anothercookie", "a cookie value", time() + 24 * 3600, "/", "fcgi.app", true, true);
+?><!DOCTYPE html>
 <html>
     <head>
         <title>Simple Form Test</title>

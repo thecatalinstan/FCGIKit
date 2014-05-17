@@ -33,4 +33,13 @@
     return [[self substringToIndex:1].uppercaseString stringByAppendingString:[self substringFromIndex:1].lowercaseString];
 }
 
+- (NSString *)stringbyFormattingHTTPHeader
+{
+    NSMutableArray* words = [[self componentsSeparatedByString:@"-"] mutableCopy];
+    [words enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [words setObject:[obj uppercaseFirstLetterString] atIndexedSubscript:idx];
+    }];
+    return [words componentsJoinedByString:@"-"];
+}
+
 @end
