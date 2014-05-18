@@ -120,7 +120,6 @@
 		AD2B7FEE19292AB200CF5F07 /* FCGIKitNotFoundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitNotFoundViewController.h; sourceTree = "<group>"; };
 		AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitNotFoundViewController.m; sourceTree = "<group>"; };
 		AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitNotFoundView.html; sourceTree = "<group>"; };
-		AD2B7FF31929464C00CF5F07 /* Test-FCGIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Test-FCGIKit.xcodeproj"; path = "Public/Test-FCGIKit.xcodeproj"; sourceTree = "<group>"; };
 		AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -215,7 +214,6 @@
 			children = (
 				AD058859192660B4005CE999 /* upload.php */,
 				AD0588541926173F005CE999 /* test.php */,
-				AD2B7FF31929464C00CF5F07 /* Test-FCGIKit.xcodeproj */,
 			);
 			name = Public;
 			path = ..;
