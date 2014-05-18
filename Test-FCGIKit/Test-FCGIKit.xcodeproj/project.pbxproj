@@ -13,6 +13,8 @@
 		AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9DB1728682A005C3923 /* FCGITest.m */; };
 		AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */; };
 		AD0EACC91728BFCC005C3923 /* Test-FCGIKit in Copy executable */ = {isa = PBXBuildFile; fileRef = AD0EA99917285C01005C3923 /* Test-FCGIKit */; };
+		AD2B7FF019292AB200CF5F07 /* FCGIKitNotFoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */; };
+		AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */; };
 		AD4AF0A31909AE7C005BF9F7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */; };
 		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
@@ -113,8 +115,12 @@
 		AD0EA9DA1728682A005C3923 /* FCGITest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITest.h; sourceTree = "<group>"; };
 		AD0EA9DB1728682A005C3923 /* FCGITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGITest.m; sourceTree = "<group>"; };
 		AD0EACB81728BF4C005C3923 /* TestBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-CocoaBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Test-FCGIKit-CocoaBundle-Info.plist"; path = "Test-FCGIKit/Test-FCGIKit-CocoaBundle-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Test-FCGIKit-Info.plist"; path = "Test-FCGIKit/Test-FCGIKit-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AD0EACBE1728BF4C005C3923 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AD2B7FEE19292AB200CF5F07 /* FCGIKitNotFoundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitNotFoundViewController.h; sourceTree = "<group>"; };
+		AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitNotFoundViewController.m; sourceTree = "<group>"; };
+		AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitNotFoundView.html; sourceTree = "<group>"; };
+		AD2B7FF31929464C00CF5F07 /* Test-FCGIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Test-FCGIKit.xcodeproj"; path = "Public/Test-FCGIKit.xcodeproj"; sourceTree = "<group>"; };
 		AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -174,6 +180,7 @@
 		AD0EA99E17285C01005C3923 /* Test-FCGIKit */ = {
 			isa = PBXGroup;
 			children = (
+				AD2B7FED19292A7B00CF5F07 /* ViewControllers */,
 				AD0EA99F17285C01005C3923 /* main.m */,
 				AD0EA9DA1728682A005C3923 /* FCGITest.h */,
 				AD0EA9DB1728682A005C3923 /* FCGITest.m */,
@@ -187,10 +194,20 @@
 			isa = PBXGroup;
 			children = (
 				AD0EA9A217285C01005C3923 /* Test-FCGIKit-Prefix.pch */,
-				AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-CocoaBundle-Info.plist */,
+				AD0EACBC1728BF4C005C3923 /* Test-FCGIKit-Info.plist */,
 				AD0EACBD1728BF4C005C3923 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AD2B7FED19292A7B00CF5F07 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */,
+				AD2B7FEE19292AB200CF5F07 /* FCGIKitNotFoundViewController.h */,
+				AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AD66804B18E65ACF002805EC /* Public */ = {
@@ -198,6 +215,7 @@
 			children = (
 				AD058859192660B4005CE999 /* upload.php */,
 				AD0588541926173F005CE999 /* test.php */,
+				AD2B7FF31929464C00CF5F07 /* Test-FCGIKit.xcodeproj */,
 			);
 			name = Public;
 			path = ..;
@@ -302,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD0EA9A017285C01005C3923 /* main.m in Sources */,
+				AD2B7FF019292AB200CF5F07 /* FCGIKitNotFoundViewController.m in Sources */,
 				AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,7 +463,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit-CocoaBundle/Test-FCGIKit-CocoaBundle-Prefix.pch";
-				INFOPLIST_FILE = "Test-FCGIKit/Test-FCGIKit-CocoaBundle-Info.plist";
+				INFOPLIST_FILE = "Test-FCGIKit/Test-FCGIKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
@@ -459,7 +479,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test-FCGIKit-CocoaBundle/Test-FCGIKit-CocoaBundle-Prefix.pch";
-				INFOPLIST_FILE = "Test-FCGIKit/Test-FCGIKit-CocoaBundle-Info.plist";
+				INFOPLIST_FILE = "Test-FCGIKit/Test-FCGIKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;

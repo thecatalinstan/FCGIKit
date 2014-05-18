@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA9871728515D005C3923 /* FCGIApplication.m */; };
+		AD2B7FE21928FB1E00CF5F07 /* FCGIKitNib.h in Headers */ = {isa = PBXBuildFile; fileRef = AD2B7FE01928FB1E00CF5F07 /* FCGIKitNib.h */; };
+		AD2B7FE31928FB1E00CF5F07 /* FCGIKitNib.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2B7FE11928FB1E00CF5F07 /* FCGIKitNib.m */; };
+		AD2B7FE61929035900CF5F07 /* FCGIKitRoute.h in Headers */ = {isa = PBXBuildFile; fileRef = AD2B7FE41929035900CF5F07 /* FCGIKitRoute.h */; };
+		AD2B7FE71929035900CF5F07 /* FCGIKitRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2B7FE51929035900CF5F07 /* FCGIKitRoute.m */; };
+		AD2B7FEA192908D100CF5F07 /* FCGIKitRoutingCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD2B7FE8192908D100CF5F07 /* FCGIKitRoutingCenter.h */; };
+		AD2B7FEB192908D100CF5F07 /* FCGIKitRoutingCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = AD2B7FE9192908D100CF5F07 /* FCGIKitRoutingCenter.m */; };
 		AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66804818E65A49002805EC /* AsyncSocket.m */; };
 		AD66806E18E66C54002805EC /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66805E18E66C26002805EC /* FCGIBeginRequestRecord.m */; };
 		AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD66806018E66C26002805EC /* FCGIByteStreamRecord.m */; };
@@ -51,6 +57,12 @@
 		AD0EA9BA17285DBD005C3923 /* libfcgikit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libfcgikit-Prefix.pch"; sourceTree = "<group>"; };
 		AD0EA9BB17285DBD005C3923 /* libfcgikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libfcgikit.h; sourceTree = "<group>"; };
 		AD0EAA2C17287C06005C3923 /* libfcgikit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfcgikit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD2B7FE01928FB1E00CF5F07 /* FCGIKitNib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitNib.h; sourceTree = "<group>"; };
+		AD2B7FE11928FB1E00CF5F07 /* FCGIKitNib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitNib.m; sourceTree = "<group>"; };
+		AD2B7FE41929035900CF5F07 /* FCGIKitRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitRoute.h; sourceTree = "<group>"; };
+		AD2B7FE51929035900CF5F07 /* FCGIKitRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitRoute.m; sourceTree = "<group>"; };
+		AD2B7FE8192908D100CF5F07 /* FCGIKitRoutingCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitRoutingCenter.h; sourceTree = "<group>"; };
+		AD2B7FE9192908D100CF5F07 /* FCGIKitRoutingCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitRoutingCenter.m; sourceTree = "<group>"; };
 		AD2FA14F172B507E00EF47BB /* FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKit.h; sourceTree = "<group>"; };
 		AD66804718E65A49002805EC /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		AD66804818E65A49002805EC /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
@@ -128,7 +140,7 @@
 		AD0EA94B17284CB4005C3923 /* FCGIKit */ = {
 			isa = PBXGroup;
 			children = (
-				ADC554B91927F423000AA4B7 /* View */,
+				ADC554B91927F423000AA4B7 /* Routing & Views */,
 				AD9EAECE18E8B0AD005BEAEF /* FCGI Protocol */,
 				AD2FA14F172B507E00EF47BB /* FCGIKit.h */,
 				ADC1E011172CB29C0022E227 /* FCGIKit.m */,
@@ -183,15 +195,21 @@
 			name = "FCGI Protocol";
 			sourceTree = "<group>";
 		};
-		ADC554B91927F423000AA4B7 /* View */ = {
+		ADC554B91927F423000AA4B7 /* Routing & Views */ = {
 			isa = PBXGroup;
 			children = (
+				AD2B7FE01928FB1E00CF5F07 /* FCGIKitNib.h */,
+				AD2B7FE11928FB1E00CF5F07 /* FCGIKitNib.m */,
 				ADC554BA1927F454000AA4B7 /* FCGIKitView.h */,
 				ADC554BB1927F454000AA4B7 /* FCGIKitView.m */,
 				ADC554BE1927F4C4000AA4B7 /* FCGIKitViewController.h */,
 				ADC554BF1927F4C4000AA4B7 /* FCGIKitViewController.m */,
+				AD2B7FE41929035900CF5F07 /* FCGIKitRoute.h */,
+				AD2B7FE51929035900CF5F07 /* FCGIKitRoute.m */,
+				AD2B7FE8192908D100CF5F07 /* FCGIKitRoutingCenter.h */,
+				AD2B7FE9192908D100CF5F07 /* FCGIKitRoutingCenter.m */,
 			);
-			name = View;
+			name = "Routing & Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,11 +219,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD2B7FE21928FB1E00CF5F07 /* FCGIKitNib.h in Headers */,
 				AD6FB76619229A3500BCF338 /* FCGIKitBackgroundThread.h in Headers */,
 				ADC554B71927D181000AA4B7 /* NSDate+RFC1123.h in Headers */,
 				ADC554C01927F4C4000AA4B7 /* FCGIKitViewController.h in Headers */,
 				ADC554B31927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.h in Headers */,
 				ADC554BC1927F454000AA4B7 /* FCGIKitView.h in Headers */,
+				AD2B7FEA192908D100CF5F07 /* FCGIKitRoutingCenter.h in Headers */,
+				AD2B7FE61929035900CF5F07 /* FCGIKitRoute.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +283,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD66804A18E65A49002805EC /* AsyncSocket.m in Sources */,
+				AD2B7FE71929035900CF5F07 /* FCGIKitRoute.m in Sources */,
+				AD2B7FE31928FB1E00CF5F07 /* FCGIKitNib.m in Sources */,
 				ADC554B41927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m in Sources */,
 				AD9EAED218E8B598005BEAEF /* FCGIKitHTTPResponse.m in Sources */,
 				AD6FB76719229A3500BCF338 /* FCGIKitBackgroundThread.m in Sources */,
@@ -270,6 +293,7 @@
 				AD66806F18E66C54002805EC /* FCGIByteStreamRecord.m in Sources */,
 				AD66807018E66C54002805EC /* FCGIEndRequestRecord.m in Sources */,
 				ADC554C11927F4C4000AA4B7 /* FCGIKitViewController.m in Sources */,
+				AD2B7FEB192908D100CF5F07 /* FCGIKitRoutingCenter.m in Sources */,
 				AD66807318E66C54002805EC /* FCGIRequest.m in Sources */,
 				ADC554B81927D181000AA4B7 /* NSDate+RFC1123.m in Sources */,
 				AD0EAA3817287C6D005C3923 /* FCGIApplication.m in Sources */,

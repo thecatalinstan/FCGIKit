@@ -19,6 +19,11 @@
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"
+#import "FCGIKitRoute.h"
+#import "FCGIKitRoutingCenter.h"
+#import "FCGIKitNib.h"
+#import "FCGIKitView.h"
+#import "FCGIKitViewController.h"
 
 int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate)
 {
@@ -52,6 +57,11 @@ void handleSIGTERM(int signum) {
 - (id)threadInfoObjectForKey:(id)key;
 - (void)setThreadInfoObject:(id)object forKey:(id)key;
 - (void)removeThreadInfoObjectForKey:(id)key;
+
+- (void)removeRequest:(FCGIRequest*)request;
+
+- (NSString*)routeLookupURIForRequest:(FCGIKitHTTPRequest*)request;
+- (FCGIKitViewController*)instantiateViewControllerForRoute:(FCGIKitRoute*)route;
 
 @end
 
@@ -127,6 +137,9 @@ void handleSIGTERM(int signum) {
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections + 1];
     _currentRequests = [[NSMutableDictionary alloc] init];
     
+    // Load the routes
+    [FCGIKitRoutingCenter sharedCenter];
+    
     // Create a run loop observer and attach it to the run loop.
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
     CFRunLoopObserverContext  context = {0, (__bridge void *)(self), NULL, NULL, NULL};
@@ -182,7 +195,7 @@ void handleSIGTERM(int signum) {
             [request.parameters addEntriesFromDictionary:params];
         } else {
             [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)socket.hash]];
-            if ( _delegate && [_delegate respondsToSelector:@selector(applicationDidReceiveRequest:)] ) {
+            if ( _delegate && [_delegate respondsToSelector:@selector(application:didReceiveRequest:)] ) {
                 [self performSelector:@selector(callDelegateDidReceiveRequest:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
             }
         }
@@ -197,8 +210,36 @@ void handleSIGTERM(int signum) {
             [request.stdinData appendData:data];
             [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
         } else {
-            if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillSendResponse:)] ) {
-                [self performSelector:@selector(callDelegateWillSendResponse:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+            FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
+            FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse responseWithHTTPRequest:httpRequest];
+
+            NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
+            if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
+                [self performSelector:@selector(callDelegateDidPrepareResponse:) onThread:[NSThread currentThread] withObject:userInfo waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+            }
+            
+            // Determine the appropriate view controller
+            NSString* requestURI = [self routeLookupURIForRequest:httpRequest];
+            
+            FCGIKitRoute* route = [[FCGIKitRoutingCenter sharedCenter] routeForRequestURI:requestURI];
+            if ( route == nil ) {
+                route = [[FCGIKitRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
+            }
+            
+            FCGIKitViewController* viewController = [self instantiateViewControllerForRoute:route];
+            if ( viewController != nil ) {
+                [viewController setRequest:httpRequest];
+                [viewController setResponse:httpResponse];
+                [viewController setUserInfo:route.userInfo];
+                if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
+                    [self performSelector:@selector(callDelegatePresentViewController:) onThread:[NSThread currentThread] withObject:viewController waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+                }
+            } else {
+                NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"REQUEST_URI"]];
+                NSError* error = [NSError errorWithDomain:FCGIKitErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FCGIKitErrorFileKey: @__FILE__, FCGIKitErrorLineKey: @__LINE__}];
+                NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+                finishRequestUserInfo[FCGIKitErrorKey] = error;
+                [self performSelector:@selector(finishRequestWithError:) onThread:[NSThread currentThread] withObject:finishRequestUserInfo waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
             }
         }
     }
@@ -208,18 +249,18 @@ void handleSIGTERM(int signum) {
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSDictionary* userInfo = @{FCGIKitRequestKey:request};
-    [_delegate applicationDidReceiveRequest:userInfo];
+    [_delegate application:self didReceiveRequest:userInfo];
 }
 
-- (void)callDelegateWillSendResponse:(FCGIRequest*)request
+- (void)callDelegateDidPrepareResponse:(NSDictionary*)userInfo
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
-    FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse responseWithHTTPRequest:httpRequest];
-    NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
-    [_delegate applicationWillSendResponse:userInfo];
-    NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
-    [_currentRequests removeObjectForKey:globalRequestId];
+    [_delegate application:self didPrepareResponse:userInfo];
+}
+
+- (void)callDelegatePresentViewController:(FCGIKitViewController*)viewController
+{
+    [_delegate application:self presentViewController:viewController];
 }
 
 - (void)callBackgroundDidEndSelector:(NSArray*)argsArray
@@ -264,6 +305,37 @@ void handleSIGTERM(int signum) {
     [_listeningSocketThread.threadDictionary removeObjectForKey:key];
 }
 
+- (void)removeRequest:(FCGIRequest*)request
+{
+    NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
+    [_currentRequests removeObjectForKey:globalRequestId];
+}
+
+- (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSString* returnURI = nil;
+    if ( [_delegate respondsToSelector:@selector(routeLookupURIForRequest:)] ) {
+        returnURI = [_delegate routeLookupURIForRequest:request];
+    }
+    if ( returnURI == nil ) {
+        returnURI = request.serverVars[@"REQUEST_URI"];
+    }
+    return returnURI;
+}
+
+- (FCGIKitViewController *)instantiateViewControllerForRoute:(FCGIKitRoute *)route
+{
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, route);
+    NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+    
+    NSLog(@" * ControllerClass: %@", route.controllerClass);
+    NSLog(@" * Nib Name: %@", nibName);
+    
+    FCGIKitViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle]];
+    return controller;
+}
+
 #pragma mark -
 #pragma mark AsyncSocket delegate
 
@@ -306,7 +378,15 @@ void handleSIGTERM(int signum) {
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
     NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    [FCGIApp presentError:err];
+    NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
+    if ( userInfo[FCGIKitErrorLineKey] == nil ) {
+        userInfo[FCGIKitErrorLineKey] = @__LINE__;
+    }
+    if ( userInfo[FCGIKitErrorFileKey] == nil ) {
+        userInfo[FCGIKitErrorFileKey] = @__FILE__;
+    }
+    NSError* error = [NSError errorWithDomain:err.domain code:err.code userInfo:userInfo];
+    [FCGIApp presentError:error];
 }
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)sock
@@ -500,6 +580,16 @@ void handleSIGTERM(int signum) {
 - (void)finishRequest:(FCGIRequest*)request
 {
     [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
+    [self removeRequest:request];
+}
+
+- (void)finishRequestWithError:(NSDictionary*)userInfo
+{
+    FCGIKitHTTPResponse* httpResponse  = userInfo[FCGIKitResponseKey];
+    NSError* error = userInfo[FCGIKitErrorKey];
+    [self presentError:error];
+    [httpResponse setHTTPStatus:500];
+    [httpResponse finish];
 }
 
 -(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector

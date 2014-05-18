@@ -78,6 +78,7 @@
         _HTTPStatus = 200;
         HTTPHeaders = [[NSMutableDictionary alloc] init];
         HTTPCookies = [[NSMutableDictionary alloc] init];
+        _headersAlreadySent = NO;
     }
     return self;
 }
@@ -192,6 +193,9 @@
 
 - (void)finish
 {
+    if ( !_headersAlreadySent ) {
+        [self sendHTTPHeaders];
+    }
     [[FCGIApplication sharedApplication]  finishRequest:self.HTTPRequest.FCGIRequest];
 }
 

@@ -10,4 +10,21 @@
 
 @implementation FCGIKitView
 
+@synthesize templateText = _templateText;
+
+- (id)initWithTemplateText:(NSString *)templateText
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    self = [self init];
+    if ( self != nil ) {
+        _templateText = templateText;
+    }
+    return self;
+}
+
+- (id)render
+{
+    return self.templateText;
+}
+
 @end

@@ -32,73 +32,37 @@
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
-- (void)applicationDidReceiveRequest:(NSDictionary *)userInfo
+- (void)application:(FCGIApplication *)application didReceiveRequest:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
-- (void)applicationWillSendResponse:(NSDictionary *)userInfo
+- (void)application:(FCGIApplication *)application didPrepareResponse:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    
-    FCGIKitHTTPRequest* request = [userInfo objectForKey:FCGIKitRequestKey];
-    FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
-    
-    NSDictionary* requestDictionary = @{ @"GET": request.getVars, @"POST": request.postVars, @"FILES": request.files, @"COOKIE": request.cookieVars };
-    
-    // Headers
-    [response setHTTPStatus:200];
-    [response setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-type"];
-    [response setValue:[FCGIApp.startupArguments[0] lastPathComponent] forHTTPHeaderField:@"X-Powered-by"];
-    
-//    [response setCookie:@"sessionid" value:[[NSUUID UUID] UUIDString]  expires:[[NSDate date] dateByAddingTimeInterval:24*3600] path:@"/" domain:nil secure:NO];
-//    [response setCookie:@"AnotherCookie" value:@"the cookie" expires:[NSDate distantFuture] path:@"/" domain:nil secure:NO];
-//    [response setCookie:@"SessionOnlyCoookie" value:@"the cookie" expires:nil path:@"/" domain:nil secure:NO];
-    
-//    [response redirectToLocation:@"/redirectUrl" withStatus:301];
-    
-    // Body
-    [response writeString:[NSString stringWithFormat:@"<h1>%s</h1>", __PRETTY_FUNCTION__]];
-    [response writeString:[NSString stringWithFormat:@"<h3>Thread: %@<br/>", [NSThread currentThread]]];
-    [response writeString:[NSString stringWithFormat:@"Current Sockets:%lu<br/>", (unsigned long)[[FCGIApp connectedSockets] count] ]];
-    [response writeString:[NSString stringWithFormat:@"RequestID: %lu</h3>", request.FCGIRequest.hash]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Request:</h2><pre>%@</pre>", requestDictionary]];
-    [response writeString:[NSString stringWithFormat:@"<h2>Parameters:</h2><pre>%@</pre>", request.serverVars]];
-
-//    [response writeString:[NSString stringWithFormat:@"Current Proc Speed:%hd<br/>", CurrentProcessorSpeed()]];
-//    [response writeString:[NSString stringWithFormat:@"<h2>Current Requests:</h2><pre>%@</pre>", [FCGIApp currentRequests] ]];
-//    [response writeString:[NSString stringWithFormat:@"<h2>RequestIDs:</h2><pre>%@</pre>", [FCGIApp requestIDs] ]];
-//    [response writeString:[NSString stringWithFormat:@"<h2>Config:</h2><pre>%@</pre>", [[FCGIApplication sharedApplication] dumpConfig] ]];
-    
-    NSDictionary* taskUserInfo = @{@"A UserInfo Key": [NSUUID UUID],
-                                   FCGIKitResponseKey: response,
-                                   FCGIKitRequestKey: request};
-    [FCGIApp performBackgroundSelector:@selector(performSomeLongRunningTask:) onTarget:self userInfo:taskUserInfo didEndSelector:@selector(didEndSomeLongRunningTask:)];
-    
-//    [response finish];
+    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    FCGIKitHTTPResponse* response = userInfo[FCGIKitResponseKey];
+//    [response setValue:@"text/plain" forHTTPHeaderField:@"content-type"];
 }
 
-- (NSString *)performSomeLongRunningTask:(NSDictionary *)userInfo
+- (void)application:(FCGIApplication *)application presentViewController:(FCGIKitViewController *)viewController
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-
-    unsigned int sleepInterval = 1 + ( arc4random() % 4 );
-//    sleep(sleepInterval);
-
-    NSString* result = [NSString stringWithFormat:@"This is the result of %s. We have slept for %u seconds", __PRETTY_FUNCTION__, sleepInterval];
-    return result;
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    [viewController.response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"content-type"];
+    [viewController presentViewController:YES];
+    [viewController.response finish];
 }
 
-- (void)didEndSomeLongRunningTask:(NSDictionary *)userInfo
+- (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    FCGIKitHTTPResponse* response = [userInfo objectForKey:FCGIKitResponseKey];
-    [response writeString:[NSString stringWithFormat:@"<h1>%s</h1><h2>UserInfo</h2>", __PRETTY_FUNCTION__]];
-    
-    [response writeString:[NSString stringWithFormat:@"<pre>%@</pre>", userInfo]];
-    [response finish];
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+    NSString* stub;
+    if ( request.getVars[@"page"] != nil ) {
+        stub = request.getVars[@"page"];
+    } else{
+        stub = @"default";
+    }
+    return [@"/" stringByAppendingString:stub];
 }
-
 
 
 @end

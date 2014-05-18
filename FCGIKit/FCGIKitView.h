@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface FCGIKitView : NSObject {
-
-    NSMutableDictionary* _subviews;
-    NSMutableDictionary* _attributes;
-    
-
-    
+    NSString* _templateText;
 }
+
+@property (nonatomic, retain) NSString* templateText;
+
+- (id)initWithTemplateText:(NSString *)templateText;
+- render;
 
 @end

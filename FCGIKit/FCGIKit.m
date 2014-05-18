@@ -10,8 +10,12 @@
 
 NSString* const FCGIKit = @"FCGIKit";
 NSString* const FCGIKitApplicationRunLoopMode = @"NSRunLoopCommonModes"; // This is a cheap hack. Will change to a custom runloop mode at some point
+
+NSString* const FCGIKitErrorKey = @"FCGIKitError";
 NSString* const FCGIKitErrorFileKey = @"FCGIKitErrorFile";
 NSString* const FCGIKitErrorLineKey = @"FCGIKitErrorLine";
+NSString* const FCGIKitErrorDomain = @"FCGIKitErrorDomain";
+
 NSString* const FCGIKitMaxConnectionsKey = @"FCGIKitMaxConnections";
 NSString* const FCGIKitConnectionInfoKey = @"FCGIKitConnectionInfo";
 NSString* const FCGIKitConnectionInfoPortKey = @"FCGIKitConnectionInfoPort";
@@ -28,6 +32,12 @@ NSString* const FCGIKitDataKey = @"FCGIKitData";
 NSString* const FCGIKitRequestKey = @"FCGIKitRequest";
 NSString* const FCGIKitResponseKey = @"FCGIKitResponse";
 NSString* const FCGIKitResultKey = @"FCGIKitResult";
+
+NSString* const FCGIKitRoutesKey = @"FCGIKitRoutes";
+NSString* const FCGIKitRoutePathKey = @"FCGIKitRoutePath";
+NSString* const FCGIKitRouteControllerKey = @"FCGIKitRouteController";
+NSString* const FCGIKitRouteNibNameKey = @"FCGIKitRouteNibName";
+NSString* const FCGIKitRouteUserInfoKey = @"FCGIKitRouteUserInfo";
 
 NSString* const FCGIKitFileNameKey = @"FCGIKitFileName";
 NSString* const FCGIKitFileTmpNameKey = @"FCGIKitFileTmpName";

@@ -15,8 +15,12 @@ typedef NSUInteger FCGIApplicationTerminateReply;
 
 extern NSString* const FCGIKit;
 extern NSString* const FCGIKitApplicationRunLoopMode;
+
+extern NSString* const FCGIKitErrorKey;
 extern NSString* const FCGIKitErrorFileKey;
 extern NSString* const FCGIKitErrorLineKey;
+extern NSString* const FCGIKitErrorDomain;
+
 extern NSString* const FCGIKitMaxConnectionsKey;
 extern NSString* const FCGIKitConnectionInfoKey;
 extern NSString* const FCGIKitConnectionInfoPortKey;
@@ -33,6 +37,12 @@ extern NSString* const FCGIKitDataKey;
 extern NSString* const FCGIKitRequestKey;
 extern NSString* const FCGIKitResponseKey;
 extern NSString* const FCGIKitResultKey;
+
+extern NSString* const FCGIKitRoutesKey;
+extern NSString* const FCGIKitRoutePathKey;
+extern NSString* const FCGIKitRouteControllerKey;
+extern NSString* const FCGIKitRouteNibNameKey;
+extern NSString* const FCGIKitRouteUserInfoKey;
 
 extern NSString* const FCGIKitFileNameKey;
 extern NSString* const FCGIKitFileTmpNameKey;

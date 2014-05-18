@@ -85,6 +85,7 @@ void handleSIGTERM(int signum);
 - (void)writeDataToStderr:(NSDictionary *)info;
 - (void)writeDataToStdout:(NSDictionary *)info;
 - (void)finishRequest:(FCGIRequest*)request;
+- (void)finishRequestWithError:(NSDictionary*)userInfo;
 
 - (NSDictionary*)dumpConfig;
 
