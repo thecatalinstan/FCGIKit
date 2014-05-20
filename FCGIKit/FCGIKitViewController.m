@@ -50,15 +50,29 @@
     
     FCGIKitView* view = [[viewClass alloc] initWithTemplateText:templateText];
     [self setView:view];
+    
+    [self viewDidLoad];
+}
+
+- (void)viewDidLoad
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+- (void)didFinishLoading
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (NSString*)postprocessView
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     return self.view.render;
 }
 
 - (NSString *)presentViewController:(BOOL)writeData
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);    
     NSString* output = self.postprocessView;
     if ( writeData ) {
         [self.response writeString:output];

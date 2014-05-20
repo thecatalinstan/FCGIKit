@@ -219,13 +219,13 @@
 				AD2B7FEE19292AB200CF5F07 /* FCGIKitNotFoundViewController.h */,
 				AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */,
 				AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */,
+				AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */,
+				AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */,
 				AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */,
 				AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */,
 				AD04B7BB192BC670003CC3B2 /* default.html */,
 				AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */,
 				AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */,
-				AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */,
-				AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -361,7 +361,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "launchctl unload $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nlaunchctl load $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nopen http://fcgi.site/app\n";
+			shellScript = "launchctl unload $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nlaunchctl load $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nopen http://fcgi.site/contact\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

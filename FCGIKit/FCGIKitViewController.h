@@ -32,6 +32,8 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (void)loadView;
+- (void)viewDidLoad;
+- (void)didFinishLoading;
 
 - (NSString*)postprocessView;
 - (NSString*)presentViewController:(BOOL)writeData;
