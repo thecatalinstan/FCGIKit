@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */; };
+		AD04B7BC192BC6F1003CC3B2 /* default.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* default.html */; };
 		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
 		AD05885A19266120005CE999 /* upload.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD058859192660B4005CE999 /* upload.php */; };
 		AD0EA9A017285C01005C3923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA99F17285C01005C3923 /* main.m */; };
@@ -17,6 +19,8 @@
 		AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */; };
 		AD4AF0A31909AE7C005BF9F7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */; };
 		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
+		AD577678192BC31300A625E8 /* FCGIKitContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */; };
+		AD57767C192BC3B600A625E8 /* FCGIKitDefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
 		AD66805C18E6677A002805EC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805B18E6677A002805EC /* CFNetwork.framework */; };
 		ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to Web */ = {isa = PBXBuildFile; fileRef = AD0EACB81728BF4C005C3923 /* TestBundle.bundle */; };
@@ -84,7 +88,7 @@
 		AD0EACCF1728C0CD005C3923 /* Copy to Web */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Users/catalin/Sites/fcgi;
+			dstPath = "~/Sites/fcgi";
 			dstSubfolderSpec = 0;
 			files = (
 				ADD46C3C18E65052008B6E19 /* TestBundle.bundle in Copy to Web */,
@@ -106,6 +110,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitContactView.html; sourceTree = "<group>"; };
+		AD04B7BB192BC670003CC3B2 /* default.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default.html; sourceTree = "<group>"; };
 		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
 		AD058859192660B4005CE999 /* upload.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = upload.php; sourceTree = "<group>"; };
 		AD0EA99917285C01005C3923 /* Test-FCGIKit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Test-FCGIKit"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +128,10 @@
 		AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitNotFoundView.html; sourceTree = "<group>"; };
 		AD2B7FF31929464C00CF5F07 /* Test-FCGIKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Test-FCGIKit.xcodeproj"; path = "Public/Test-FCGIKit.xcodeproj"; sourceTree = "<group>"; };
 		AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitContactViewController.h; sourceTree = "<group>"; };
+		AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitContactViewController.m; sourceTree = "<group>"; };
+		AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitDefaultViewController.h; sourceTree = "<group>"; };
+		AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitDefaultViewController.m; sourceTree = "<group>"; };
 		AD66805718E66712002805EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD66805B18E6677A002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -206,6 +216,12 @@
 				AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */,
 				AD2B7FEE19292AB200CF5F07 /* FCGIKitNotFoundViewController.h */,
 				AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */,
+				AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */,
+				AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */,
+				AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */,
+				AD04B7BB192BC670003CC3B2 /* default.html */,
+				AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */,
+				AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -259,6 +275,7 @@
 				AD0EACC81728BFAF005C3923 /* Copy executable */,
 				AD0EACCF1728C0CD005C3923 /* Copy to Web */,
 				AD66804E18E65B39002805EC /* CopyFiles */,
+				AD04B7BD192BD396003CC3B2 /* ShellScript */,
 			);
 			buildRules = (
 				AD058858192617CA005CE999 /* PBXBuildRule */,
@@ -320,19 +337,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD04B7BC192BC6F1003CC3B2 /* default.html in Resources */,
 				AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
+				AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AD04B7BD192BD396003CC3B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "launchctl unload $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nlaunchctl load $PROJECT_DIR/../com.catalinstan.test-fcgikit.plist\nopen http://fcgi.site/app\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD0EA99517285C01005C3923 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD57767C192BC3B600A625E8 /* FCGIKitDefaultViewController.m in Sources */,
 				AD0EA9A017285C01005C3923 /* main.m in Sources */,
+				AD577678192BC31300A625E8 /* FCGIKitContactViewController.m in Sources */,
 				AD2B7FF019292AB200CF5F07 /* FCGIKitNotFoundViewController.m in Sources */,
 				AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */,
 			);

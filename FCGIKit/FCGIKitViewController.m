@@ -42,7 +42,7 @@
     NSLog(@" * TemplateNib: %@", templateNib);
 
     Class viewClass = NSClassFromString([self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""]);
-    NSLog(@" * Requested View Class: %@", viewClass);
+    NSLog(@" * Requested View Class: %@ - %@", [self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""], viewClass);
     if ( viewClass == nil ) {
         viewClass = [FCGIKitView class];
     }

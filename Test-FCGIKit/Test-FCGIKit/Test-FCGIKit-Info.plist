@@ -37,7 +37,7 @@
 			<key>FCGIKitRouteController</key>
 			<string>FCGIKitNotFoundViewController</string>
 			<key>FCGIKitRoutePath</key>
-			<string>/*</string>
+			<string>/not-found</string>
 		</dict>
 		<dict>
 			<key>FCGIKitRouteController</key>
@@ -60,17 +60,11 @@
 		</dict>
 		<dict>
 			<key>FCGIKitRouteController</key>
-			<string>FCGIKitProductViewController</string>
-			<key>FCGIKitRoutePath</key>
-			<string>/products</string>
-		</dict>
-		<dict>
-			<key>FCGIKitRouteController</key>
 			<string>FCGIKitDefaultViewController</string>
 			<key>FCGIKitRouteNibName</key>
 			<string>default</string>
 			<key>FCGIKitRoutePath</key>
-			<string>/blog</string>
+			<string>/*</string>
 			<key>FCGIKitRouteUserInfo</key>
 			<dict>
 				<key>A bool key</key>

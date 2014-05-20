@@ -54,14 +54,17 @@
 
 - (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    NSString* stub;
-    if ( request.getVars[@"page"] != nil ) {
-        stub = request.getVars[@"page"];
-    } else{
-        stub = @"default";
-    }
-    return [@"/" stringByAppendingString:stub];
+    NSLog(@"%s %@", __PRETTY_FUNCTION__, request.serverVars[@"REQUEST_URI"]);
+    
+//    NSString* stub;
+//    if ( request.getVars[@"page"] != nil ) {
+//        stub = request.getVars[@"page"];
+//    } else{
+//        stub = @"*";
+//    }
+//    return [@"/" stringByAppendingString:stub];
+    
+    return request.serverVars[@"REQUEST_URI"];
 }
 
 
