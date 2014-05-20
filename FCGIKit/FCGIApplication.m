@@ -177,6 +177,7 @@ void handleSIGTERM(int signum) {
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
+    
 //    NSLog(@"%s %@: %hu", __PRETTY_FUNCTION__, record.className, record.contentLength);
     if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
         
