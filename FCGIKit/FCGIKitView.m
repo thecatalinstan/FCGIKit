@@ -22,8 +22,8 @@
     return self;
 }
 
-- (id)render
-{
+- (id)render:(NSDictionary*)variables
+{    
     return self.templateText;
 }
 

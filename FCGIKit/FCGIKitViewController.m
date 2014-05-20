@@ -20,12 +20,14 @@
 @synthesize response = _response;
 @synthesize request = _request;
 @synthesize userInfo = _userInfo;
+//@synthesize variables = _variables;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [self init];
     if ( self != nil ) {
+        variables = [NSMutableDictionary dictionary];
         _nibName = nibNameOrNil;
         _nibBundle = nibBundleOrNil;
         [self loadView];
@@ -67,11 +69,48 @@
 - (NSString *)presentViewController:(BOOL)writeData
 {
     // NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSString* output = self.view.render;
+    NSString* output = [self.view render:self.allVariables];
     if ( writeData ) {
         [self.response writeString:output];
     }    
     return output;
+}
+
+- (NSDictionary *)allVariables
+{
+    return variables.copy;
+}
+
+- (void)addVariablesFromDictionary:(NSDictionary *)variablesDictionary
+{
+    [variables addEntriesFromDictionary:variablesDictionary];
+}
+
+- (void)removeAllVariables
+{
+    [variables removeAllObjects];
+}
+
+- (void)setObject:(id)object forVariableNamed:(NSString*)variableName
+{
+    [variables setObject:object forKey:variableName];
+}
+
+- (void)setObjects:(NSArray*)objects forVariablesNamed:(NSArray*)variableNames
+{
+    [objects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [variables setObject:obj forKey:variableNames[idx]];
+    }];
+}
+
+- (void)removeVariableName:(NSString*)variableName
+{
+    [variables removeObjectForKey:variableName];
+}
+
+- (void)removeVariablesNamed:(NSArray *)variableNames
+{
+    [variables removeObjectsForKeys:variableNames];
 }
 
 @end

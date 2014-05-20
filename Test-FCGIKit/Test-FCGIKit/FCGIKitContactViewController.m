@@ -19,7 +19,22 @@
 
 - (void)didFinishLoading
 {
-    //    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSString *name, *email, *message;
+    BOOL isPost = [self.request.serverVars[@"REQUEST_METHOD"] isEqualToString:@"POST"];
+    if ( isPost ) {
+        name = self.request.postVars[@"name"];
+        email = self.request.postVars[@"email"];
+        message = self.request.postVars[@"message"];
+    } else {
+        name = @"";
+        email = @"";
+        message = @"";
+    }
+    
+    [self setObject:[NSNumber numberWithBool:isPost] forVariableNamed:@"isPost"];
+    [self setObject:name forVariableNamed:@"name"];
+    [self setObject:email forVariableNamed:@"email"];
+    [self setObject:message forVariableNamed:@"message"];
 }
     
 @end

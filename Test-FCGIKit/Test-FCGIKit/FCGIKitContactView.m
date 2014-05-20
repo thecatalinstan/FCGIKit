@@ -11,15 +11,13 @@
 
 @implementation FCGIKitContactView
 
-//- (id)render
-//{
-////    NSLog(@"%s", __PRETTY_FUNCTION__);
-//    NSMutableString* result = [NSMutableString stringWithString:[super render]];
-//    
-//    [result appendFormat:@"<h2>%s</h2>", __PRETTY_FUNCTION__];
-//    [result appendFormat:@"<pre>%@</pre>", [FCGIApp dumpConfig]];
-//    
-//    return result.copy;
-//}
+- (id)render:(NSDictionary *)variables
+{
+    __block NSString* parsedText = self.templateText;
+    [variables enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        parsedText = [parsedText stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"[%@]", key] withString:obj];
+    }];
+    return parsedText;
+}
 
 @end
