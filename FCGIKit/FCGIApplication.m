@@ -342,8 +342,9 @@ void handleSIGTERM(int signum) {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, route);
     
     NSString* key = route.requestPath.pathComponents[1];
-    FCGIKitViewController* controller = self.viewControllers[key];
-    if ( controller == nil ) {
+    FCGIKitViewController* controller;
+//    FCGIKitViewController* controller = self.viewControllers[key];
+//    if ( controller == nil ) {
 
         NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
         
@@ -352,7 +353,12 @@ void handleSIGTERM(int signum) {
     
         controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle]];
         _viewControllers[key] = controller;
-    }
+//    }
+    
+//    [controller setRequest:nil];
+//    [controller setResponse:nil];
+//    [controller setUserInfo:nil];
+
     return controller;
 }
 
