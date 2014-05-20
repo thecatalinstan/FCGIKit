@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */; };
 		AD04B7BC192BC6F1003CC3B2 /* default.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* default.html */; };
+		AD04B7C1192BE7B6003CC3B2 /* FCGIKitContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */; };
 		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
 		AD05885A19266120005CE999 /* upload.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD058859192660B4005CE999 /* upload.php */; };
 		AD0EA9A017285C01005C3923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0EA99F17285C01005C3923 /* main.m */; };
@@ -112,6 +113,8 @@
 /* Begin PBXFileReference section */
 		AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitContactView.html; sourceTree = "<group>"; };
 		AD04B7BB192BC670003CC3B2 /* default.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default.html; sourceTree = "<group>"; };
+		AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitContactView.h; sourceTree = "<group>"; };
+		AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitContactView.m; sourceTree = "<group>"; };
 		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
 		AD058859192660B4005CE999 /* upload.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = upload.php; sourceTree = "<group>"; };
 		AD0EA99917285C01005C3923 /* Test-FCGIKit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Test-FCGIKit"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +224,8 @@
 				AD04B7BB192BC670003CC3B2 /* default.html */,
 				AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */,
 				AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */,
+				AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */,
+				AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD57767C192BC3B600A625E8 /* FCGIKitDefaultViewController.m in Sources */,
+				AD04B7C1192BE7B6003CC3B2 /* FCGIKitContactView.m in Sources */,
 				AD0EA9A017285C01005C3923 /* main.m in Sources */,
 				AD577678192BC31300A625E8 /* FCGIKitContactViewController.m in Sources */,
 				AD2B7FF019292AB200CF5F07 /* FCGIKitNotFoundViewController.m in Sources */,

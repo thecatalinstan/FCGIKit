@@ -1,14 +1,13 @@
 //
-//  FCGIKitContactViewController.m
+//  FCGIKitContactView.h
 //  Test-FCGIKit
 //
 //  Created by Cătălin Stan on 5/20/14.
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitContactViewController.h"
+#import "FCGIKitView.h"
 
-@implementation FCGIKitContactViewController
-
+@interface FCGIKitContactView : FCGIKitView
 
 @end
