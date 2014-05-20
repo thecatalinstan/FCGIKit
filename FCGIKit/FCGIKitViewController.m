@@ -23,7 +23,7 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [self init];
     if ( self != nil ) {
         _nibName = nibNameOrNil;
@@ -35,18 +35,18 @@
 
 - (void)loadView
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     FCGIKitNib* templateNib = [[FCGIKitNib alloc] initWithNibNamed:self.nibName bundle:self.nibBundle];
     NSString* templateText = [templateNib stringUsingEncoding:NSUTF8StringEncoding];
     
-    NSLog(@" * TemplateNib: %@", templateNib);
+//    NSLog(@" * TemplateNib: %@", templateNib);
 
     Class viewClass = NSClassFromString([self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""]);
-    NSLog(@" * Requested View Class: %@ - %@", [self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""], viewClass);
+//    NSLog(@" * Requested View Class: %@ - %@", [self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""], viewClass);
     if ( viewClass == nil ) {
         viewClass = [FCGIKitView class];
     }
-    NSLog(@" * View Class: %@", viewClass);
+//    NSLog(@" * View Class: %@", viewClass);
     
     FCGIKitView* view = [[viewClass alloc] initWithTemplateText:templateText];
     [self setView:view];
@@ -56,27 +56,21 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)didFinishLoading
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-- (NSString*)postprocessView
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return self.view.render;
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (NSString *)presentViewController:(BOOL)writeData
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);    
-    NSString* output = self.postprocessView;
+    // NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSString* output = self.view.render;
     if ( writeData ) {
         [self.response writeString:output];
-    }
+    }    
     return output;
 }
 

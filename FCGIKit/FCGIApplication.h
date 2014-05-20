@@ -41,6 +41,7 @@ void handleSIGTERM(int signum);
     BOOL firstRunCompleted;
     BOOL shouldKeepRunning;
     BOOL isWaitingOnTerminateLaterReply;
+    
     NSTimer* waitingOnTerminateLaterReplyTimer;
     CFRunLoopObserverRef mainRunLoopObserver;
     
@@ -51,6 +52,8 @@ void handleSIGTERM(int signum);
     NSThread *_listeningSocketThread;
     
     NSArray* _startupArguments;
+    
+    NSMutableDictionary* _viewControllers;
 }
 
 @property (nonatomic, assign) NSObject<FCGIApplicationDelegate> *delegate;
@@ -67,6 +70,7 @@ void handleSIGTERM(int signum);
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;
 @property (nonatomic, retain) NSThread* listeningSocketThread;
 @property (nonatomic, readonly, retain) NSArray* startupArguments;
+@property (nonatomic, retain) NSMutableDictionary* viewControllers;
 
 + (FCGIApplication *)sharedApplication;
 

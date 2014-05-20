@@ -48,6 +48,8 @@ void handleSIGTERM(int signum) {
 - (void)startListening;
 - (void)stopListening;
 
+- (void)stopCurrentRunLoop;
+
 - (void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket*)socket;
 
 - (void)listeningThreadMain;
@@ -107,8 +109,9 @@ void handleSIGTERM(int signum) {
 - (void)stopListening
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self.listenSocket disconnect];
-    
+    [_listenSocket disconnect];
+    _listenSocket = nil;
+
     // Stop any client connections
     NSUInteger i;
     for(i = 0; i < [self.connectedSockets count]; i++) {
@@ -136,6 +139,7 @@ void handleSIGTERM(int signum) {
     
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections + 1];
     _currentRequests = [[NSMutableDictionary alloc] init];
+    _viewControllers = [[NSMutableDictionary alloc] init];
     
     // Load the routes
     [FCGIKitRoutingCenter sharedCenter];
@@ -174,6 +178,13 @@ void handleSIGTERM(int signum) {
     
     _isRunning = NO;
 }
+
+- (void)stopCurrentRunLoop
+{
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
+}
+
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
@@ -277,7 +288,7 @@ void handleSIGTERM(int signum) {
         _listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
         [_listenSocket setRunLoopModes:[NSArray arrayWithObject:FCGIKitApplicationRunLoopMode]];
         [self startListening];
-        while ( [[NSRunLoop currentRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+        while ( shouldKeepRunning && [[NSRunLoop currentRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
         }
         [self stopListening];
     }
@@ -315,7 +326,7 @@ void handleSIGTERM(int signum) {
 
 - (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSString* returnURI = nil;
     if ( [_delegate respondsToSelector:@selector(routeLookupURIForRequest:)] ) {
         returnURI = [_delegate routeLookupURIForRequest:request];
@@ -328,13 +339,20 @@ void handleSIGTERM(int signum) {
 
 - (FCGIKitViewController *)instantiateViewControllerForRoute:(FCGIKitRoute *)route
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, route);
-    NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, route);
     
-    NSLog(@" * ControllerClass: %@", route.controllerClass);
-    NSLog(@" * Nib Name: %@", nibName);
+    NSString* key = route.requestPath.pathComponents[1];
+    FCGIKitViewController* controller = self.viewControllers[key];
+    if ( controller == nil ) {
+
+        NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+        
+//        NSLog(@" * ControllerClass: %@", route.controllerClass);
+//        NSLog(@" * Nib Name: %@", nibName);
     
-    FCGIKitViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle]];
+        controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle]];
+        _viewControllers[key] = controller;
+    }
     return controller;
 }
 
@@ -416,6 +434,7 @@ void handleSIGTERM(int signum) {
 @synthesize currentRequests = _currentRequests;
 @synthesize startupArguments = _startupArguments;
 @synthesize listeningSocketThread = _listeningSocketThread;
+@synthesize viewControllers = _viewControllers;
 
 - (NSDictionary*)infoDictionary {
     return [[NSBundle mainBundle] infoDictionary];
@@ -552,7 +571,8 @@ void handleSIGTERM(int signum) {
 - (void)stop:(id)sender
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self stopListening];
+//    [self stopListening];
+    [self performSelector:@selector(stopCurrentRunLoop) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FCGIKitApplicationRunLoopMode]];
     shouldKeepRunning = NO;
     CFRunLoopStop([[NSRunLoop mainRunLoop] getCFRunLoop]);
 }

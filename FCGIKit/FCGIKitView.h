@@ -12,7 +12,7 @@
     NSString* _templateText;
 }
 
-@property (nonatomic, retain) NSString* templateText;
+@property (nonatomic, readonly, retain) NSString* templateText;
 
 - (id)initWithTemplateText:(NSString *)templateText;
 - render;

@@ -29,7 +29,7 @@
         NSString* key = route.requestPath.pathComponents[1];
         [routesDictionary setObject:route forKey:key];
     }];
-    NSLog(@" * Loaded routes: %@", routesDictionary);
+//    NSLog(@" * Loaded routes: %@", routesDictionary);
     routes = routesDictionary.copy;
 }
 
@@ -58,7 +58,7 @@ static FCGIKitRoutingCenter* sharedCenter;
 
 - (FCGIKitRoute *)routeForRequestURI:(NSString *)requestURI
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, requestURI);
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, requestURI);
     NSString* key = requestURI.pathComponents[1];
     return routes[key];
 }

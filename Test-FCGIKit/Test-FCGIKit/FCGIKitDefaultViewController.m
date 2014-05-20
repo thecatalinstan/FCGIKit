@@ -7,6 +7,7 @@
 //
 
 #import "FCGIKitDefaultViewController.h"
+#import <libfcgikit.h>
 
 @implementation FCGIKitDefaultViewController
 
@@ -15,9 +16,9 @@
     [super loadView];
 }
 
-- (NSString *)postprocessView
+- (void)didFinishLoading
 {
-    return [NSString stringWithFormat:@"%@<h2>%s</h2><p>Here's a stack trace:</p></h2><pre>%@</pre>", [super postprocessView], __PRETTY_FUNCTION__, [NSThread callStackSymbols]];
+    [super didFinishLoading];
 }
 
 - (NSString *)presentViewController:(BOOL)writeData

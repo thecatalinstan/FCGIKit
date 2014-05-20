@@ -18,14 +18,14 @@
 
 - (void)loadData:(NSData *)data error:(NSError *__autoreleasing *)error
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     if ( data != nil ) {
         [self setData:data];
         return;
     }
     NSString* path = [bundle pathForResource:self.name ofType:@"html"];
-    NSLog(@" * Name: %@", self.name);
-    NSLog(@" * Path: %@", path);
+//    NSLog(@" * Name: %@", self.name);
+//    NSLog(@" * Path: %@", path);
     data = [NSData dataWithContentsOfFile:path options:NSDataReadingUncached error:error];
     [self setData:data];
 }
@@ -39,7 +39,7 @@
 
 - (id)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [self init];
     if ( self != nil ) {
         bundle = nibBundle == nil ? [NSBundle mainBundle] : nibBundle;

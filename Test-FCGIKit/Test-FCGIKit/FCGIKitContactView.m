@@ -11,15 +11,15 @@
 
 @implementation FCGIKitContactView
 
-- (id)render
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSMutableString* result = [NSMutableString stringWithString:[super render]];
-    
-    [result appendFormat:@"<h2>%s</h2>", __PRETTY_FUNCTION__];
-    [result appendFormat:@"<pre>%@</pre>", [FCGIApp dumpConfig]];
-    
-    return result.copy;
-}
+//- (id)render
+//{
+////    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSMutableString* result = [NSMutableString stringWithString:[super render]];
+//    
+//    [result appendFormat:@"<h2>%s</h2>", __PRETTY_FUNCTION__];
+//    [result appendFormat:@"<pre>%@</pre>", [FCGIApp dumpConfig]];
+//    
+//    return result.copy;
+//}
 
 @end

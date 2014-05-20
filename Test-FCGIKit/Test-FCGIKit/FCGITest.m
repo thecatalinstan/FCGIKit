@@ -34,19 +34,17 @@
 
 - (void)application:(FCGIApplication *)application didReceiveRequest:(NSDictionary *)userInfo
 {
-    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
 - (void)application:(FCGIApplication *)application didPrepareResponse:(NSDictionary *)userInfo
 {
-    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-//    FCGIKitHTTPResponse* response = userInfo[FCGIKitResponseKey];
-//    [response setValue:@"text/plain" forHTTPHeaderField:@"content-type"];
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
 - (void)application:(FCGIApplication *)application presentViewController:(FCGIKitViewController *)viewController
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [viewController.response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"content-type"];
     [viewController presentViewController:YES];
     [viewController.response finish];
@@ -54,8 +52,7 @@
 
 - (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, request.serverVars[@"REQUEST_URI"]);
-    
+//    NSLog(@"%s %@", __PRETTY_FUNCTION__, request.serverVars[@"REQUEST_URI"]);
 //    NSString* stub;
 //    if ( request.getVars[@"page"] != nil ) {
 //        stub = request.getVars[@"page"];
@@ -63,7 +60,6 @@
 //        stub = @"*";
 //    }
 //    return [@"/" stringByAppendingString:stub];
-    
     return request.serverVars[@"REQUEST_URI"];
 }
 

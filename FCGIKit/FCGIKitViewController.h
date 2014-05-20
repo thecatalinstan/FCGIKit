@@ -34,8 +34,7 @@
 - (void)loadView;
 - (void)viewDidLoad;
 - (void)didFinishLoading;
-
-- (NSString*)postprocessView;
 - (NSString*)presentViewController:(BOOL)writeData;
+
 
 @end
