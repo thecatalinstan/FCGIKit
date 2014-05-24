@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */; };
-		AD04B7BC192BC6F1003CC3B2 /* _default.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* _default.html */; };
+		AD04B7BC192BC6F1003CC3B2 /* FCGIKitDefaultView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */; };
 		AD04B7C1192BE7B6003CC3B2 /* FCGIKitContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */; };
 		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
 		AD05885A19266120005CE999 /* upload.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD058859192660B4005CE999 /* upload.php */; };
@@ -113,7 +113,7 @@
 
 /* Begin PBXFileReference section */
 		AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitContactView.html; sourceTree = "<group>"; };
-		AD04B7BB192BC670003CC3B2 /* _default.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = _default.html; sourceTree = "<group>"; };
+		AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitDefaultView.html; sourceTree = "<group>"; };
 		AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitContactView.h; sourceTree = "<group>"; };
 		AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitContactView.m; sourceTree = "<group>"; };
 		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 				AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */,
 				AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */,
 				AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */,
-				AD04B7BB192BC670003CC3B2 /* _default.html */,
+				AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */,
 				AD54A4781931086F00C51154 /* FCGIKitDefaultView.h */,
 				AD54A4791931088500C51154 /* FCGIKitDefaultView.m */,
 				AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */,
@@ -345,7 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD04B7BC192BC6F1003CC3B2 /* _default.html in Resources */,
+				AD04B7BC192BC6F1003CC3B2 /* FCGIKitDefaultView.html in Resources */,
 				AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
 				AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */,

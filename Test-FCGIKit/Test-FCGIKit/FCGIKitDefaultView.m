@@ -13,7 +13,7 @@
 
 - (id)render:(NSDictionary *)variables
 {
-    return @"asdfasfasd";
+    return [super render:variables];
 }
     
 @end

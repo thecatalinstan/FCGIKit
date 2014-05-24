@@ -61,8 +61,6 @@
 		<dict>
 			<key>FCGIKitRouteController</key>
 			<string>FCGIKitDefaultViewController</string>
-			<key>FCGIKitRouteNibName</key>
-			<string>default</string>
 			<key>FCGIKitRoutePath</key>
 			<string>/*</string>
 			<key>FCGIKitRouteUserInfo</key>
