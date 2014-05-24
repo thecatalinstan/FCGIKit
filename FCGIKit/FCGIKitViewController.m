@@ -20,16 +20,22 @@
 @synthesize response = _response;
 @synthesize request = _request;
 @synthesize userInfo = _userInfo;
-//@synthesize variables = _variables;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil userInfo:nil];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary *)userInfo
+{
     self = [self init];
     if ( self != nil ) {
         variables = [NSMutableDictionary dictionary];
+
         _nibName = nibNameOrNil;
         _nibBundle = nibBundleOrNil;
+        _userInfo = userInfo;
+
         [self loadView];
     }
     return self;
@@ -37,19 +43,22 @@
 
 - (void)loadView
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    FCGIKitNib* templateNib = [[FCGIKitNib alloc] initWithNibNamed:self.nibName bundle:self.nibBundle];
-    NSString* templateText = [templateNib stringUsingEncoding:NSUTF8StringEncoding];
+    // Load the NIB file
+    FCGIKitNib* templateNib = [FCGIKitNib cachedNibForNibName:self.nibName];
+    if ( templateNib == nil ) {
+        templateNib = [[FCGIKitNib alloc] initWithNibNamed:self.nibName bundle:self.nibBundle];
+        if ( templateNib != nil ) {
+            [FCGIKitNib cacheNib:templateNib forNibName:self.nibName];
+        }
+    }
     
-//    NSLog(@" * TemplateNib: %@", templateNib);
-
+    NSString* templateText = templateNib != nil ? [templateNib stringUsingEncoding:NSUTF8StringEncoding] : @"";
+ 
+    // Determine the view class to use
     Class viewClass = NSClassFromString([self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""]);
-//    NSLog(@" * Requested View Class: %@ - %@", [self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""], viewClass);
     if ( viewClass == nil ) {
         viewClass = [FCGIKitView class];
     }
-//    NSLog(@" * View Class: %@", viewClass);
-    
     FCGIKitView* view = [[viewClass alloc] initWithTemplateText:templateText];
     [self setView:view];
     
@@ -58,17 +67,14 @@
 
 - (void)viewDidLoad
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)didFinishLoading
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (NSString *)presentViewController:(BOOL)writeData
 {
-    // NSLog(@"%s", __PRETTY_FUNCTION__);
     NSString* output = [self.view render:self.allVariables];
     if ( writeData ) {
         [self.response writeString:output];

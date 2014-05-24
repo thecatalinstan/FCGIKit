@@ -19,8 +19,11 @@
 @property (nonatomic, retain) NSString* name;
 
 - (id)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)bundle;
-- (id)initWithNibData:(NSData *)nibData bundle:(NSBundle *)bundle;
 
 - (NSString*)stringUsingEncoding:(NSStringEncoding)encoding;
 
++ (void)cacheNibNames:(NSArray*)nibNames bundle:(NSBundle*)nibBundle;
+
++ (FCGIKitNib *)cachedNibForNibName:(NSString*)nibName;
++ (void)cacheNib:(FCGIKitNib *)nib forNibName:(NSString*)nibName;
 @end

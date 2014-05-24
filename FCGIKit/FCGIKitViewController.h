@@ -31,9 +31,10 @@
 @property (nonatomic, retain) FCGIKitHTTPRequest* request;
 @property (nonatomic, retain) FCGIKitHTTPResponse* response;
 @property (nonatomic, retain) NSDictionary* userInfo;
-//@property (nonatomic, retain) NSMutableDictionary* variables;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary*)userInfo;
+
 - (void)loadView;
 - (void)viewDidLoad;
 - (void)didFinishLoading;
