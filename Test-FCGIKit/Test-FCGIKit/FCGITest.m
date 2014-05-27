@@ -46,6 +46,7 @@
 {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [viewController.response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"content-type"];
+    
     [viewController presentViewController:YES];
     [viewController.response finish];
 }
