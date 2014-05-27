@@ -14,7 +14,6 @@
 
 - (id)initWithTemplateText:(NSString *)templateText
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     self = [self init];
     if ( self != nil ) {
         _templateText = templateText;

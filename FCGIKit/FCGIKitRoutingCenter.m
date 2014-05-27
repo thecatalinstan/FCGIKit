@@ -22,14 +22,13 @@
     if ( routesOrNil == nil ) {
         routesOrNil = [[NSBundle mainBundle] objectForInfoDictionaryKey:FCGIKitRoutesKey];
     }
-//    NSLog(@" * Requested routes: %@", routesOrNil);
+    
     NSMutableDictionary* routesDictionary = [[NSMutableDictionary alloc] initWithCapacity:routesOrNil.count];
     [routesOrNil enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         FCGIKitRoute* route = [[FCGIKitRoute alloc] initWithInfoDictionary:obj];
         NSString* key = route.requestPath.pathComponents[1];
         [routesDictionary setObject:route forKey:key];
     }];
-//    NSLog(@" * Loaded routes: %@", routesDictionary);
     routes = routesDictionary.copy;
 }
 
@@ -58,9 +57,14 @@ static FCGIKitRoutingCenter* sharedCenter;
 
 - (FCGIKitRoute *)routeForRequestURI:(NSString *)requestURI
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, requestURI);
     NSString* key = requestURI.pathComponents[1];
     return routes[key];
 }
+
+- (NSDictionary *)allRoutes
+{
+    return routes.copy;
+}
+
 
 @end

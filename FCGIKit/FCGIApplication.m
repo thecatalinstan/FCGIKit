@@ -141,8 +141,15 @@ void handleSIGTERM(int signum) {
     _currentRequests = [[NSMutableDictionary alloc] init];
     _viewControllers = [[NSMutableDictionary alloc] init];
     
-    // Load the routes
-    [FCGIKitRoutingCenter sharedCenter];
+    // Load the routes and cache all nib files involved
+    NSMutableArray* nibNames = [NSMutableArray array];
+    NSDictionary* routes = [[FCGIKitRoutingCenter sharedCenter] allRoutes];
+    [routes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        FCGIKitRoute* route = obj;
+        NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+        [nibNames addObject:nibName];
+    }];
+    [FCGIKitNib cacheNibNames:nibNames bundle:[NSBundle mainBundle]];
     
     // Create a run loop observer and attach it to the run loop.
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
@@ -339,31 +346,12 @@ void handleSIGTERM(int signum) {
 
 - (FCGIKitViewController *)instantiateViewControllerForRoute:(FCGIKitRoute *)route
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, route);
-    
-    NSString* key = route.requestPath.pathComponents[1];
-    FCGIKitViewController* controller;
-//    FCGIKitViewController* controller = self.viewControllers[key];
-//    if ( controller == nil ) {
-
-        NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
-        
-//        NSLog(@" * ControllerClass: %@", route.controllerClass);
-//        NSLog(@" * Nib Name: %@", nibName);
-    
-        controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle]];
-        _viewControllers[key] = controller;
-//    }
-    
-//    [controller setRequest:nil];
-//    [controller setResponse:nil];
-//    [controller setUserInfo:nil];
-
+    NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+    FCGIKitViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:route.userInfo];
     return controller;
 }
 
-#pragma mark -
-#pragma mark AsyncSocket delegate
+#pragma mark - AsyncSocket delegate
 
 //- (BOOL)onSocketWillConnect:(AsyncSocket *)sock
 //{
@@ -403,7 +391,7 @@ void handleSIGTERM(int signum) {
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
-    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
     if ( userInfo[FCGIKitErrorLineKey] == nil ) {
         userInfo[FCGIKitErrorLineKey] = @__LINE__;

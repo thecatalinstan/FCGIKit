@@ -18,6 +18,7 @@
 
 - (id)initWithRoutes:(NSArray*)routesOrNil;
 
-- (FCGIKitRoute*)routeForRequestURI:(NSString*)requestURI;
+- (FCGIKitRoute *)routeForRequestURI:(NSString*)requestURI;
+- (NSDictionary *)allRoutes;
 
 @end

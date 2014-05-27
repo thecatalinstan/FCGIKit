@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */; };
-		AD04B7BC192BC6F1003CC3B2 /* default.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* default.html */; };
+		AD04B7BC192BC6F1003CC3B2 /* FCGIKitDefaultView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */; };
 		AD04B7C1192BE7B6003CC3B2 /* FCGIKitContactView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */; };
 		AD05885619261758005CE999 /* test.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD0588541926173F005CE999 /* test.php */; };
 		AD05885A19266120005CE999 /* upload.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = AD058859192660B4005CE999 /* upload.php */; };
@@ -20,6 +20,7 @@
 		AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */ = {isa = PBXBuildFile; fileRef = AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */; };
 		AD4AF0A31909AE7C005BF9F7 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */; };
 		AD4E71B918E655BE00727C09 /* libfcgikit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD46C4118E6508E008B6E19 /* libfcgikit.a */; };
+		AD54A47A1931088500C51154 /* FCGIKitDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD54A4791931088500C51154 /* FCGIKitDefaultView.m */; };
 		AD577678192BC31300A625E8 /* FCGIKitContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */; };
 		AD57767C192BC3B600A625E8 /* FCGIKitDefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */; };
 		AD66805818E66712002805EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805718E66712002805EC /* Foundation.framework */; };
@@ -112,7 +113,7 @@
 
 /* Begin PBXFileReference section */
 		AD04B7B9192BC646003CC3B2 /* FCGIKitContactView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitContactView.html; sourceTree = "<group>"; };
-		AD04B7BB192BC670003CC3B2 /* default.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default.html; sourceTree = "<group>"; };
+		AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitDefaultView.html; sourceTree = "<group>"; };
 		AD04B7BF192BE7B6003CC3B2 /* FCGIKitContactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitContactView.h; sourceTree = "<group>"; };
 		AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitContactView.m; sourceTree = "<group>"; };
 		AD0588541926173F005CE999 /* test.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; name = test.php; path = "Test-FCGIKit/test.php"; sourceTree = "<group>"; };
@@ -130,6 +131,8 @@
 		AD2B7FEF19292AB200CF5F07 /* FCGIKitNotFoundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitNotFoundViewController.m; sourceTree = "<group>"; };
 		AD2B7FF1192943CC00CF5F07 /* FCGIKitNotFoundView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FCGIKitNotFoundView.html; sourceTree = "<group>"; };
 		AD4AF0A21909AE7C005BF9F7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		AD54A4781931086F00C51154 /* FCGIKitDefaultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitDefaultView.h; sourceTree = "<group>"; };
+		AD54A4791931088500C51154 /* FCGIKitDefaultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitDefaultView.m; sourceTree = "<group>"; };
 		AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitContactViewController.h; sourceTree = "<group>"; };
 		AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitContactViewController.m; sourceTree = "<group>"; };
 		AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitDefaultViewController.h; sourceTree = "<group>"; };
@@ -223,7 +226,9 @@
 				AD04B7C0192BE7B6003CC3B2 /* FCGIKitContactView.m */,
 				AD577676192BC31300A625E8 /* FCGIKitContactViewController.h */,
 				AD577677192BC31300A625E8 /* FCGIKitContactViewController.m */,
-				AD04B7BB192BC670003CC3B2 /* default.html */,
+				AD04B7BB192BC670003CC3B2 /* FCGIKitDefaultView.html */,
+				AD54A4781931086F00C51154 /* FCGIKitDefaultView.h */,
+				AD54A4791931088500C51154 /* FCGIKitDefaultView.m */,
 				AD57767A192BC3B600A625E8 /* FCGIKitDefaultViewController.h */,
 				AD57767B192BC3B600A625E8 /* FCGIKitDefaultViewController.m */,
 			);
@@ -340,7 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD04B7BC192BC6F1003CC3B2 /* default.html in Resources */,
+				AD04B7BC192BC6F1003CC3B2 /* FCGIKitDefaultView.html in Resources */,
 				AD2B7FF2192943DC00CF5F07 /* FCGIKitNotFoundView.html in Resources */,
 				AD0EACBF1728BF4C005C3923 /* InfoPlist.strings in Resources */,
 				AD04B7BA192BC646003CC3B2 /* FCGIKitContactView.html in Resources */,
@@ -376,6 +381,7 @@
 				AD577678192BC31300A625E8 /* FCGIKitContactViewController.m in Sources */,
 				AD2B7FF019292AB200CF5F07 /* FCGIKitNotFoundViewController.m in Sources */,
 				AD0EA9DC1728682A005C3923 /* FCGITest.m in Sources */,
+				AD54A47A1931088500C51154 /* FCGIKitDefaultView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
