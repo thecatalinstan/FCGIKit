@@ -11,6 +11,10 @@
 */*/*/xcuserdata/*/*
 */*/*/xcuserdata/*/*/*
 
+*/xcshareddata
+*/*/xcshareddata
+
+
 # The junk
 .DS_Store
 */.DS_Store
@@ -25,5 +29,3 @@
 */*/*/*/*/*/*/*/*/*/.DS_Store
 */*/*/*/*/*/*/*/*/*/*/.DS_Store
 */*/*/*/*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
