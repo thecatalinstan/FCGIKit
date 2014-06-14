@@ -1,31 +1,4 @@
 # User dependand files related to the userinterface state
-*/xcuserdata/*
-*/xcuserdata/*/*
-*/xcuserdata/*/*/*
-
-*/*/xcuserdata/*
-*/*/xcuserdata/*/*
-*/*/xcuserdata/*/*/*
-
-*/*/*/xcuserdata/*
-*/*/*/xcuserdata/*/*
-*/*/*/xcuserdata/*/*/*
-
-*/xcshareddata
-*/*/xcshareddata
-
-
-# The junk
+xcuserdata
+xcshareddata
 .DS_Store
-*/.DS_Store
-*/*/.DS_Store
-*/*/*/.DS_Store
-*/*/*/*/.DS_Store
-*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/*/*/.DS_Store
-*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
