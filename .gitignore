@@ -1,4 +1,5 @@
 # User dependand files related to the userinterface state
 xcuserdata
 xcshareddata
+.xcuserdatad
 .DS_Store
