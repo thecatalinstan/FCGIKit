@@ -87,6 +87,8 @@
 		AD9EAECF18E8B598005BEAEF /* FCGIKitHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKitHTTPResponse.h; sourceTree = "<group>"; };
 		AD9EAED018E8B598005BEAEF /* FCGIKitHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKitHTTPResponse.m; sourceTree = "<group>"; };
 		ADC1E011172CB29C0022E227 /* FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKit.m; sourceTree = "<group>"; };
+		ADC3AB4A19635317000DA17F /* FCGIKit Documentation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "FCGIKit Documentation"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADC3AB53196353E9000DA17F /* appledoc.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = appledoc.sh; path = FCGIKit/appledoc.sh; sourceTree = SOURCE_ROOT; };
 		ADC554B11927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSHTTPCookie+FCGIKit.h"; sourceTree = "<group>"; };
 		ADC554B21927BE9B000AA4B7 /* NSHTTPCookie+FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSHTTPCookie+FCGIKit.m"; sourceTree = "<group>"; };
 		ADC554B51927D181000AA4B7 /* NSDate+RFC1123.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RFC1123.h"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				AD0EA94B17284CB4005C3923 /* FCGIKit */,
 				AD0EA94C17284CB4005C3923 /* Supporting Files */,
+				ADC3AB4B19635317000DA17F /* FCGIKit Documentation */,
 				AD0EA94417284CB4005C3923 /* Frameworks */,
 				AD0EA94317284CB4005C3923 /* Products */,
 			);
@@ -124,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				AD0EAA2C17287C06005C3923 /* libfcgikit.a */,
+				ADC3AB4A19635317000DA17F /* FCGIKit Documentation */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,6 +199,14 @@
 			name = "FCGI Protocol";
 			sourceTree = "<group>";
 		};
+		ADC3AB4B19635317000DA17F /* FCGIKit Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				ADC3AB53196353E9000DA17F /* appledoc.sh */,
+			);
+			path = "FCGIKit Documentation";
+			sourceTree = "<group>";
+		};
 		ADC554B91927F423000AA4B7 /* Routing & Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +263,21 @@
 			productReference = AD0EAA2C17287C06005C3923 /* libfcgikit.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		ADC3AB4919635317000DA17F /* FCGIKit Documentation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADC3AB5219635317000DA17F /* Build configuration list for PBXNativeTarget "FCGIKit Documentation" */;
+			buildPhases = (
+				ADC3AB5719635629000DA17F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FCGIKit Documentation";
+			productName = "FCGIKit Documentation";
+			productReference = ADC3AB4A19635317000DA17F /* FCGIKit Documentation */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -273,9 +300,26 @@
 			projectRoot = "";
 			targets = (
 				AD0EAA2B17287C06005C3923 /* fcgikit */,
+				ADC3AB4919635317000DA17F /* FCGIKit Documentation */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		ADC3AB5719635629000DA17F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ". /Users/catalin/Documents/FCGI/FCGIKit/FCGIKit/appledoc.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD0EAA2817287C06005C3923 /* Sources */ = {
@@ -413,6 +457,45 @@
 			};
 			name = Release;
 		};
+		ADC3AB5019635317000DA17F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ADC3AB5119635317000DA17F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -433,6 +516,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		ADC3AB5219635317000DA17F /* Build configuration list for PBXNativeTarget "FCGIKit Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADC3AB5019635317000DA17F /* Debug */,
+				ADC3AB5119635317000DA17F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
