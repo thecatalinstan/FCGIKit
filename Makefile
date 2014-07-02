@@ -29,5 +29,6 @@ docs:
 		--no-repeat-first-par \
 		--no-warn-invalid-crossref \
 		--ignore "*.m" \
+		--ignore "${PROJECT_DIR}/FCGIKit/Libraries" \
 		--index-desc "${PROJECT_DIR}/Readme.md" \
 		"${PROJECT_DIR}"

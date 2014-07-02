@@ -112,9 +112,8 @@
 		AD1C9FB019646B950055A071 /* FCGIRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIRequest.h; sourceTree = "<group>"; };
 		AD1C9FB119646B950055A071 /* FCGIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
 		AD1C9FB219646B950055A071 /* FCGITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
-		AD1C9FE019646BBC0055A071 /* Makefile.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Makefile.sh; sourceTree = SOURCE_ROOT; usesTabs = 1; };
+		AD1C9FE519646C820055A071 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		ADC3AB4A19635317000DA17F /* FCGIKit Documentation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "FCGIKit Documentation"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,12 +135,12 @@
 				AD0EA94317284CB4005C3923 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		AD0EA94317284CB4005C3923 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				AD0EAA2C17287C06005C3923 /* libfcgikit.a */,
-				ADC3AB4A19635317000DA17F /* FCGIKit Documentation */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -264,7 +263,7 @@
 		AD1C9FDF19646BA30055A071 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD1C9FE019646BBC0055A071 /* Makefile.sh */,
+				AD1C9FE519646C820055A071 /* Makefile */,
 				AD1C9F9F19646B950055A071 /* libfcgikit-Prefix.pch */,
 				AD1C9FA019646B950055A071 /* libfcgikit.h */,
 			);
@@ -307,6 +306,22 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		AD1C9FE119646C4E0055A071 /* FCGIKit Documentation */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = AD1C9FE219646C4F0055A071 /* Build configuration list for PBXLegacyTarget "FCGIKit Documentation" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = "FCGIKit Documentation";
+			passBuildSettingsInEnvironment = 1;
+			productName = "FCGIKit Documentation";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		AD0EAA2B17287C06005C3923 /* fcgikit */ = {
 			isa = PBXNativeTarget;
@@ -325,21 +340,6 @@
 			productName = fcgikit;
 			productReference = AD0EAA2C17287C06005C3923 /* libfcgikit.a */;
 			productType = "com.apple.product-type.library.static";
-		};
-		ADC3AB4919635317000DA17F /* FCGIKit Documentation */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ADC3AB5219635317000DA17F /* Build configuration list for PBXNativeTarget "FCGIKit Documentation" */;
-			buildPhases = (
-				ADC3AB5719635629000DA17F /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "FCGIKit Documentation";
-			productName = "FCGIKit Documentation";
-			productReference = ADC3AB4A19635317000DA17F /* FCGIKit Documentation */;
-			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -363,26 +363,10 @@
 			projectRoot = "";
 			targets = (
 				AD0EAA2B17287C06005C3923 /* fcgikit */,
-				ADC3AB4919635317000DA17F /* FCGIKit Documentation */,
+				AD1C9FE119646C4E0055A071 /* FCGIKit Documentation */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		ADC3AB5719635629000DA17F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = ". /Users/catalin/Documents/FCGI/FCGIKit/FCGIKit/appledoc.sh";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD0EAA2817287C06005C3923 /* Sources */ = {
@@ -520,7 +504,7 @@
 			};
 			name = Release;
 		};
-		ADC3AB5019635317000DA17F /* Debug */ = {
+		AD1C9FE319646C4F0055A071 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -528,6 +512,10 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMPANY_ID = com.catalinstan;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -537,11 +525,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROJECT_COMPANY = "Cătălin Stan";
 			};
 			name = Debug;
 		};
-		ADC3AB5119635317000DA17F /* Release */ = {
+		AD1C9FE419646C4F0055A071 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -549,13 +540,17 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMPANY_ID = com.catalinstan;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROJECT_COMPANY = "Cătălin Stan";
 			};
 			name = Release;
 		};
@@ -580,14 +575,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADC3AB5219635317000DA17F /* Build configuration list for PBXNativeTarget "FCGIKit Documentation" */ = {
+		AD1C9FE219646C4F0055A071 /* Build configuration list for PBXLegacyTarget "FCGIKit Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ADC3AB5019635317000DA17F /* Debug */,
-				ADC3AB5119635317000DA17F /* Release */,
+				AD1C9FE319646C4F0055A071 /* Debug */,
+				AD1C9FE419646C4F0055A071 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
