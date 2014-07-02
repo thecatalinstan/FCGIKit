@@ -20,7 +20,7 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification;
 
-- (FCGIApplicationTerminateReply)applicationShouldTerminate:(FKApplication *)sender;
+- (FKApplicationTerminateReply)applicationShouldTerminate:(FKApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)notification;
 
 - (void)application:(FKApplication*)application didReceiveRequest:(NSDictionary*)userInfo;

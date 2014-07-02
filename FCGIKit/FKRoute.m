@@ -35,10 +35,10 @@
 
 - (id)initWithInfoDictionary:(NSDictionary *)infoDictionary
 {
-    NSString* requestPath = [infoDictionary objectForKey:FCGIKitRoutePathKey];
-    Class controllerClass = NSClassFromString([infoDictionary objectForKey:FCGIKitRouteControllerKey]);
-    NSString* nibName = [infoDictionary objectForKey:FCGIKitRouteNibNameKey];
-    NSDictionary* userInfo = [infoDictionary objectForKey:FCGIKitRouteUserInfoKey];
+    NSString* requestPath = [infoDictionary objectForKey:FKRoutePathKey];
+    Class controllerClass = NSClassFromString([infoDictionary objectForKey:FKRouteControllerKey]);
+    NSString* nibName = [infoDictionary objectForKey:FKRouteNibNameKey];
+    NSDictionary* userInfo = [infoDictionary objectForKey:FKRouteUserInfoKey];
     return [self initWithRequestPath:requestPath controllerClass:controllerClass nibName:nibName userInfo:userInfo];
 }
 

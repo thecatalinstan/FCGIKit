@@ -252,10 +252,10 @@
     } else {
         NSString* tmpFilename = [FKApp.temporaryDirectoryLocation stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
         [bodyData writeToFile:tmpFilename atomically:NO];
-        NSDictionary* value = @{ FCGIKitFileNameKey: headers[@"Content-Disposition"][@"filename"],
-                                 FCGIKitFileTmpNameKey: tmpFilename,
-                                 FCGIKitFileContentTypeKey: headers[@"Content-Type"][@"_"],
-                                 FCGIKitFileSizeKey: [NSNumber numberWithLong:bodyData.length]};
+        NSDictionary* value = @{ FKFileNameKey: headers[@"Content-Disposition"][@"filename"],
+                                 FKFileTmpNameKey: tmpFilename,
+                                 FKFileContentTypeKey: headers[@"Content-Type"][@"_"],
+                                 FKFileSizeKey: [NSNumber numberWithLong:bodyData.length]};
         return @{ key: value };
     }
 }

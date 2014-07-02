@@ -26,7 +26,6 @@
 
 #import "FCGIRequest.h"
 
-
 @implementation FCGIRequest
 @synthesize requestId, role, keepConnection, parameters, socket, stdinData;
 

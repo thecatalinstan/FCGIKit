@@ -117,8 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				AD0EA94B17284CB4005C3923 /* FCGIKit */,
-				AD0EA94C17284CB4005C3923 /* Supporting Files */,
 				ADC3AB4B19635317000DA17F /* FCGIKit Documentation */,
+				AD0EA94C17284CB4005C3923 /* Supporting Files */,
 				AD0EA94417284CB4005C3923 /* Frameworks */,
 				AD0EA94317284CB4005C3923 /* Products */,
 			);

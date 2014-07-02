@@ -9,6 +9,7 @@
 #import <objc/message.h>
 
 #import "AsyncSocket.h"
+
 #import "FKApplication.h"
 #import "FCGIKit.h"
 #import "FCGIRecord.h"
@@ -38,7 +39,44 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     return EXIT_SUCCESS;
 }
 
+void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info )
+{
+#if LOG_RUNLOOP
+    CFRunLoopActivity currentActivity = activity;
+    switch (currentActivity) {
+        case kCFRunLoopEntry:
+            NSLog(@"kCFRunLoopEntry: %@\n", [NSThread currentThread]);
+            break;
+            
+        case kCFRunLoopBeforeTimers:
+            NSLog(@"kCFRunLoopBeforeTimers: %@\n", [NSThread currentThread]);
+            break;
+            
+        case kCFRunLoopBeforeSources:
+            NSLog(@"kCFRunLoopBeforeSources: %@\n", [NSThread currentThread]);
+            break;
+            
+        case kCFRunLoopBeforeWaiting:
+            NSLog(@"kCFRunLoopBeforeWaiting: %@\n", [NSThread currentThread]);
+            break;
+            
+        case kCFRunLoopAfterWaiting:
+            NSLog(@"kCFRunLoopAfterWaiting: %@\n", [NSThread currentThread]);
+            break;
+            
+        case kCFRunLoopExit:
+            NSLog(@"kCFRunLoopExit: %@\n", [NSThread currentThread]);
+            break;
+            
+        default:
+            NSLog(@"Activity not recognized!: %@\n", [NSThread currentThread]);
+            break;
+    }
+#endif
+}
+
 @interface FKApplication (Private)
+
 - (void)quit;
 - (void)cancelTermination;
 - (void)startRunLoop;
@@ -70,10 +108,9 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)quit
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self performSelector:@selector(stopListening) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FCGIKitApplicationRunLoopMode]];
+    [self performSelector:@selector(stopListening) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FKApplicationRunLoopMode]];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:FCGIKitApplicationWillTerminateNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillTerminateNotification object:self];
     CFRunLoopRemoveObserver([[NSRunLoop mainRunLoop] getCFRunLoop], mainRunLoopObserver, kCFRunLoopDefaultMode);
     CFRelease(mainRunLoopObserver);
 
@@ -82,13 +119,11 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)cancelTermination
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self startRunLoop];
 }
 
 - (void)startListening
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSError *error;
     BOOL listening = NO;
 
@@ -120,18 +155,18 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)finishLaunching
 {
-    if ( [self.infoDictionary.allKeys containsObject:FCGIKitMaxConnectionsKey] ) {
-        _maxConnections = MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FCGIKitMaxConnectionsKey]).integerValue);
+    if ( [self.infoDictionary.allKeys containsObject:FKMaxConnectionsKey] ) {
+        _maxConnections = MAX(1, ((NSNumber*) [self.infoDictionary valueForKey:FKMaxConnectionsKey]).integerValue);
     }
     
-    if ( [self.infoDictionary.allKeys containsObject:FCGIKitConnectionInfoKey] ) {
-        _portNumber = MIN(INT16_MAX, MAX(0, ((NSNumber*) [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] valueForKey:FCGIKitConnectionInfoPortKey]).integerValue)) ;
+    if ( [self.infoDictionary.allKeys containsObject:FKConnectionInfoKey] ) {
+        _portNumber = MIN(INT16_MAX, MAX(0, ((NSNumber*) [[self.infoDictionary objectForKey:FKConnectionInfoKey] valueForKey:FKConnectionInfoPortKey]).integerValue)) ;
         
-        if ( [[[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] allKeys] containsObject:FCGIKitConnectionInfoInterfaceKey] ) {
-            _listenIngInterface = [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] objectForKey:FCGIKitConnectionInfoInterfaceKey];
+        if ( [[[self.infoDictionary objectForKey:FKConnectionInfoKey] allKeys] containsObject:FKConnectionInfoInterfaceKey] ) {
+            _listenIngInterface = [[self.infoDictionary objectForKey:FKConnectionInfoKey] objectForKey:FKConnectionInfoInterfaceKey];
         }
         
-        _socketPath = [[self.infoDictionary objectForKey:FCGIKitConnectionInfoKey] objectForKey:FCGIKitConnectionInfoSocketKey];
+        _socketPath = [[self.infoDictionary objectForKey:FKConnectionInfoKey] objectForKey:FKConnectionInfoSocketKey];
     }
     _isListeningOnUnixSocket = _portNumber == 0;
     _isListeningOnAllInterfaces = _listenIngInterface.length == 0;
@@ -161,7 +196,7 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     }
     
     // Let observers know that initialization is complete
-    [[NSNotificationCenter defaultCenter] postNotificationName:FCGIKitApplicationWillFinishLaunchingNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillFinishLaunchingNotification object:self];
 }
 
 - (void)startRunLoop
@@ -174,11 +209,11 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     [self.listeningSocketThread start];
 
     // All startup is complete, let the delegate know they can do their own init here
-    [[NSNotificationCenter defaultCenter] postNotificationName:FCGIKitApplicationDidFinishLaunchingNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationDidFinishLaunchingNotification object:self];
     
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
-    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FCGIKitApplicationRunLoopMode];
-    while ( shouldKeepRunning && [runLoop runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
+    while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
         _isRunning=YES;
     }
     
@@ -214,7 +249,7 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
         } else {
             [self removeThreadInfoObjectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)socket.hash]];
             if ( _delegate && [_delegate respondsToSelector:@selector(application:didReceiveRequest:)] ) {
-                [self performSelector:@selector(callDelegateDidReceiveRequest:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+                [self performSelector:@selector(callDelegateDidReceiveRequest:) onThread:[NSThread currentThread] withObject:request waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
             }
         }
         [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
@@ -231,9 +266,9 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
             FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
             FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
 
-            NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
+            NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
             if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
-                [self performSelector:@selector(callDelegateDidPrepareResponse:) onThread:[NSThread currentThread] withObject:userInfo waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+                [self performSelector:@selector(callDelegateDidPrepareResponse:) onThread:[NSThread currentThread] withObject:userInfo waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
             }
             
             // Determine the appropriate view controller
@@ -251,14 +286,14 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
                 [viewController setUserInfo:route.userInfo];
                 [viewController didFinishLoading];
                 if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
-                    [self performSelector:@selector(callDelegatePresentViewController:) onThread:[NSThread currentThread] withObject:viewController waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+                    [self performSelector:@selector(callDelegatePresentViewController:) onThread:[NSThread currentThread] withObject:viewController waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
                 }
             } else {
                 NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"REQUEST_URI"]];
-                NSError* error = [NSError errorWithDomain:FCGIKitErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FCGIKitErrorFileKey: @__FILE__, FCGIKitErrorLineKey: @__LINE__}];
+                NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
                 NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-                finishRequestUserInfo[FCGIKitErrorKey] = error;
-                [self performSelector:@selector(finishRequestWithError:) onThread:[NSThread currentThread] withObject:finishRequestUserInfo waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+                finishRequestUserInfo[FKErrorKey] = error;
+                [self performSelector:@selector(finishRequestWithError:) onThread:[NSThread currentThread] withObject:finishRequestUserInfo waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
             }
         }
     }
@@ -266,14 +301,12 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)callDelegateDidReceiveRequest:(FCGIRequest*)request
 {
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    NSDictionary* userInfo = @{FCGIKitRequestKey:request};
+    NSDictionary* userInfo = @{FKRequestKey:request};
     [_delegate application:self didReceiveRequest:userInfo];
 }
 
 - (void)callDelegateDidPrepareResponse:(NSDictionary*)userInfo
 {
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [_delegate application:self didPrepareResponse:userInfo];
 }
 
@@ -284,7 +317,6 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)callBackgroundDidEndSelector:(NSArray*)argsArray
 {
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
 }
 
@@ -292,9 +324,9 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 {
     @autoreleasepool {
         _listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
-        [_listenSocket setRunLoopModes:[NSArray arrayWithObject:FCGIKitApplicationRunLoopMode]];
+        [_listenSocket setRunLoopModes:[NSArray arrayWithObject:FKApplicationRunLoopMode]];
         [self startListening];
-        while ( shouldKeepRunning && [[NSRunLoop currentRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+        while ( shouldKeepRunning && [[NSRunLoop currentRunLoop] runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
         }
         [self stopListening];
     }
@@ -392,11 +424,11 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
-    if ( userInfo[FCGIKitErrorLineKey] == nil ) {
-        userInfo[FCGIKitErrorLineKey] = @__LINE__;
+    if ( userInfo[FKErrorLineKey] == nil ) {
+        userInfo[FKErrorLineKey] = @__LINE__;
     }
-    if ( userInfo[FCGIKitErrorFileKey] == nil ) {
-        userInfo[FCGIKitErrorFileKey] = @__FILE__;
+    if ( userInfo[FKErrorFileKey] == nil ) {
+        userInfo[FKErrorFileKey] = @__FILE__;
     }
     NSError* error = [NSError errorWithDomain:err.domain code:err.code userInfo:userInfo];
     [FKApp presentError:error];
@@ -448,13 +480,13 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     _delegate = delegate;
     
     if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillFinishLaunching:)] ) {
-        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationWillFinishLaunching:) name:FCGIKitApplicationWillFinishLaunchingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationWillFinishLaunching:) name:FKApplicationWillFinishLaunchingNotification object:nil];
     }
     if ( _delegate && [_delegate respondsToSelector:@selector(applicationDidFinishLaunching:)] ) {
-        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationDidFinishLaunching:) name:FCGIKitApplicationDidFinishLaunchingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationDidFinishLaunching:) name:FKApplicationDidFinishLaunchingNotification object:nil];
     }
     if ( _delegate && [_delegate respondsToSelector:@selector(applicationWillTerminate:)] ) {
-        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationWillTerminate:) name:FCGIKitApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:_delegate selector:@selector(applicationWillTerminate:) name:FKApplicationWillTerminateNotification object:nil];
     }
 }
 
@@ -470,11 +502,11 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     self = [super init];
     if ( self != nil ) {
         _isRunning = NO;
-        _maxConnections = FCGIKitDefaultMaxConnections;
+        _maxConnections = FKDefaultMaxConnections;
         _isListeningOnUnixSocket = YES;
         _isListeningOnAllInterfaces = YES;
-        _socketPath = FCGIKitDefaultSocketPath;
-        _portNumber = FCGIKitDefaultPortNumber;
+        _socketPath = FKDefaultSocketPath;
+        _portNumber = FKDefaultPortNumber;
         _listenIngInterface = [NSString string];
         _startupArguments = [NSArray array];
     }
@@ -500,26 +532,26 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     // Stop the main run loop
     [self performSelectorOnMainThread:@selector(stop:) withObject:nil waitUntilDone:YES];
     
-    FCGIApplicationTerminateReply reply = FCGITerminateNow;
+    FKApplicationTerminateReply reply = FKTerminateNow;
     
     if ( _delegate && [_delegate respondsToSelector:@selector(applicationShouldTerminate:)]) {
         reply = [_delegate applicationShouldTerminate:self];
     }
     
     switch ( reply ) {
-        case FCGITerminateCancel:
+        case FKTerminateCancel:
             [self cancelTermination];
             break;
             
-        case FCGITerminateLater:
+        case FKTerminateLater:
             isWaitingOnTerminateLaterReply = YES;          
             waitingOnTerminateLaterReplyTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(waitingOnTerminateLaterReplyTimerCallback) userInfo:nil repeats:NO];
-            [[NSRunLoop mainRunLoop] addTimer:waitingOnTerminateLaterReplyTimer forMode:FCGIKitApplicationRunLoopMode];
-            while (isWaitingOnTerminateLaterReply && [[NSRunLoop mainRunLoop] runMode:FCGIKitApplicationRunLoopMode beforeDate:[NSDate distantFuture]]) {
+            [[NSRunLoop mainRunLoop] addTimer:waitingOnTerminateLaterReplyTimer forMode:FKApplicationRunLoopMode];
+            while (isWaitingOnTerminateLaterReply && [[NSRunLoop mainRunLoop] runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]]) {
             }
             break;
             
-        case FCGITerminateNow:
+        case FKTerminateNow:
         default:
             [self quit];
             break;
@@ -529,12 +561,10 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)waitingOnTerminateLaterReplyTimerCallback
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)replyToApplicationShouldTerminate:(BOOL)shouldTerminate
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     isWaitingOnTerminateLaterReply = NO;
     [waitingOnTerminateLaterReplyTimer invalidate];
     
@@ -549,8 +579,6 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)run
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     // Finish launch
     [self finishLaunching];
     
@@ -563,9 +591,7 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)stop:(id)sender
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-//    [self stopListening];
-    [self performSelector:@selector(stopCurrentRunLoop) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FCGIKitApplicationRunLoopMode]];
+    [self performSelector:@selector(stopCurrentRunLoop) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FKApplicationRunLoopMode]];
     shouldKeepRunning = NO;
     CFRunLoopStop([[NSRunLoop mainRunLoop] getCFRunLoop]);
 }
@@ -575,20 +601,20 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     if ( self.delegate && [self.delegate respondsToSelector:@selector(application:willPresentError:)] ) {
         error = [self.delegate application:self willPresentError:error];
     }    
-    NSLog(@"%@ in %@ on line %@", error.localizedDescription, [error.userInfo valueForKey:FCGIKitErrorFileKey], [error.userInfo valueForKey:FCGIKitErrorFileKey] );
+    NSLog(@"%@ in %@ on line %@", error.localizedDescription, [error.userInfo valueForKey:FKErrorFileKey], [error.userInfo valueForKey:FKErrorFileKey] );
 }
 
 - (void)writeDataToStderr:(NSDictionary *)info
 {
-    FCGIRequest* request = [info objectForKey:FCGIKitRequestKey];
-    NSData* data = [info objectForKey:FCGIKitDataKey];
+    FCGIRequest* request = [info objectForKey:FKRequestKey];
+    NSData* data = [info objectForKey:FKDataKey];
     [request writeDataToStderr:data];
 }
 
 - (void)writeDataToStdout:(NSDictionary *)info
 {
-    FCGIRequest* request = [info objectForKey:FCGIKitRequestKey];
-    NSData* data = [info objectForKey:FCGIKitDataKey];
+    FCGIRequest* request = [info objectForKey:FKRequestKey];
+    NSData* data = [info objectForKey:FKDataKey];
     [request writeDataToStdout:data];
 }
 
@@ -600,8 +626,8 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (void)finishRequestWithError:(NSDictionary*)userInfo
 {
-    FKHTTPResponse* httpResponse  = userInfo[FCGIKitResponseKey];
-    NSError* error = userInfo[FCGIKitErrorKey];
+    FKHTTPResponse* httpResponse  = userInfo[FKResponseKey];
+    NSError* error = userInfo[FKErrorKey];
     [self presentError:error];
     [httpResponse setHTTPStatus:500];
     [httpResponse finish];
@@ -609,16 +635,14 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 -(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithTarget:target selector:aSelector userInfo:userInfo didEndSelector:didEndSelector];
     [workerThread start];
 }
 
 - (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     NSArray* argsArray = @[ NSStringFromSelector(didEndSelector), target, userInfo ];
-    [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FCGIKitApplicationRunLoopMode]];
+    [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
 }
 
 - (NSString *)temporaryDirectoryLocation
@@ -648,11 +672,11 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 
 - (NSDictionary*)dumpConfig
 {
-    NSDictionary* config = @{FCGIKitMaxConnectionsKey: [NSNumber numberWithInteger:self.maxConnections],
-                             FCGIKitConnectionInfoSocketKey: self.socketPath,
-                             FCGIKitConnectionInfoInterfaceKey: self.listeningInterface,
-                             FCGIKitConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
-                             FCGIKitConnectionInfoKey: self.isListeningOnUnixSocket ? FCGIKitConnectionInfoSocketKey : FCGIKitConnectionInfoPortKey,
+    NSDictionary* config = @{FKMaxConnectionsKey: [NSNumber numberWithInteger:self.maxConnections],
+                             FKConnectionInfoSocketKey: self.socketPath,
+                             FKConnectionInfoInterfaceKey: self.listeningInterface,
+                             FKConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
+                             FKConnectionInfoKey: self.isListeningOnUnixSocket ? FKConnectionInfoSocketKey : FKConnectionInfoPortKey,
                              };
     return config;
 }

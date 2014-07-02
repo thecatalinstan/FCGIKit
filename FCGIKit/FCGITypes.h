@@ -38,6 +38,12 @@ typedef uint32 FCGILongValueLength;
 typedef uint32 FCGIApplicationStatus;
 typedef uint8 FCGIProtocolStatus;
 
+enum _FCGISocketTag
+{
+    FCGIRecordAwaitingHeaderTag,
+    FCGIRecordAwaitingContentAndPaddingTag
+} FCGISocketTag;
+
 #define FCGI_VERSION_1           1
 
 #define FCGI_RESPONDER  1

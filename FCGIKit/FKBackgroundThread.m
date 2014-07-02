@@ -27,8 +27,8 @@
 {
     self = [super init];
     if ( self != nil ) {
-        _request = userInfo[FCGIKitRequestKey];
-        _response = userInfo[FCGIKitResponseKey];
+        _request = userInfo[FKRequestKey];
+        _response = userInfo[FKResponseKey];
         _selector = aSelector;
         _didEndSelector = didEndSelector;
         _userInfo = userInfo;
@@ -45,7 +45,7 @@
     id result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
     NSMutableDictionary *newUserInfo = [NSMutableDictionary dictionaryWithDictionary:self.userInfo];
     if ( result != nil ) {
-        [newUserInfo setObject:result forKey:FCGIKitResultKey];
+        [newUserInfo setObject:result forKey:FKResultKey];
     }
     [FKApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.copy];
 }

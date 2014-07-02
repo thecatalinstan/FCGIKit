@@ -20,7 +20,7 @@
 
 - (void)loadRoutes:(NSArray*)routesOrNil {
     if ( routesOrNil == nil ) {
-        routesOrNil = [[NSBundle mainBundle] objectForInfoDictionaryKey:FCGIKitRoutesKey];
+        routesOrNil = [[NSBundle mainBundle] objectForInfoDictionaryKey:FKRoutesKey];
     }
     
     NSMutableDictionary* routesDictionary = [[NSMutableDictionary alloc] initWithCapacity:routesOrNil.count];

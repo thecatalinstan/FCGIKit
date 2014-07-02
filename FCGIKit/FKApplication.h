@@ -12,12 +12,6 @@
 #define FCGIRecordFixedLengthPartLength 8
 #define FCGITimeout 5
 
-enum _FCGISocketTag
-{
-    FCGIRecordAwaitingHeaderTag,
-    FCGIRecordAwaitingContentAndPaddingTag
-} FCGISocketTag;
-
 @class FCGIRequest;
 @protocol AsyncSocketDelegate;
 

@@ -9,77 +9,41 @@
 #import "FCGIKit.h"
 
 NSString* const FCGIKit = @"FCGIKit";
-NSString* const FCGIKitApplicationRunLoopMode = @"NSRunLoopCommonModes"; // This is a cheap hack. Will change to a custom runloop mode at some point
+NSString* const FKApplicationRunLoopMode = @"NSRunLoopCommonModes"; // This is a cheap hack. Will change to a custom runloop mode at some point
 
-NSString* const FCGIKitErrorKey = @"FCGIKitError";
-NSString* const FCGIKitErrorFileKey = @"FCGIKitErrorFile";
-NSString* const FCGIKitErrorLineKey = @"FCGIKitErrorLine";
-NSString* const FCGIKitErrorDomain = @"FCGIKitErrorDomain";
+NSString* const FKErrorKey = @"FKError";
+NSString* const FKErrorFileKey = @"FKErrorFile";
+NSString* const FKErrorLineKey = @"FKErrorLine";
+NSString* const FKErrorDomain = @"FKErrorDomain";
 
-NSString* const FCGIKitMaxConnectionsKey = @"FCGIKitMaxConnections";
-NSString* const FCGIKitConnectionInfoKey = @"FCGIKitConnectionInfo";
-NSString* const FCGIKitConnectionInfoPortKey = @"FCGIKitConnectionInfoPort";
-NSString* const FCGIKitConnectionInfoInterfaceKey = @"FCGIKitConnectionInfoInterface";
-NSString* const FCGIKitConnectionInfoSocketKey = @"FCGIKitConnectionInfoSocket";
+NSString* const FKMaxConnectionsKey = @"FKMaxConnections";
+NSString* const FKConnectionInfoKey = @"FKConnectionInfo";
+NSString* const FKConnectionInfoPortKey = @"FKConnectionInfoPort";
+NSString* const FKConnectionInfoInterfaceKey = @"FKConnectionInfoInterface";
+NSString* const FKConnectionInfoSocketKey = @"FKConnectionInfoSocket";
 
-NSUInteger const FCGIKitDefaultMaxConnections = 150;
-NSString* const FCGIKitDefaultSocketPath = @"/tmp/fcgikit.sock";
-NSUInteger const FCGIKitDefaultPortNumber = 10000;
+NSUInteger const FKDefaultMaxConnections = 150;
+NSString* const FKDefaultSocketPath = @"/tmp/FCGIKit.sock";
+NSUInteger const FKDefaultPortNumber = 10000;
 
-NSString* const FCGIKitRecordKey = @"FCGIKitRecord";
-NSString* const FCGIKitSocketKey = @"FCGIKitSocket";
-NSString* const FCGIKitDataKey = @"FCGIKitData";
-NSString* const FCGIKitRequestKey = @"FCGIKitRequest";
-NSString* const FCGIKitResponseKey = @"FCGIKitResponse";
-NSString* const FCGIKitResultKey = @"FCGIKitResult";
+NSString* const FKRecordKey = @"FKRecord";
+NSString* const FKSocketKey = @"FKSocket";
+NSString* const FKDataKey = @"FKData";
+NSString* const FKRequestKey = @"FKRequest";
+NSString* const FKResponseKey = @"FKResponse";
+NSString* const FKResultKey = @"FKResult";
 
-NSString* const FCGIKitRoutesKey = @"FCGIKitRoutes";
-NSString* const FCGIKitRoutePathKey = @"FCGIKitRoutePath";
-NSString* const FCGIKitRouteControllerKey = @"FCGIKitRouteController";
-NSString* const FCGIKitRouteNibNameKey = @"FCGIKitRouteNibName";
-NSString* const FCGIKitRouteUserInfoKey = @"FCGIKitRouteUserInfo";
+NSString* const FKRoutesKey = @"FKRoutes";
+NSString* const FKRoutePathKey = @"FKRoutePath";
+NSString* const FKRouteControllerKey = @"FKRouteController";
+NSString* const FKRouteNibNameKey = @"FKRouteNibName";
+NSString* const FKRouteUserInfoKey = @"FKRouteUserInfo";
 
-NSString* const FCGIKitFileNameKey = @"FCGIKitFileName";
-NSString* const FCGIKitFileTmpNameKey = @"FCGIKitFileTmpName";
-NSString* const FCGIKitFileSizeKey = @"FCGIKitFileSize";
-NSString* const FCGIKitFileContentTypeKey = @"FCGIKitFileContentType";
+NSString* const FKFileNameKey = @"FKFileName";
+NSString* const FKFileTmpNameKey = @"FKFileTmpName";
+NSString* const FKFileSizeKey = @"FKFileSize";
+NSString* const FKFileContentTypeKey = @"FKFileContentType";
 
-NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApplicationWillFinishLaunchingNotification";
-NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";
-NSString* const FCGIKitApplicationWillTerminateNotification = @"FCGIKitApplicationWillTerminateNotification";
-
-void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info )
-{
-#if LOG_RUNLOOP
-    CFRunLoopActivity currentActivity = activity;
-    switch (currentActivity) {
-        case kCFRunLoopEntry:
-            NSLog(@"kCFRunLoopEntry: %@\n", [NSThread currentThread]);
-            break;
-            
-        case kCFRunLoopBeforeTimers:
-            NSLog(@"kCFRunLoopBeforeTimers: %@\n", [NSThread currentThread]);
-            break;
-            
-        case kCFRunLoopBeforeSources:
-            NSLog(@"kCFRunLoopBeforeSources: %@\n", [NSThread currentThread]);
-            break;
-            
-        case kCFRunLoopBeforeWaiting:
-            NSLog(@"kCFRunLoopBeforeWaiting: %@\n", [NSThread currentThread]);
-            break;
-            
-        case kCFRunLoopAfterWaiting:
-            NSLog(@"kCFRunLoopAfterWaiting: %@\n", [NSThread currentThread]);
-            break;
-            
-        case kCFRunLoopExit:
-            NSLog(@"kCFRunLoopExit: %@\n", [NSThread currentThread]);
-            break;
-            
-        default:
-            NSLog(@"Activity not recognized!: %@\n", [NSThread currentThread]);
-            break;
-    }
-#endif
-}
+NSString* const FKApplicationWillFinishLaunchingNotification = @"FKApplicationWillFinishLaunchingNotification";
+NSString* const FKApplicationDidFinishLaunchingNotification = @"FKApplicationDidFinishLaunchingNotification";
+NSString* const FKApplicationWillTerminateNotification = @"FKApplicationWillTerminateNotification";

@@ -32,7 +32,7 @@
     }
 
     NSData* data = [[NSString stringWithFormat:@"Status: %lu\n", (unsigned long)self.HTTPStatus] dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
+    NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
@@ -55,7 +55,7 @@
     [self sendHTTPStatus];
     
     NSData* data = [[self.buildHTTPHeaders stringByAppendingString:@"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
+    NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 
     _headersAlreadySent = YES;
@@ -171,7 +171,7 @@
         [self sendHTTPHeaders];
     }
     
-    NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
+    NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
@@ -182,7 +182,7 @@
 
 - (void)log:(NSData *)data
 {
-    NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
+    NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication]  writeDataToStderr:userInfo];
 }
 
