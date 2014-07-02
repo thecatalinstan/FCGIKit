@@ -9,8 +9,6 @@
 #import "FKHTTPResponse.h"
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
-#import "FCGIRequest.h"
-#import "FCGIKit.h"
 #import "NSString+FCGIKit.h"
 #import "NSHTTPCookie+FCGIKit.h"
 

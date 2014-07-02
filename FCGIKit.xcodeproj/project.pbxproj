@@ -51,6 +51,9 @@
 		AD1C9FDC19646B950055A071 /* FCGIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FB019646B950055A071 /* FCGIRequest.h */; };
 		AD1C9FDD19646B950055A071 /* FCGIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FB119646B950055A071 /* FCGIRequest.m */; };
 		AD1C9FDE19646B950055A071 /* FCGITypes.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FB219646B950055A071 /* FCGITypes.h */; };
+		AD1C9FF0196471CC0055A071 /* NSObject+subscripts.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FEF196471CC0055A071 /* NSObject+subscripts.h */; };
+		AD1C9FF4196472DD0055A071 /* DWUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FF2196472DD0055A071 /* DWUUID.h */; };
+		AD1C9FF5196472DD0055A071 /* DWUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FF3196472DD0055A071 /* DWUUID.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -113,6 +116,9 @@
 		AD1C9FB119646B950055A071 /* FCGIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
 		AD1C9FB219646B950055A071 /* FCGITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
 		AD1C9FE519646C820055A071 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
+		AD1C9FEF196471CC0055A071 /* NSObject+subscripts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+subscripts.h"; sourceTree = "<group>"; };
+		AD1C9FF2196472DD0055A071 /* DWUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUUID.h; sourceTree = "<group>"; };
+		AD1C9FF3196472DD0055A071 /* DWUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWUUID.m; sourceTree = "<group>"; };
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -225,6 +231,8 @@
 		AD1C9FA119646B950055A071 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AD1C9FF1196472DD0055A071 /* DWUUID */,
+				AD1C9FEE196471CC0055A071 /* Contrib */,
 				AD1C9FA219646B950055A071 /* AsyncSocket */,
 				AD1C9FA519646B950055A071 /* FCGIProtocol */,
 			);
@@ -270,6 +278,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AD1C9FEE196471CC0055A071 /* Contrib */ = {
+			isa = PBXGroup;
+			children = (
+				AD1C9FEF196471CC0055A071 /* NSObject+subscripts.h */,
+			);
+			path = Contrib;
+			sourceTree = "<group>";
+		};
+		AD1C9FF1196472DD0055A071 /* DWUUID */ = {
+			isa = PBXGroup;
+			children = (
+				AD1C9FF2196472DD0055A071 /* DWUUID.h */,
+				AD1C9FF3196472DD0055A071 /* DWUUID.m */,
+			);
+			path = DWUUID;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -284,6 +309,7 @@
 				AD1C9FBA19646B950055A071 /* FKHTTPResponse.h in Headers */,
 				AD1C9FD419646B950055A071 /* FCGIByteStreamRecord.h in Headers */,
 				AD1C9FD219646B950055A071 /* FCGIBeginRequestRecord.h in Headers */,
+				AD1C9FF0196471CC0055A071 /* NSObject+subscripts.h in Headers */,
 				AD1C9FB519646B950055A071 /* FKApplicationDelegate.h in Headers */,
 				AD1C9FB619646B950055A071 /* FKBackgroundThread.h in Headers */,
 				AD1C9FC019646B950055A071 /* NSString+FCGIKit.h in Headers */,
@@ -294,6 +320,7 @@
 				AD1C9FD619646B950055A071 /* FCGIEndRequestRecord.h in Headers */,
 				AD1C9FDE19646B950055A071 /* FCGITypes.h in Headers */,
 				AD1C9FBE19646B950055A071 /* NSHTTPCookie+FCGIKit.h in Headers */,
+				AD1C9FF4196472DD0055A071 /* DWUUID.h in Headers */,
 				AD1C9FCF19646B950055A071 /* libfcgikit.h in Headers */,
 				AD1C9FCE19646B950055A071 /* libfcgikit-Prefix.pch in Headers */,
 				AD1C9FC819646B950055A071 /* FKView.h in Headers */,
@@ -389,6 +416,7 @@
 				AD1C9FC519646B950055A071 /* FKRoutingCenter.m in Sources */,
 				AD1C9FDD19646B950055A071 /* FCGIRequest.m in Sources */,
 				AD1C9FBF19646B950055A071 /* NSHTTPCookie+FCGIKit.m in Sources */,
+				AD1C9FF5196472DD0055A071 /* DWUUID.m in Sources */,
 				AD1C9FBB19646B950055A071 /* FKHTTPResponse.m in Sources */,
 				AD1C9FCD19646B950055A071 /* FCGIKit.m in Sources */,
 				AD1C9FC119646B950055A071 /* NSString+FCGIKit.m in Sources */,
@@ -430,7 +458,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -459,7 +487,7 @@
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-ObjC";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -479,7 +507,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -499,7 +527,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
