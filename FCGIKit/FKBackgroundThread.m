@@ -47,7 +47,7 @@
     if ( result != nil ) {
         [newUserInfo setObject:result forKey:FCGIKitResultKey];
     }
-    [FCGIApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.copy];
+    [FKApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.copy];
 }
 
 @end;

@@ -250,7 +250,7 @@
         NSString* value = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
         return @{ key: value};
     } else {
-        NSString* tmpFilename = [FCGIApp.temporaryDirectoryLocation stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+        NSString* tmpFilename = [FKApp.temporaryDirectoryLocation stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
         [bodyData writeToFile:tmpFilename atomically:NO];
         NSDictionary* value = @{ FCGIKitFileNameKey: headers[@"Content-Disposition"][@"filename"],
                                  FCGIKitFileTmpNameKey: tmpFilename,

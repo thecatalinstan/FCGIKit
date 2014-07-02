@@ -12,7 +12,7 @@
 int main(int argc, const char * argv[])
 {
     @autoreleasepool {
-        return FCGIApplicationMain(argc, argv, [[FCGITest alloc] init]);
+        return FKApplicationMain(argc, argv, [FCGITest new]);
     }
 }
 

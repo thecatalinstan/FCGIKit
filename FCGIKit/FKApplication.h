@@ -21,9 +21,8 @@ enum _FCGISocketTag
 @class FCGIRequest;
 @protocol AsyncSocketDelegate;
 
-FKApplication *FCGIApp;
-extern int FCGIApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
-void handleSIGTERM(int signum);
+FKApplication *FKApp;
+extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
 
 @interface FKApplication : NSObject<AsyncSocketDelegate> {
     NSObject<FKApplicationDelegate> *_delegate;

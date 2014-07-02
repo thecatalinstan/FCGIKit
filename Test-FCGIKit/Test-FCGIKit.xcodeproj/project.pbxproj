@@ -50,6 +50,20 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		AD0ADF44196440B10036F87A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AD0EAA2B17287C06005C3923;
+			remoteInfo = fcgikit;
+		};
+		AD0ADF48196440B10036F87A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD0EA9AA17285C11005C3923 /* FCGIKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ADC3AB4A19635317000DA17F;
+			remoteInfo = "FCGIKit Documentation";
+		};
 		AD0EACCA1728BFE1005C3923 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AD0EA99117285C01005C3923 /* Project object */;
@@ -249,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				ADD46C4118E6508E008B6E19 /* libfcgikit.a */,
+				AD0ADF49196440B10036F87A /* FCGIKit Documentation */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,6 +282,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AD0ADF45196440B10036F87A /* PBXTargetDependency */,
 			);
 			name = "Test-FCGIKit";
 			productName = "Test-FCGIKit";
@@ -331,6 +347,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		AD0ADF49196440B10036F87A /* FCGIKit Documentation */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "FCGIKit Documentation";
+			remoteRef = AD0ADF48196440B10036F87A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADD46C4118E6508E008B6E19 /* libfcgikit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -395,6 +418,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AD0ADF45196440B10036F87A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = fcgikit;
+			targetProxy = AD0ADF44196440B10036F87A /* PBXContainerItemProxy */;
+		};
 		AD0EACCB1728BFE1005C3923 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AD0EA99817285C01005C3923 /* Test-FCGIKit */;

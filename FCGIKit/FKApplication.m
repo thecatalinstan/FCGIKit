@@ -25,17 +25,17 @@
 #import "FCGIKitView.h"
 #import "FCGIKitViewController.h"
 
-int FCGIApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
-{
-    (void)signal(SIGTERM, handleSIGTERM) ;
-    FCGIApp = [[FKApplication alloc] initWithArguments:argv count:argc];
-    [FCGIApp setDelegate:delegate];
-    [FCGIApp run];
-    return EXIT_SUCCESS;
+void handleSIGTERM(int signum) {
+    [FKApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
 }
 
-void handleSIGTERM(int signum) {
-    [FCGIApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
+int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
+{
+    (void)signal(SIGTERM, handleSIGTERM) ;
+    FKApp = [[FKApplication alloc] initWithArguments:argv count:argc];
+    [FKApp setDelegate:delegate];
+    [FKApp run];
+    return EXIT_SUCCESS;
 }
 
 @interface FKApplication (Private)
@@ -399,7 +399,7 @@ void handleSIGTERM(int signum) {
         userInfo[FCGIKitErrorFileKey] = @__FILE__;
     }
     NSError* error = [NSError errorWithDomain:err.domain code:err.code userInfo:userInfo];
-    [FCGIApp presentError:error];
+    [FKApp presentError:error];
 }
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)sock
@@ -460,10 +460,10 @@ void handleSIGTERM(int signum) {
 
 + (FKApplication *)sharedApplication
 {
-    if (!FCGIApp) {
-        FCGIApp = [[FKApplication alloc] init];
+    if (!FKApp) {
+        FKApp = [[FKApplication alloc] init];
     }
-    return FCGIApp;
+    return FKApp;
 }
 
 - (id)init {
