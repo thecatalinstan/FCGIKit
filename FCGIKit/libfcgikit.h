@@ -29,7 +29,7 @@
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
-#import "FCGIKitBackgroundThread.h"
+#import "FKBackgroundThread.h"
 
 #import "FCGIKitNib.h"
 #import "FCGIKitView.h"

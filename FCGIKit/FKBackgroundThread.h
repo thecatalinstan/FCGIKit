@@ -10,7 +10,7 @@
 
 @class FKHTTPRequest, FKHTTPResponse;
 
-@interface FCGIKitBackgroundThread : NSThread {
+@interface FKBackgroundThread : NSThread {
     FKHTTPRequest* _request;
     FKHTTPResponse* _response;
     NSDictionary* _userInfo;

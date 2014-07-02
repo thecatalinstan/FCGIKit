@@ -18,7 +18,7 @@
 #import "FCGIRequest.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
-#import "FCGIKitBackgroundThread.h"
+#import "FKBackgroundThread.h"
 #import "FCGIKitRoute.h"
 #import "FCGIKitRoutingCenter.h"
 #import "FCGIKitNib.h"
@@ -610,7 +610,7 @@ void handleSIGTERM(int signum) {
 -(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
 {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    FCGIKitBackgroundThread* workerThread = [[FCGIKitBackgroundThread alloc] initWithTarget:target selector:aSelector userInfo:userInfo didEndSelector:didEndSelector];
+    FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithTarget:target selector:aSelector userInfo:userInfo didEndSelector:didEndSelector];
     [workerThread start];
 }
 

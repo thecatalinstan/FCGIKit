@@ -8,13 +8,13 @@
 
 #import <objc/message.h>
 
-#import "FCGIKitBackgroundThread.h"
+#import "FKBackgroundThread.h"
 #import "FCGIKit.h"
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
 
-@implementation FCGIKitBackgroundThread
+@implementation FKBackgroundThread
 
 @synthesize request = _request;
 @synthesize response = _response;
@@ -42,15 +42,11 @@
 
 - (void)main
 {
-//    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
-    
     id result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
-
     NSMutableDictionary *newUserInfo = [NSMutableDictionary dictionaryWithDictionary:self.userInfo];
     if ( result != nil ) {
         [newUserInfo setObject:result forKey:FCGIKitResultKey];
     }
-    
     [FCGIApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.copy];
 }
 
