@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitRoute.h"
-#import "FCGIKitViewController.h"
+#import "FKRoute.h"
+#import "FKViewController.h"
 #import "FCGIKit.h"
 
-@implementation FCGIKitRoute
+@implementation FKRoute
 
 @synthesize requestPath = _requestPath;
 @synthesize controllerClass = _controllerClass;
@@ -26,7 +26,7 @@
     self = [self init];
     if ( self != nil ) {
         _requestPath = requestPath;
-        _controllerClass = controllerClass == nil ? [FCGIKitViewController class] : controllerClass;
+        _controllerClass = controllerClass == nil ? [FKViewController class] : controllerClass;
         _nibName = nibName;
         _userInfo = userInfo;
     }

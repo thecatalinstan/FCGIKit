@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitView, FKHTTPRequest, FKHTTPResponse;
+@class FKView, FKHTTPRequest, FKHTTPResponse;
 
-@interface FCGIKitViewController : NSObject {
-    FCGIKitView* _view;
+@interface FKViewController : NSObject {
+    FKView* _view;
     
     NSString* _nibName;
     NSBundle* _nibBundle;
@@ -24,7 +24,7 @@
     NSMutableDictionary* variables;
 }
 
-@property (nonatomic, retain) IBOutlet FCGIKitView* view;
+@property (nonatomic, retain) IBOutlet FKView* view;
 
 @property (nonatomic, readonly) NSString* nibName;
 @property (nonatomic, readonly) NSBundle* nibBundle;

@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitViewController.h"
+#import "FKViewController.h"
 
-@interface FCGIKitNotFoundViewController : FCGIKitViewController
+@interface FCGIKitNotFoundViewController : FKViewController
 
 @end

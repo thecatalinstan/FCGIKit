@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitRoutingCenter.h"
+#import "FKRoutingCenter.h"
 #import "FCGIKit.h"
-#import "FCGIKitRoute.h"
+#import "FKRoute.h"
 
-@interface FCGIKitRoutingCenter (Private)
+@interface FKRoutingCenter (Private)
 
 - (void)loadRoutes:(NSArray*)routes;
 
 @end
 
-@implementation FCGIKitRoutingCenter (Private)
+@implementation FKRoutingCenter (Private)
 
 - (void)loadRoutes:(NSArray*)routesOrNil {
     if ( routesOrNil == nil ) {
@@ -25,7 +25,7 @@
     
     NSMutableDictionary* routesDictionary = [[NSMutableDictionary alloc] initWithCapacity:routesOrNil.count];
     [routesOrNil enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        FCGIKitRoute* route = [[FCGIKitRoute alloc] initWithInfoDictionary:obj];
+        FKRoute* route = [[FKRoute alloc] initWithInfoDictionary:obj];
         NSString* key = route.requestPath.pathComponents[1];
         [routesDictionary setObject:route forKey:key];
     }];
@@ -34,14 +34,14 @@
 
 @end
 
-@implementation FCGIKitRoutingCenter
+@implementation FKRoutingCenter
 
-static FCGIKitRoutingCenter* sharedCenter;
+static FKRoutingCenter* sharedCenter;
 
-+ (FCGIKitRoutingCenter *)sharedCenter
++ (FKRoutingCenter *)sharedCenter
 {
     if ( sharedCenter == nil ) {
-        sharedCenter = [[FCGIKitRoutingCenter alloc] initWithRoutes:nil];
+        sharedCenter = [[FKRoutingCenter alloc] initWithRoutes:nil];
     }
     return sharedCenter;
 }
@@ -55,7 +55,7 @@ static FCGIKitRoutingCenter* sharedCenter;
     return self;
 }
 
-- (FCGIKitRoute *)routeForRequestURI:(NSString *)requestURI
+- (FKRoute *)routeForRequestURI:(NSString *)requestURI
 {
     NSString* key = requestURI.pathComponents[1];
     return routes[key];

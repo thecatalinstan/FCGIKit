@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitNib.h"
+#import "FKNib.h"
 
-@interface FCGIKitNib (Private)
+@interface FKNib (Private)
 
 - (void)loadData:(NSData *)data error:(NSError *__autoreleasing *)error;
 
 @end
 
-@implementation FCGIKitNib (Private)
+@implementation FKNib (Private)
 
 - (void)loadData:(NSData *)data error:(NSError *__autoreleasing *)error
 {
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation FCGIKitNib
+@implementation FKNib
 
 @synthesize data = _data;
 @synthesize name = _name;
@@ -58,19 +58,19 @@ static NSMutableDictionary* nibCache;
 + (void)cacheNibNames:(NSArray*)nibNames bundle:(NSBundle*)nibBundle
 {
     [nibNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        FCGIKitNib* nib = [[FCGIKitNib alloc] initWithNibNamed:obj bundle:nibBundle];
+        FKNib* nib = [[FKNib alloc] initWithNibNamed:obj bundle:nibBundle];
         if ( nib != nil ) {
-            [FCGIKitNib cacheNib:nib forNibName:obj];
+            [FKNib cacheNib:nib forNibName:obj];
         }
     }];    
 }
 
-+ (FCGIKitNib *)cachedNibForNibName:(NSString*)nibName
++ (FKNib *)cachedNibForNibName:(NSString*)nibName
 {
     return nibCache[nibName];
 }
 
-+ (void)cacheNib:(FCGIKitNib *)nib forNibName:(NSString*)nibName
++ (void)cacheNib:(FKNib *)nib forNibName:(NSString*)nibName
 {
     if ( nibCache == nil ) {
         nibCache = [NSMutableDictionary dictionary];

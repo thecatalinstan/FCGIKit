@@ -8,17 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitRoute;
+@class FKRoute;
 
-@interface FCGIKitRoutingCenter : NSObject {
+@interface FKRoutingCenter : NSObject {
     NSDictionary* routes;
 }
 
-+ (FCGIKitRoutingCenter*)sharedCenter;
++ (FKRoutingCenter*)sharedCenter;
 
 - (id)initWithRoutes:(NSArray*)routesOrNil;
 
-- (FCGIKitRoute *)routeForRequestURI:(NSString*)requestURI;
+- (FKRoute *)routeForRequestURI:(NSString*)requestURI;
 - (NSDictionary *)allRoutes;
 
 @end

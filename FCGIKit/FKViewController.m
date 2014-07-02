@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitViewController.h"
-#import "FCGIKitView.h"
-#import "FCGIKitNib.h"
+#import "FKViewController.h"
+#import "FKView.h"
+#import "FKNib.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
 
-@implementation FCGIKitViewController
+@implementation FKViewController
 
 @synthesize view = _view;
 @synthesize nibBundle = _nibBundle;
@@ -44,11 +44,11 @@
 - (void)loadView
 {
     // Load the NIB file
-    FCGIKitNib* templateNib = [FCGIKitNib cachedNibForNibName:self.nibName];
+    FKNib* templateNib = [FKNib cachedNibForNibName:self.nibName];
     if ( templateNib == nil ) {
-        templateNib = [[FCGIKitNib alloc] initWithNibNamed:self.nibName bundle:self.nibBundle];
+        templateNib = [[FKNib alloc] initWithNibNamed:self.nibName bundle:self.nibBundle];
         if ( templateNib != nil ) {
-            [FCGIKitNib cacheNib:templateNib forNibName:self.nibName];
+            [FKNib cacheNib:templateNib forNibName:self.nibName];
         }
     }
     
@@ -57,9 +57,9 @@
     // Determine the view class to use
     Class viewClass = NSClassFromString([self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""]);
     if ( viewClass == nil ) {
-        viewClass = [FCGIKitView class];
+        viewClass = [FKView class];
     }
-    FCGIKitView* view = [[viewClass alloc] initWithTemplateText:templateText];
+    FKView* view = [[viewClass alloc] initWithTemplateText:templateText];
     [self setView:view];
     
     [self viewDidLoad];

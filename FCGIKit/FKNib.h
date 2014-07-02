@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FCGIKitNib : NSObject {
+@interface FKNib : NSObject {
     NSBundle* bundle;
     
     NSData* _data;
@@ -24,6 +24,6 @@
 
 + (void)cacheNibNames:(NSArray*)nibNames bundle:(NSBundle*)nibBundle;
 
-+ (FCGIKitNib *)cachedNibForNibName:(NSString*)nibName;
-+ (void)cacheNib:(FCGIKitNib *)nib forNibName:(NSString*)nibName;
++ (FKNib *)cachedNibForNibName:(NSString*)nibName;
++ (void)cacheNib:(FKNib *)nib forNibName:(NSString*)nibName;
 @end

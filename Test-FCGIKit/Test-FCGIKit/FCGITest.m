@@ -42,7 +42,7 @@
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
 }
 
-- (void)application:(FKApplication *)application presentViewController:(FCGIKitViewController *)viewController
+- (void)application:(FKApplication *)application presentViewController:(FKViewController *)viewController
 {
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     [viewController.response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"content-type"];

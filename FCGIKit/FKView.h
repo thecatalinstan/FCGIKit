@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FCGIKitView : NSObject {
+@interface FKView : NSObject {
     NSString* _templateText;
 }
 

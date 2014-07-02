@@ -8,12 +8,12 @@
 
 #import "FCGIKit.h"
 
-@class FKApplication, FKHTTPRequest, FKHTTPResponse, FCGIKitViewController;
+@class FKApplication, FKHTTPRequest, FKHTTPResponse, FKViewController;
 
 @protocol FKApplicationDelegate <NSObject>
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- (void)application:(FKApplication*)application presentViewController:(FCGIKitViewController*)viewController;
+- (void)application:(FKApplication*)application presentViewController:(FKViewController*)viewController;
 
 @optional
 - (NSError *)application:(FKApplication *)application willPresentError:(NSError *)error;

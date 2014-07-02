@@ -19,11 +19,11 @@
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
 #import "FKBackgroundThread.h"
-#import "FCGIKitRoute.h"
-#import "FCGIKitRoutingCenter.h"
-#import "FCGIKitNib.h"
-#import "FCGIKitView.h"
-#import "FCGIKitViewController.h"
+#import "FKRoute.h"
+#import "FKRoutingCenter.h"
+#import "FKNib.h"
+#import "FKView.h"
+#import "FKViewController.h"
 
 void handleSIGTERM(int signum) {
     [FKApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
@@ -62,7 +62,7 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
 - (void)removeRequest:(FCGIRequest*)request;
 
 - (NSString*)routeLookupURIForRequest:(FKHTTPRequest*)request;
-- (FCGIKitViewController*)instantiateViewControllerForRoute:(FCGIKitRoute*)route;
+- (FKViewController*)instantiateViewControllerForRoute:(FKRoute*)route;
 
 @end
 
@@ -142,13 +142,13 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     
     // Load the routes and cache all nib files involved
     NSMutableArray* nibNames = [NSMutableArray array];
-    NSDictionary* routes = [[FCGIKitRoutingCenter sharedCenter] allRoutes];
+    NSDictionary* routes = [[FKRoutingCenter sharedCenter] allRoutes];
     [routes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        FCGIKitRoute* route = obj;
+        FKRoute* route = obj;
         NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
         [nibNames addObject:nibName];
     }];
-    [FCGIKitNib cacheNibNames:nibNames bundle:[NSBundle mainBundle]];
+    [FKNib cacheNibNames:nibNames bundle:[NSBundle mainBundle]];
     
     // Create a run loop observer and attach it to the run loop.
     NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
@@ -239,12 +239,12 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
             // Determine the appropriate view controller
             NSString* requestURI = [self routeLookupURIForRequest:httpRequest];
             
-            FCGIKitRoute* route = [[FCGIKitRoutingCenter sharedCenter] routeForRequestURI:requestURI];
+            FKRoute* route = [[FKRoutingCenter sharedCenter] routeForRequestURI:requestURI];
             if ( route == nil ) {
-                route = [[FCGIKitRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
+                route = [[FKRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
             }
             
-            FCGIKitViewController* viewController = [self instantiateViewControllerForRoute:route];
+            FKViewController* viewController = [self instantiateViewControllerForRoute:route];
             if ( viewController != nil ) {
                 [viewController setRequest:httpRequest];
                 [viewController setResponse:httpResponse];
@@ -277,7 +277,7 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     [_delegate application:self didPrepareResponse:userInfo];
 }
 
-- (void)callDelegatePresentViewController:(FCGIKitViewController*)viewController
+- (void)callDelegatePresentViewController:(FKViewController*)viewController
 {
     [_delegate application:self presentViewController:viewController];
 }
@@ -343,10 +343,10 @@ int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> del
     return returnURI;
 }
 
-- (FCGIKitViewController *)instantiateViewControllerForRoute:(FCGIKitRoute *)route
+- (FKViewController *)instantiateViewControllerForRoute:(FKRoute *)route
 {
     NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
-    FCGIKitViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:route.userInfo];
+    FKViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:route.userInfo];
     return controller;
 }
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitView.h"
+#import "FKView.h"
 
-@interface FCGIKitDefaultView : FCGIKitView
+@interface FCGIKitDefaultView : FKView
 
 @end

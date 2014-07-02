@@ -31,8 +31,8 @@
 #import "FKHTTPResponse.h"
 #import "FKBackgroundThread.h"
 
-#import "FCGIKitNib.h"
-#import "FCGIKitView.h"
-#import "FCGIKitViewController.h"
-#import "FCGIKitRoute.h"
-#import "FCGIKitRoutingCenter.h"
+#import "FKNib.h"
+#import "FKView.h"
+#import "FKViewController.h"
+#import "FKRoute.h"
+#import "FKRoutingCenter.h"

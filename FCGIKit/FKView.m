@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitView.h"
+#import "FKView.h"
 
-@implementation FCGIKitView
+@implementation FKView
 
 @synthesize templateText = _templateText;
 

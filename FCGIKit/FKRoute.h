@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitViewController;
+@class FKViewController;
 
-@interface FCGIKitRoute : NSObject {
+@interface FKRoute : NSObject {
     NSString* _requestPath;
     Class _controllerClass;
     NSString* _nibName;
