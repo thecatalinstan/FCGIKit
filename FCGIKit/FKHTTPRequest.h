@@ -10,7 +10,7 @@
 
 @class FCGIRequest;
 
-@interface FCGIKitHTTPRequest : NSObject {
+@interface FKHTTPRequest : NSObject {
     FCGIRequest* _FCGIRequest;
     NSDictionary* _server;
     NSDictionary* _get;

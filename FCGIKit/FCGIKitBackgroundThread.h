@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitHTTPRequest, FCGIKitHTTPResponse;
+@class FKHTTPRequest, FCGIKitHTTPResponse;
 
 @interface FCGIKitBackgroundThread : NSThread {
-    FCGIKitHTTPRequest* _request;
+    FKHTTPRequest* _request;
     FCGIKitHTTPResponse* _response;
     NSDictionary* _userInfo;
     SEL _selector;
@@ -19,7 +19,7 @@
     id _target;
 }
 
-@property (strong, nonatomic) FCGIKitHTTPRequest* request;
+@property (strong, nonatomic) FKHTTPRequest* request;
 @property (strong, nonatomic) FCGIKitHTTPResponse* response;
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) SEL selector;

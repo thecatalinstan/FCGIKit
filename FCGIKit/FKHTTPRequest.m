@@ -7,7 +7,7 @@
 //
 
 #import "FCGIKit.h"
-#import "FCGIKitHTTPRequest.h"
+#import "FKHTTPRequest.h"
 #import "FCGIRequest.h"
 #import "NSString+FCGIKit.h"
 
@@ -40,7 +40,7 @@
 @end
 
 
-@interface FCGIKitHTTPRequest (Private)
+@interface FKHTTPRequest (Private)
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString;
 - (FCGIKitKeyParseResult*)parseKey:(NSString *)key withValue:(NSString*)value;
@@ -51,7 +51,7 @@
 
 @end
 
-@implementation FCGIKitHTTPRequest (Private)
+@implementation FKHTTPRequest (Private)
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString
 {
@@ -278,7 +278,7 @@
 
 @end
 
-@implementation FCGIKitHTTPRequest
+@implementation FKHTTPRequest
 
 @synthesize FCGIRequest = _FCGIRequest;
 
@@ -332,7 +332,7 @@
 
 + (id)requestWithFCGIRequest:(FCGIRequest *)anFCGIRequest
 {
-    return [[FCGIKitHTTPRequest alloc] initWithFCGIRequest:anFCGIRequest];
+    return [[FKHTTPRequest alloc] initWithFCGIRequest:anFCGIRequest];
 }
 
 - (NSDictionary *)serverVars

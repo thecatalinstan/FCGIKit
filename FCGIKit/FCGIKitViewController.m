@@ -9,7 +9,7 @@
 #import "FCGIKitViewController.h"
 #import "FCGIKitView.h"
 #import "FCGIKitNib.h"
-#import "FCGIKitHTTPRequest.h"
+#import "FKHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 
 @implementation FCGIKitViewController

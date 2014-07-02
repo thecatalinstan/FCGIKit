@@ -8,7 +8,7 @@
 
 #import "FCGIKit.h"
 
-@class FKApplication, FCGIKitHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
+@class FKApplication, FKHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
 
 @protocol FKApplicationDelegate <NSObject>
 
@@ -26,6 +26,6 @@
 - (void)application:(FKApplication*)application didReceiveRequest:(NSDictionary*)userInfo;
 - (void)application:(FKApplication*)application didPrepareResponse:(NSDictionary*)userInfo;
 
-- (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request;
+- (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request;
 
 @end

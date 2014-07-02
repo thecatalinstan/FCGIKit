@@ -8,7 +8,7 @@
 
 #import "FCGIKitHTTPResponse.h"
 #import "FKApplication.h"
-#import "FCGIKitHTTPRequest.h"
+#import "FKHTTPRequest.h"
 #import "FCGIRequest.h"
 #import "FCGIKit.h"
 #import "NSString+FCGIKit.h"
@@ -70,7 +70,7 @@
 @synthesize HTTPStatus = _HTTPStatus;
 @synthesize isRedirecting = _isRedirecting;
 
-- (id)initWithHTTPRequest:(FCGIKitHTTPRequest *)anHTTPRequest
+- (id)initWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
     self = [self init];
     if ( self != nil ) {
@@ -83,7 +83,7 @@
     return self;
 }
 
-+ (id)responseWithHTTPRequest:(FCGIKitHTTPRequest *)anHTTPRequest
++ (id)responseWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
     return [[FCGIKitHTTPResponse alloc] initWithHTTPRequest:anHTTPRequest];
 }

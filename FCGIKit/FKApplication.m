@@ -16,7 +16,7 @@
 #import "FCGIParamsRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
-#import "FCGIKitHTTPRequest.h"
+#import "FKHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"
 #import "FCGIKitRoute.h"
@@ -61,7 +61,7 @@ void handleSIGTERM(int signum) {
 
 - (void)removeRequest:(FCGIRequest*)request;
 
-- (NSString*)routeLookupURIForRequest:(FCGIKitHTTPRequest*)request;
+- (NSString*)routeLookupURIForRequest:(FKHTTPRequest*)request;
 - (FCGIKitViewController*)instantiateViewControllerForRoute:(FCGIKitRoute*)route;
 
 @end
@@ -228,7 +228,7 @@ void handleSIGTERM(int signum) {
             [request.stdinData appendData:data];
             [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
         } else {
-            FCGIKitHTTPRequest* httpRequest = [FCGIKitHTTPRequest requestWithFCGIRequest:request];
+            FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
             FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse responseWithHTTPRequest:httpRequest];
 
             NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
@@ -330,7 +330,7 @@ void handleSIGTERM(int signum) {
     [_currentRequests removeObjectForKey:globalRequestId];
 }
 
-- (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
+- (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request
 {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSString* returnURI = nil;

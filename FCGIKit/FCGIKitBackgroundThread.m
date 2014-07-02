@@ -11,7 +11,7 @@
 #import "FCGIKitBackgroundThread.h"
 #import "FCGIKit.h"
 #import "FKApplication.h"
-#import "FCGIKitHTTPRequest.h"
+#import "FKHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 
 @implementation FCGIKitBackgroundThread

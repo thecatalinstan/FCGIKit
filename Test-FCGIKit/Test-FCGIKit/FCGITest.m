@@ -50,7 +50,7 @@
     [viewController.response finish];
 }
 
-- (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request
+- (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request
 {
     // This gives you the option
 //    NSLog(@"%s %@", __PRETTY_FUNCTION__, request.serverVars[@"REQUEST_URI"]);

@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitHTTPRequest, FCGIRequest;
+@class FKHTTPRequest, FCGIRequest;
 
 @interface FCGIKitHTTPResponse : NSObject {
-    FCGIKitHTTPRequest* _HTTPRequest;
+    FKHTTPRequest* _HTTPRequest;
 
     NSMutableDictionary* HTTPHeaders;
     NSMutableDictionary* HTTPCookies;
@@ -22,13 +22,13 @@
     BOOL _isRedirecting;
 }
 
-@property (nonatomic, retain) FCGIKitHTTPRequest* HTTPRequest;
+@property (nonatomic, retain) FKHTTPRequest* HTTPRequest;
 @property (atomic, readonly) BOOL headersAlreadySent;
 @property (atomic, assign) NSUInteger HTTPStatus;
 @property (atomic, readonly) BOOL isRedirecting;
 
-- (id)initWithHTTPRequest:(FCGIKitHTTPRequest*)anHTTPRequest;
-+ (id)responseWithHTTPRequest:(FCGIKitHTTPRequest*)anHTTPRequest;
+- (id)initWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
++ (id)responseWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
 
 - (void)write:(NSData*)data;
 - (void)writeString:(NSString*)string;
