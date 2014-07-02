@@ -20,31 +20,31 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>FCGIKitConnectionInfo</key>
+	<key>FKConnectionInfo</key>
 	<dict>
-		<key>FCGIKitConnectionInfoInterface</key>
+		<key>FKConnectionInfoInterface</key>
 		<string>127.0.0.1</string>
-		<key>FCGIKitConnectionInfoPort</key>
+		<key>FKConnectionInfoPort</key>
 		<integer>10000</integer>
-		<key>FCGIKitConnectionInfoSocket</key>
+		<key>FKConnectionInfoSocket</key>
 		<string>/tmp/test-fcgikit.sock</string>
 	</dict>
-	<key>FCGIKitMaxConnections</key>
+	<key>FKMaxConnections</key>
 	<integer>2</integer>
-	<key>FCGIKitRoutes</key>
+	<key>FKRoutes</key>
 	<array>
 		<dict>
-			<key>FCGIKitRouteController</key>
+			<key>FKRouteController</key>
 			<string>FCGIKitNotFoundViewController</string>
-			<key>FCGIKitRoutePath</key>
+			<key>FKRoutePath</key>
 			<string>/not-found</string>
 		</dict>
 		<dict>
-			<key>FCGIKitRouteController</key>
+			<key>FKRouteController</key>
 			<string>FCGIKitContactViewController</string>
-			<key>FCGIKitRoutePath</key>
+			<key>FKRoutePath</key>
 			<string>/contact</string>
-			<key>FCGIKitRouteUserInfo</key>
+			<key>FKRouteUserInfo</key>
 			<dict>
 				<key>A bool key</key>
 				<true/>
@@ -59,11 +59,11 @@
 			</dict>
 		</dict>
 		<dict>
-			<key>FCGIKitRouteController</key>
+			<key>FKRouteController</key>
 			<string>FCGIKitDefaultViewController</string>
-			<key>FCGIKitRoutePath</key>
+			<key>FKRoutePath</key>
 			<string>/*</string>
-			<key>FCGIKitRouteUserInfo</key>
+			<key>FKRouteUserInfo</key>
 			<dict>
 				<key>A bool key</key>
 				<true/>
