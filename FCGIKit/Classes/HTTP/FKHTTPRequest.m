@@ -160,7 +160,7 @@
         result.key = key;
         result.dictionaryKey = nil;
     } else {
-        NSTextCheckingResult* match = [matches firstObject];
+        NSTextCheckingResult* match = matches[0];
         result.objectClass = [NSArray class];
         result.key = [key substringWithRange:[match rangeAtIndex:1]];
 
