@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIApplicationDelegate.h"
+#import "FKApplicationDelegate.h"
 #import "AsyncSocket.h"
 
 #define FCGIRecordFixedLengthPartLength 8

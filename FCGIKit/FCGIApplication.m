@@ -25,7 +25,7 @@
 #import "FCGIKitView.h"
 #import "FCGIKitViewController.h"
 
-int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate> delegate)
+int FCGIApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
 {
     (void)signal(SIGTERM, handleSIGTERM) ;
     FCGIApp = [[FCGIApplication alloc] initWithArguments:argv count:argc];
@@ -35,7 +35,6 @@ int FCGIApplicationMain(int argc, const char **argv, id<FCGIApplicationDelegate>
 }
 
 void handleSIGTERM(int signum) {
-//    NSLog(@"%@", @"Caught SIGTERM. Terminating.");
     [FCGIApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
 }
 

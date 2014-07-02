@@ -51,7 +51,7 @@
 
 /* Begin PBXFileReference section */
 		AD0EA94A17284CB4005C3923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		AD0EA95A17284E0B005C3923 /* FCGIApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIApplicationDelegate.h; sourceTree = "<group>"; };
+		AD0EA95A17284E0B005C3923 /* FKApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplicationDelegate.h; sourceTree = "<group>"; };
 		AD0EA9861728515D005C3923 /* FCGIApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIApplication.h; sourceTree = "<group>"; };
 		AD0EA9871728515D005C3923 /* FCGIApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIApplication.m; sourceTree = "<group>"; };
 		AD0EA9BA17285DBD005C3923 /* libfcgikit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libfcgikit-Prefix.pch"; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 				AD9EAECE18E8B0AD005BEAEF /* FCGI Protocol */,
 				AD2FA14F172B507E00EF47BB /* FCGIKit.h */,
 				ADC1E011172CB29C0022E227 /* FCGIKit.m */,
-				AD0EA95A17284E0B005C3923 /* FCGIApplicationDelegate.h */,
+				AD0EA95A17284E0B005C3923 /* FKApplicationDelegate.h */,
 				AD0EA9861728515D005C3923 /* FCGIApplication.h */,
 				AD0EA9871728515D005C3923 /* FCGIApplication.m */,
 				AD9EAECA18E8B09A005BEAEF /* FCGIKitHTTPRequest.h */,
@@ -524,6 +524,7 @@
 				ADC3AB5119635317000DA17F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
