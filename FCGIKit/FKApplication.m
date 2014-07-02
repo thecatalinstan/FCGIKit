@@ -9,7 +9,7 @@
 #import <objc/message.h>
 
 #import "AsyncSocket.h"
-#import "FCGIApplication.h"
+#import "FKApplication.h"
 #import "FCGIKit.h"
 #import "FCGIRecord.h"
 #import "FCGIBeginRequestRecord.h"
@@ -28,7 +28,7 @@
 int FCGIApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
 {
     (void)signal(SIGTERM, handleSIGTERM) ;
-    FCGIApp = [[FCGIApplication alloc] initWithArguments:argv count:argc];
+    FCGIApp = [[FKApplication alloc] initWithArguments:argv count:argc];
     [FCGIApp setDelegate:delegate];
     [FCGIApp run];
     return EXIT_SUCCESS;
@@ -38,7 +38,7 @@ void handleSIGTERM(int signum) {
     [FCGIApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
 }
 
-@interface FCGIApplication (Private)
+@interface FKApplication (Private)
 - (void)quit;
 - (void)cancelTermination;
 - (void)startRunLoop;
@@ -66,7 +66,7 @@ void handleSIGTERM(int signum) {
 
 @end
 
-@implementation FCGIApplication(Private)
+@implementation FKApplication(Private)
 
 - (void)quit
 {
@@ -412,7 +412,7 @@ void handleSIGTERM(int signum) {
 
 @end
 
-@implementation FCGIApplication
+@implementation FKApplication
 
 @synthesize maxConnections = _maxConnections;
 @synthesize socketPath = _socketPath;
@@ -458,10 +458,10 @@ void handleSIGTERM(int signum) {
     }
 }
 
-+ (FCGIApplication *)sharedApplication
++ (FKApplication *)sharedApplication
 {
     if (!FCGIApp) {
-        FCGIApp = [[FCGIApplication alloc] init];
+        FCGIApp = [[FKApplication alloc] init];
     }
     return FCGIApp;
 }

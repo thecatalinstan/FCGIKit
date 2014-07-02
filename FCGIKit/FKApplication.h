@@ -21,11 +21,11 @@ enum _FCGISocketTag
 @class FCGIRequest;
 @protocol AsyncSocketDelegate;
 
-FCGIApplication *FCGIApp;
+FKApplication *FCGIApp;
 extern int FCGIApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
 void handleSIGTERM(int signum);
 
-@interface FCGIApplication : NSObject<AsyncSocketDelegate> {
+@interface FKApplication : NSObject<AsyncSocketDelegate> {
     NSObject<FKApplicationDelegate> *_delegate;
     NSUInteger _maxConnections;
     NSString* _socketPath;
@@ -72,7 +72,7 @@ void handleSIGTERM(int signum);
 @property (nonatomic, readonly, retain) NSArray* startupArguments;
 @property (nonatomic, retain) NSMutableDictionary* viewControllers;
 
-+ (FCGIApplication *)sharedApplication;
++ (FKApplication *)sharedApplication;
 
 - initWithArguments:(const char **)argv count:(int)argc;
 

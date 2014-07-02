@@ -8,23 +8,23 @@
 
 #import "FCGIKit.h"
 
-@class FCGIApplication, FCGIKitHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
+@class FKApplication, FCGIKitHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
 
 @protocol FKApplicationDelegate <NSObject>
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
-- (void)application:(FCGIApplication*)application presentViewController:(FCGIKitViewController*)viewController;
+- (void)application:(FKApplication*)application presentViewController:(FCGIKitViewController*)viewController;
 
 @optional
-- (NSError *)application:(FCGIApplication *)application willPresentError:(NSError *)error;
+- (NSError *)application:(FKApplication *)application willPresentError:(NSError *)error;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification;
 
-- (FCGIApplicationTerminateReply)applicationShouldTerminate:(FCGIApplication *)sender;
+- (FCGIApplicationTerminateReply)applicationShouldTerminate:(FKApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)notification;
 
-- (void)application:(FCGIApplication*)application didReceiveRequest:(NSDictionary*)userInfo;
-- (void)application:(FCGIApplication*)application didPrepareResponse:(NSDictionary*)userInfo;
+- (void)application:(FKApplication*)application didReceiveRequest:(NSDictionary*)userInfo;
+- (void)application:(FKApplication*)application didPrepareResponse:(NSDictionary*)userInfo;
 
 - (NSString *)routeLookupURIForRequest:(FCGIKitHTTPRequest *)request;
 

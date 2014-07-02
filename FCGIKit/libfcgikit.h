@@ -25,8 +25,8 @@
 #import "NSHTTPCookie+FCGIKit.h"
 #import "NSDate+RFC1123.h"
 
-#import "FCGIApplicationDelegate.h"
-#import "FCGIApplication.h"
+#import "FKApplicationDelegate.h"
+#import "FKApplication.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"

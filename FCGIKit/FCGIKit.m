@@ -48,25 +48,10 @@ NSString* const FCGIKitApplicationWillFinishLaunchingNotification = @"FCGIKitApp
 NSString* const FCGIKitApplicationDidFinishLaunchingNotification = @"FCGIKitApplicationDidFinishLaunchingNotification";
 NSString* const FCGIKitApplicationWillTerminateNotification = @"FCGIKitApplicationWillTerminateNotification";
 
-void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info ) {
-    return;
-    
+void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info )
+{
+#if LOG_RUNLOOP
     CFRunLoopActivity currentActivity = activity;
-
-    switch (currentActivity) {
-        case kCFRunLoopEntry:
-            NSLog(@"* Waiting for events: %@\n", [NSThread currentThread]);
-            break;
-        case kCFRunLoopAfterWaiting:
-//        case kCFRunLoopExit:
-            NSLog(@"* Processed event: %@\n", [NSThread currentThread]);
-            break;
-        default:
-            break;
-    }
-    
-    return;
-
     switch (currentActivity) {
         case kCFRunLoopEntry:
             NSLog(@"kCFRunLoopEntry: %@\n", [NSThread currentThread]);
@@ -96,4 +81,5 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
             NSLog(@"Activity not recognized!: %@\n", [NSThread currentThread]);
             break;
     }
+#endif
 }

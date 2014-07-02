@@ -30,7 +30,7 @@
 #import "FCGIByteStreamRecord.h"
 #import "FCGIEndRequestRecord.h"
 #import "AsyncSocket.h"
-#import "FCGIApplication.h"
+#import "FKApplication.h"
 
 @interface FCGIRequest : NSObject {
 @private

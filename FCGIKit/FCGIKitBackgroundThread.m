@@ -10,7 +10,7 @@
 
 #import "FCGIKitBackgroundThread.h"
 #import "FCGIKit.h"
-#import "FCGIApplication.h"
+#import "FKApplication.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIKitHTTPResponse.h"
 

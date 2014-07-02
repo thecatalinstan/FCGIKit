@@ -7,7 +7,7 @@
 //
 
 #import "FCGIKitHTTPResponse.h"
-#import "FCGIApplication.h"
+#import "FKApplication.h"
 #import "FCGIKitHTTPRequest.h"
 #import "FCGIRequest.h"
 #import "FCGIKit.h"
@@ -33,7 +33,7 @@
 
     NSData* data = [[NSString stringWithFormat:@"Status: %lu\n", (unsigned long)self.HTTPStatus] dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
-    [[FCGIApplication sharedApplication] writeDataToStdout:userInfo];
+    [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
 - (NSString *)buildHTTPHeaders
@@ -56,7 +56,7 @@
     
     NSData* data = [[self.buildHTTPHeaders stringByAppendingString:@"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
-    [[FCGIApplication sharedApplication] writeDataToStdout:userInfo];
+    [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 
     _headersAlreadySent = YES;
 }
@@ -172,7 +172,7 @@
     }
     
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
-    [[FCGIApplication sharedApplication] writeDataToStdout:userInfo];
+    [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
 - (void)writeString:(NSString *)string
@@ -183,7 +183,7 @@
 - (void)log:(NSData *)data
 {
     NSDictionary* userInfo = @{FCGIKitRequestKey: self.HTTPRequest.FCGIRequest, FCGIKitDataKey: data == nil ? [NSData data] : data };
-    [[FCGIApplication sharedApplication]  writeDataToStderr:userInfo];
+    [[FKApplication sharedApplication]  writeDataToStderr:userInfo];
 }
 
 - (void)logString:(NSString *)string
@@ -196,7 +196,7 @@
     if ( !_headersAlreadySent ) {
         [self sendHTTPHeaders];
     }
-    [[FCGIApplication sharedApplication]  finishRequest:self.HTTPRequest.FCGIRequest];
+    [[FKApplication sharedApplication]  finishRequest:self.HTTPRequest.FCGIRequest];
 }
 
 
