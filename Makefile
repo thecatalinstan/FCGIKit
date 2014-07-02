@@ -5,11 +5,7 @@
 #  Created by Cătălin Stan on 7/1/14.
 #  Copyright (c) 2014 Catalin Stan. All rights reserved.
 
-
 all: clean docs
-
-clean: 
-	rm -vrf "../${PRODUCT_NAME}"
 
 docs:
 	/usr/local/bin/appledoc \
@@ -32,3 +28,6 @@ docs:
 		--ignore "${PROJECT_DIR}/FCGIKit/Libraries" \
 		--index-desc "${PROJECT_DIR}/Readme.md" \
 		"${PROJECT_DIR}"
+        
+clean: 
+	rm -vrf "../${PRODUCT_NAME}"
