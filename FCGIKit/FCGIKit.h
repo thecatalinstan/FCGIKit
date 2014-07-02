@@ -7,50 +7,48 @@
 //
 
 enum {
-    FCGITerminateCancel = 0,
-    FCGITerminateNow    = 1,
-    FCGITerminateLater  = 2
+    FKTerminateCancel = 0,
+    FKTerminateNow    = 1,
+    FKTerminateLater  = 2
 };
-typedef NSUInteger FCGIApplicationTerminateReply;
+typedef NSUInteger FKApplicationTerminateReply;
 
 extern NSString* const FCGIKit;
-extern NSString* const FCGIKitApplicationRunLoopMode;
+extern NSString* const FKApplicationRunLoopMode;
 
-extern NSString* const FCGIKitErrorKey;
-extern NSString* const FCGIKitErrorFileKey;
-extern NSString* const FCGIKitErrorLineKey;
-extern NSString* const FCGIKitErrorDomain;
+extern NSString* const FKErrorKey;
+extern NSString* const FKErrorFileKey;
+extern NSString* const FKErrorLineKey;
+extern NSString* const FKErrorDomain;
 
-extern NSString* const FCGIKitMaxConnectionsKey;
-extern NSString* const FCGIKitConnectionInfoKey;
-extern NSString* const FCGIKitConnectionInfoPortKey;
-extern NSString* const FCGIKitConnectionInfoInterfaceKey;
-extern NSString* const FCGIKitConnectionInfoSocketKey;
+extern NSString* const FKMaxConnectionsKey;
+extern NSString* const FKConnectionInfoKey;
+extern NSString* const FKConnectionInfoPortKey;
+extern NSString* const FKConnectionInfoInterfaceKey;
+extern NSString* const FKConnectionInfoSocketKey;
 
-extern NSUInteger const FCGIKitDefaultMaxConnections;
-extern NSString* const FCGIKitDefaultSocketPath;
-extern NSUInteger const FCGIKitDefaultPortNumber;
+extern NSUInteger const FKDefaultMaxConnections;
+extern NSString* const FKDefaultSocketPath;
+extern NSUInteger const FKDefaultPortNumber;
 
-extern NSString* const FCGIKitRecordKey;
-extern NSString* const FCGIKitSocketKey;
-extern NSString* const FCGIKitDataKey;
-extern NSString* const FCGIKitRequestKey;
-extern NSString* const FCGIKitResponseKey;
-extern NSString* const FCGIKitResultKey;
+extern NSString* const FKRecordKey;
+extern NSString* const FKSocketKey;
+extern NSString* const FKDataKey;
+extern NSString* const FKRequestKey;
+extern NSString* const FKResponseKey;
+extern NSString* const FKResultKey;
 
-extern NSString* const FCGIKitRoutesKey;
-extern NSString* const FCGIKitRoutePathKey;
-extern NSString* const FCGIKitRouteControllerKey;
-extern NSString* const FCGIKitRouteNibNameKey;
-extern NSString* const FCGIKitRouteUserInfoKey;
+extern NSString* const FKRoutesKey;
+extern NSString* const FKRoutePathKey;
+extern NSString* const FKRouteControllerKey;
+extern NSString* const FKRouteNibNameKey;
+extern NSString* const FKRouteUserInfoKey;
 
-extern NSString* const FCGIKitFileNameKey;
-extern NSString* const FCGIKitFileTmpNameKey;
-extern NSString* const FCGIKitFileSizeKey;
-extern NSString* const FCGIKitFileContentTypeKey;
+extern NSString* const FKFileNameKey;
+extern NSString* const FKFileTmpNameKey;
+extern NSString* const FKFileSizeKey;
+extern NSString* const FKFileContentTypeKey;
 
-extern NSString* const FCGIKitApplicationWillFinishLaunchingNotification;
-extern NSString* const FCGIKitApplicationDidFinishLaunchingNotification;
-extern NSString* const FCGIKitApplicationWillTerminateNotification;
-
-void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info );
+extern NSString* const FKApplicationWillFinishLaunchingNotification;
+extern NSString* const FKApplicationDidFinishLaunchingNotification;
+extern NSString* const FKApplicationWillTerminateNotification;
