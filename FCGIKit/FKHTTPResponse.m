@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKitHTTPResponse.h"
+#import "FKHTTPResponse.h"
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
 #import "FCGIRequest.h"
@@ -14,7 +14,7 @@
 #import "NSString+FCGIKit.h"
 #import "NSHTTPCookie+FCGIKit.h"
 
-@interface FCGIKitHTTPResponse(Private)
+@interface FKHTTPResponse(Private)
 
 - (void)sendHTTPStatus;
 - (NSString*)buildHTTPHeaders;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation FCGIKitHTTPResponse(Private)
+@implementation FKHTTPResponse(Private)
 
 - (void)sendHTTPStatus
 {
@@ -63,7 +63,7 @@
 
 @end
 
-@implementation FCGIKitHTTPResponse
+@implementation FKHTTPResponse
 
 @synthesize HTTPRequest = _HTTPRequest;
 @synthesize headersAlreadySent = _headersAlreadySent;
@@ -85,7 +85,7 @@
 
 + (id)responseWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
-    return [[FCGIKitHTTPResponse alloc] initWithHTTPRequest:anHTTPRequest];
+    return [[FKHTTPResponse alloc] initWithHTTPRequest:anHTTPRequest];
 }
 
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field

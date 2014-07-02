@@ -28,7 +28,7 @@
 #import "FKApplicationDelegate.h"
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
-#import "FCGIKitHTTPResponse.h"
+#import "FKHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"
 
 #import "FCGIKitNib.h"

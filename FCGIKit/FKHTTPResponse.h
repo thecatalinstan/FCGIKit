@@ -10,7 +10,7 @@
 
 @class FKHTTPRequest, FCGIRequest;
 
-@interface FCGIKitHTTPResponse : NSObject {
+@interface FKHTTPResponse : NSObject {
     FKHTTPRequest* _HTTPRequest;
 
     NSMutableDictionary* HTTPHeaders;

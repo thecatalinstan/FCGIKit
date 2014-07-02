@@ -17,7 +17,7 @@
 #import "FCGIByteStreamRecord.h"
 #import "FCGIRequest.h"
 #import "FKHTTPRequest.h"
-#import "FCGIKitHTTPResponse.h"
+#import "FKHTTPResponse.h"
 #import "FCGIKitBackgroundThread.h"
 #import "FCGIKitRoute.h"
 #import "FCGIKitRoutingCenter.h"
@@ -229,7 +229,7 @@ void handleSIGTERM(int signum) {
             [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
         } else {
             FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
-            FCGIKitHTTPResponse* httpResponse = [FCGIKitHTTPResponse responseWithHTTPRequest:httpRequest];
+            FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
 
             NSDictionary* userInfo = @{FCGIKitRequestKey: httpRequest, FCGIKitResponseKey: httpResponse};
             if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
@@ -600,7 +600,7 @@ void handleSIGTERM(int signum) {
 
 - (void)finishRequestWithError:(NSDictionary*)userInfo
 {
-    FCGIKitHTTPResponse* httpResponse  = userInfo[FCGIKitResponseKey];
+    FKHTTPResponse* httpResponse  = userInfo[FCGIKitResponseKey];
     NSError* error = userInfo[FCGIKitErrorKey];
     [self presentError:error];
     [httpResponse setHTTPStatus:500];

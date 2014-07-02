@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class FCGIKitView, FKHTTPRequest, FCGIKitHTTPResponse;
+@class FCGIKitView, FKHTTPRequest, FKHTTPResponse;
 
 @interface FCGIKitViewController : NSObject {
     FCGIKitView* _view;
@@ -16,7 +16,7 @@
     NSString* _nibName;
     NSBundle* _nibBundle;
 
-    FCGIKitHTTPResponse* _response;
+    FKHTTPResponse* _response;
     FKHTTPRequest* _request;
     
     NSDictionary* _userInfo;
@@ -29,7 +29,7 @@
 @property (nonatomic, readonly) NSString* nibName;
 @property (nonatomic, readonly) NSBundle* nibBundle;
 @property (nonatomic, retain) FKHTTPRequest* request;
-@property (nonatomic, retain) FCGIKitHTTPResponse* response;
+@property (nonatomic, retain) FKHTTPResponse* response;
 @property (nonatomic, retain) NSDictionary* userInfo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;

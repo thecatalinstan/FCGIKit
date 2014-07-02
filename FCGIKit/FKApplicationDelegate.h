@@ -8,7 +8,7 @@
 
 #import "FCGIKit.h"
 
-@class FKApplication, FKHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
+@class FKApplication, FKHTTPRequest, FKHTTPResponse, FCGIKitViewController;
 
 @protocol FKApplicationDelegate <NSObject>
 
