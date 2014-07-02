@@ -8,7 +8,7 @@
 
 #import <libfcgikit.h>
 
-@interface FCGITest : NSObject<FCGIApplicationDelegate> {
+@interface FCGITest : NSObject<FKApplicationDelegate> {
     
 }
 

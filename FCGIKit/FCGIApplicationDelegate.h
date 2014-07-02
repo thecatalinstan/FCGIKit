@@ -10,7 +10,7 @@
 
 @class FCGIApplication, FCGIKitHTTPRequest, FCGIKitHTTPResponse, FCGIKitViewController;
 
-@protocol FCGIApplicationDelegate <NSObject>
+@protocol FKApplicationDelegate <NSObject>
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)application:(FCGIApplication*)application presentViewController:(FCGIKitViewController*)viewController;

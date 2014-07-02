@@ -434,12 +434,12 @@ void handleSIGTERM(int signum) {
     return [[NSBundle mainBundle] infoDictionary];
 }
 
-- (id<FCGIApplicationDelegate>) delegate
+- (id<FKApplicationDelegate>) delegate
 {
     return _delegate;
 }
 
-- (void)setDelegate:(id<FCGIApplicationDelegate>)delegate
+- (void)setDelegate:(id<FKApplicationDelegate>)delegate
 {
     if ( _delegate ) {
         [[NSNotificationCenter defaultCenter] removeObserver:_delegate];
