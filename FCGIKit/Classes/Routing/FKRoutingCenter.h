@@ -10,7 +10,6 @@
 
 @class FKRoute;
 
-
 /**
  * An `FKRoutingCenter` object (or simply, routing center) provides a mechanism
  * for specifying which controllers and views should be called for a particular
@@ -49,8 +48,6 @@
 /**
  *  Creates a routing center using the specified routing table
  *
- *
- *
  *  @param routesOrNil The array containing the route definition dictionaries
  *
  *  @return An instance of `FKRoutingCenter`
@@ -58,13 +55,30 @@
 - (id)initWithRoutes:(NSArray*)routesOrNil;
 
 /**
- *  Get routes
+ *  @name Accessing route objects
+ */
+
+/**
+ *  Get a specific route object from the available routes
  *
- *  @param requestURI <#requestURI description#>
+ *  @param requestURI The URI for which to find the route object
  *
- *  @return <#return value description#>
+ *  @return An instantiated
  */
 - (FKRoute *)routeForRequestURI:(NSString*)requestURI;
+
+/**
+ *  Returns a dictionary that contains all the route valid FKRoute
+ *  objects that the application supports.
+ *  
+ *  The keys are the route stubs as you would find them in the
+ *  `FKRoutePath` key of a route dictionaries and the values are 
+ *  FKRoute objects. The routes here have already been checked for
+ *  availability and have already been validated. All the nibs
+ *  have been cached.
+ *
+ *  @return A fully populated dictionary of routes
+ */
 - (NSDictionary *)allRoutes;
 
 @end
