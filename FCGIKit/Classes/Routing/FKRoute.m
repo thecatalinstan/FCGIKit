@@ -47,4 +47,39 @@
     return [NSString stringWithFormat:@"%@ (Controller: %@, Path: %@, NibName: %@)", super.description, self.controllerClass, self.requestPath, self.nibName];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	FKRoute* route = [[[self class] allocWithZone:zone] init];
+    if( route != nil ) {
+        route.requestPath = [self.requestPath copyWithZone:zone];
+		route.controllerClass = NSClassFromString([NSStringFromClass(self.controllerClass) copyWithZone:zone]);
+        route.nibName = [self.nibName copyWithZone:zone];
+		route.userInfo = [self.userInfo copyWithZone:zone];
+    }
+    return route;
+}
+
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.requestPath forKey:FKRoutePathKey];
+    [encoder encodeObject:self.controllerClass forKey:FKRouteControllerKey];
+	[encoder encodeObject:self.nibName forKey:FKRouteNibNameKey];
+	[encoder encodeObject:self.userInfo forKey:FKRouteUserInfoKey];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [self init];
+    if( self != nil ) {
+		self.requestPath = [decoder decodeObjectForKey:FKRoutePathKey];
+		self.controllerClass = [decoder decodeObjectForKey:FKRouteControllerKey];
+		self.nibName = [decoder decodeObjectForKey:FKRouteNibNameKey];
+		self.userInfo = [decoder decodeObjectForKey:FKRouteUserInfoKey];
+		
+    }
+    return self;
+}
+
 @end

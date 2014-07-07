@@ -10,7 +10,7 @@
 
 @class FKViewController;
 
-@interface FKRoute : NSObject {
+@interface FKRoute : NSObject<NSCopying, NSCoding> {
     NSString* _requestPath;
     Class _controllerClass;
     NSString* _nibName;
