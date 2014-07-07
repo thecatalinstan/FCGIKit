@@ -42,6 +42,16 @@
     return [self initWithRequestPath:requestPath controllerClass:controllerClass nibName:nibName userInfo:userInfo];
 }
 
+- (NSDictionary *)infoDictionary
+{
+	NSDictionary* infoDictionary = @{ FKRoutePathKey: self.requestPath,
+									  FKRouteControllerKey: NSStringFromClass(self.controllerClass),
+									  FKRouteNibNameKey: self.nibName,
+									  FKRouteUserInfoKey: self.userInfo
+									 };
+	return infoDictionary;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"%@ (Controller: %@, Path: %@, NibName: %@)", super.description, self.controllerClass, self.requestPath, self.nibName];

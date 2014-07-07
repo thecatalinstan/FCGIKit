@@ -23,8 +23,6 @@
  * of routes so you should not have to call any of these methods yourself.
  *
  * Routes are specified in the bundles `Info.plist` file using the `FKRoutingKey`.
- *
- * @see [Routing table constants](#Constants)
  */
 @interface FKRoutingCenter : NSObject {
     NSDictionary* routes;

@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class FKViewController;
+/**
 
+ 
+ */
 @interface FKRoute : NSObject<NSCopying, NSCoding> {
     NSString* _requestPath;
     Class _controllerClass;
@@ -24,5 +26,7 @@
 
 - (id)initWithRequestPath:(NSString *)requestPath controllerClass:(Class)controllerClass nibName:(NSString*)nibName userInfo:(NSDictionary *)userInfo;
 - (id)initWithInfoDictionary:(NSDictionary*)infoDictionary;
+
+- (NSDictionary*)infoDictionary;
 
 @end
