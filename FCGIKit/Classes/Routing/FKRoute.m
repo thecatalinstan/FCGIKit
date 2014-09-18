@@ -57,20 +57,6 @@
     return [NSString stringWithFormat:@"%@ (Controller: %@, Path: %@, NibName: %@)", super.description, self.controllerClass, self.requestPath, self.nibName];
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	FKRoute* route = [[[self class] allocWithZone:zone] init];
-    if( route != nil ) {
-        route.requestPath = [self.requestPath copyWithZone:zone];
-		route.controllerClass = NSClassFromString([NSStringFromClass(self.controllerClass) copyWithZone:zone]);
-        route.nibName = [self.nibName copyWithZone:zone];
-		route.userInfo = [self.userInfo copyWithZone:zone];
-    }
-    return route;
-}
-
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)encoder {

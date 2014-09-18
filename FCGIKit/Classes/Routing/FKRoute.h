@@ -10,9 +10,10 @@
 
 /**
 
+The FKRoute Object
  
  */
-@interface FKRoute : NSObject<NSCopying, NSCoding> {
+@interface FKRoute : NSObject<NSCoding> {
     NSString* _requestPath;
     Class _controllerClass;
     NSString* _nibName;
