@@ -12,6 +12,7 @@
 
 @protocol FKApplicationDelegate <NSObject>
 
+@required
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 - (void)application:(FKApplication*)application presentViewController:(FKViewController*)viewController;
 
