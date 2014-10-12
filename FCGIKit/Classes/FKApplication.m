@@ -230,7 +230,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
     
-    NSLog(@"%s %@: %hu", __PRETTY_FUNCTION__, record.className, record.contentLength);
+//    NSLog(@"%s %@: %hu", __PRETTY_FUNCTION__, record.className, record.contentLength);
     if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
         
         FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];

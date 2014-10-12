@@ -374,7 +374,7 @@
 		AD0EA93917284CB4005C3923 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Catalin Stan";
 			};
 			buildConfigurationList = AD0EA93C17284CB4005C3923 /* Build configuration list for PBXProject "FCGIKit" */;
@@ -495,8 +495,8 @@
 		AD0EAA3517287C06005C3923 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_CURRENT_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FCGIKit/libfcgikit-Prefix.pch";
@@ -517,8 +517,8 @@
 		AD0EAA3617287C06005C3923 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_CURRENT_VERSION = 1.0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FCGIKit/libfcgikit-Prefix.pch";
