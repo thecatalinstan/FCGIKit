@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FKApplication.h"
 
 @class FKHTTPRequest, FKHTTPResponse;
 
@@ -14,18 +15,14 @@
     FKHTTPRequest* _request;
     FKHTTPResponse* _response;
     NSDictionary* _userInfo;
-    SEL _selector;
-    SEL _didEndSelector;
-    id _target;
 }
 
 @property (strong, nonatomic) FKHTTPRequest* request;
 @property (strong, nonatomic) FKHTTPResponse* response;
 @property (strong, nonatomic) NSDictionary* userInfo;
-@property (assign, nonatomic) SEL selector;
-@property (assign, nonatomic) SEL didEndSelector;
-@property (strong, nonatomic) id target;
 
+-(id)initWithUserInfo:(NSDictionary *)userInfo;
 - (id)initWithTarget:(id)target selector:(SEL)aSelector userInfo:(NSDictionary*)userInfo didEndSelector:(SEL)didEndSelector;
+- (id)initWithWorkerBlock:(FKAppBackgroundOperationBlock)block completion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary*)userInfo;
 
 @end

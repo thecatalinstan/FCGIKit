@@ -175,6 +175,7 @@
     }
     
     NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
+	
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 

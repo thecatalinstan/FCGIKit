@@ -14,6 +14,24 @@
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
 
+@interface FKBackgroundThread () {
+	SEL _selector;
+	SEL _didEndSelector;
+	id _target;
+	
+	FKAppBackgroundOperationBlock _workerBlock;
+	FKAppBackgroundOperationCompletionBlock _completionBlock;
+}
+
+@property (assign, nonatomic) SEL selector;
+@property (assign, nonatomic) SEL didEndSelector;
+@property (strong, nonatomic) id target;
+
+@property (copy, atomic) FKAppBackgroundOperationBlock workerBlock;
+@property (copy, atomic) FKAppBackgroundOperationCompletionBlock completionBlock;
+
+@end
+
 @implementation FKBackgroundThread
 
 @synthesize request = _request;
@@ -23,31 +41,68 @@
 @synthesize didEndSelector = _didEndSelector;
 @synthesize target = _target;
 
+-(id)initWithUserInfo:(NSDictionary *)userInfo
+{
+	self = [super init];
+	if ( self != nil ) {
+		_request = userInfo[FKRequestKey];
+		_response = userInfo[FKResponseKey];
+		_userInfo = userInfo;
+		
+		self.name = [NSString stringWithFormat:@"%@", [self className]];
+	}
+	return self;
+}
+
 -(id)initWithTarget:(id)target selector:(SEL)aSelector userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
 {
-    self = [super init];
+    self = [self initWithUserInfo:userInfo];
     if ( self != nil ) {
-        _request = userInfo[FKRequestKey];
-        _response = userInfo[FKResponseKey];
         _selector = aSelector;
         _didEndSelector = didEndSelector;
-        _userInfo = userInfo;
         _target = target;
-        
-        self.name = [NSString stringWithFormat:@"%@ [%@ %@]", [self className], [self.target className], NSStringFromSelector(self.selector)];
+		
+		self.name = [NSString stringWithFormat:@"%@ [%@ %@]", [self className], [self.target className], NSStringFromSelector(self.selector)];
     }
     return self;
+}
+
+- (id)initWithWorkerBlock:(FKAppBackgroundOperationBlock)workerBlock completion:(FKAppBackgroundOperationCompletionBlock)completionBlock userInfo:(NSDictionary *)userInfo
+{
+	self = [self initWithUserInfo:userInfo];
+	if ( self != nil ) {
+		_workerBlock = workerBlock;
+		_completionBlock = completionBlock;
+	}
+	return self;
 }
 
 
 - (void)main
 {
-    id result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
+	id result;
+	if ( self.target != nil ) {
+		result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
+	} else {
+		result = self.workerBlock(self.userInfo);
+	}
+	
     NSMutableDictionary *newUserInfo = [NSMutableDictionary dictionaryWithDictionary:self.userInfo];
     if ( result != nil ) {
         [newUserInfo setObject:result forKey:FKResultKey];
     }
-    [FKApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.copy];
+	
+	if ( self.target != nil ){
+		[FKApp performBackgroundDidEndSelector:self.didEndSelector onTarget:self.target userInfo:newUserInfo.
+		 copy];
+	} else {
+		[FKApp performBackgroundDidEndSelector:@selector(completionBlockDidEndSelectorUserInfo:) onTarget:self userInfo:newUserInfo.copy];
+	}
+}
+
+- (void)completionBlockDidEndSelectorUserInfo:(NSDictionary*)userInfo
+{
+	self.completionBlock(userInfo);
 }
 
 @end;

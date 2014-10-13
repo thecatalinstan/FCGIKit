@@ -12,7 +12,10 @@
 #define FCGIRecordFixedLengthPartLength 8
 #define FCGITimeout 5
 
-@class FCGIRequest;
+typedef id (^FKAppBackgroundOperationBlock)(NSDictionary *userInfo);
+typedef void (^FKAppBackgroundOperationCompletionBlock)(NSDictionary *userInfo);
+
+@class FCGIRequest, FKHTTPRequest, FKHTTPResponse;
 @protocol AsyncSocketDelegate;
 
 FKApplication *FKApp;
@@ -88,6 +91,8 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 
 - (void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector;
 - (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary*)userInfo;
+
+- (void)performBackgroundOperation:(FKAppBackgroundOperationBlock)block withCompletion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary*)userInfo;
 
 - (NSString*)temporaryDirectoryLocation;
 

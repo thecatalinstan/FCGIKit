@@ -667,6 +667,12 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
 }
 
+- (void)performBackgroundOperation:(FKAppBackgroundOperationBlock)block withCompletion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary *)userInfo
+{
+	FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithWorkerBlock:block completion:completion userInfo:userInfo];
+	[workerThread start];
+}
+
 - (NSString *)temporaryDirectoryLocation
 {
     NSString* identifier = [[NSBundle mainBundle] bundleIdentifier] != nil ? [[NSBundle mainBundle] bundleIdentifier] : [self.startupArguments[0] lastPathComponent];
