@@ -23,7 +23,9 @@
     if ( routesOrNil == nil ) {
         routesOrNil = [[NSBundle mainBundle] objectForInfoDictionaryKey:FKRoutesKey];
     }
-    
+	
+	NSLog(@"%@", [NSBundle mainBundle]);
+	
     NSMutableDictionary* routesDictionary = [[NSMutableDictionary alloc] initWithCapacity:routesOrNil.count];
     [routesOrNil enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         FKRoute* route = [[FKRoute alloc] initWithInfoDictionary:obj];
@@ -58,7 +60,7 @@ static FKRoutingCenter* sharedCenter;
 
 - (FKRoute *)routeForRequestURI:(NSString *)requestURI
 {
-    NSString* key = requestURI.pathComponents[1];
+	NSString* key = requestURI.pathComponents.count >= 2 ? requestURI.pathComponents[1] : @"*";
     return routes[key];
 }
 
