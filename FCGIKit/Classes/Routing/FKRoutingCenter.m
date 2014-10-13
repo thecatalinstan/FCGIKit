@@ -24,12 +24,10 @@
         routesOrNil = [[NSBundle mainBundle] objectForInfoDictionaryKey:FKRoutesKey];
     }
 	
-	NSLog(@"%@", [NSBundle mainBundle]);
-	
     NSMutableDictionary* routesDictionary = [[NSMutableDictionary alloc] initWithCapacity:routesOrNil.count];
     [routesOrNil enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         FKRoute* route = [[FKRoute alloc] initWithInfoDictionary:obj];
-        NSString* key = route.requestPath.pathComponents[1];
+		NSString* key = route.requestPath.pathComponents.count >= 2 ? route.requestPath.pathComponents[1] : @"";
         [routesDictionary setObject:route forKey:key];
     }];
     routes = routesDictionary.copy;
@@ -60,7 +58,7 @@ static FKRoutingCenter* sharedCenter;
 
 - (FKRoute *)routeForRequestURI:(NSString *)requestURI
 {
-	NSString* key = requestURI.pathComponents.count >= 2 ? requestURI.pathComponents[1] : @"*";
+	NSString* key = requestURI.pathComponents.count >= 2 ? requestURI.pathComponents[1] : @"";
     return routes[key];
 }
 
