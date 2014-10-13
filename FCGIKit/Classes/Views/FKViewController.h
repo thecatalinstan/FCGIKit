@@ -37,7 +37,7 @@
 
 - (void)loadView;
 - (void)viewDidLoad;
-- (void)didFinishLoading;
+
 - (NSString*)presentViewController:(BOOL)writeData;
 
 - (NSDictionary*)allVariables;
@@ -48,5 +48,6 @@
 - (void)removeVariableName:(NSString*)variableName;
 - (void)removeVariablesNamed:(NSArray *)variableNames;
 
+- (BOOL)automaticallyFinishesResponse;
 
 @end

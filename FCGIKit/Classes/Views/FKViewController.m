@@ -35,6 +35,14 @@
         _nibName = nibNameOrNil;
         _nibBundle = nibBundleOrNil;
         _userInfo = userInfo;
+		
+		if ( userInfo[FKRequestKey] ) {
+			_request = userInfo[FKRequestKey];
+		}
+		
+		if ( userInfo[FKResponseKey] ) {
+			_response = userInfo[FKResponseKey];
+		}
 
         [self loadView];
     }
@@ -56,6 +64,8 @@
  
     // Determine the view class to use
     Class viewClass = NSClassFromString([self.className stringByReplacingOccurrencesOfString:@"Controller" withString:@""]);
+	
+	
     if ( viewClass == nil ) {
         viewClass = [FKView class];
     }
@@ -67,10 +77,7 @@
 
 - (void)viewDidLoad
 {
-}
-
-- (void)didFinishLoading
-{
+	
 }
 
 - (NSString *)presentViewController:(BOOL)writeData
@@ -78,8 +85,17 @@
     NSString* output = [self.view render:self.allVariables];
     if ( writeData ) {
         [self.response writeString:output];
-    }    
+		
+		if ( self.automaticallyFinishesResponse ) {
+			[self.response finish];
+		}
+    }
     return output;
+}
+
+- (BOOL)automaticallyFinishesResponse
+{
+	return YES;
 }
 
 - (NSDictionary *)allVariables

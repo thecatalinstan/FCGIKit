@@ -1,12 +1,12 @@
 //
-//  FCGIKit.m
+//  FKConstants.m
 //  FCGIKit
 //
-//  Created by Cătălin Stan on 4/27/13.
-//  Copyright (c) 2013 Catalin Stan. All rights reserved.
+//  Created by Cătălin Stan on 13/10/14.
+//  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-#import "FCGIKit.h"
+#import "FKConstants.h"
 
 NSString* const FCGIKit = @"FCGIKit";
 NSString* const FKApplicationRunLoopMode = @"NSRunLoopCommonModes"; // This is a cheap hack. Will change to a custom runloop mode at some point

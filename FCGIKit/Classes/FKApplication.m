@@ -100,7 +100,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 - (void)removeRequest:(FCGIRequest*)request;
 
 - (NSString*)routeLookupURIForRequest:(FKHTTPRequest*)request;
-- (FKViewController*)instantiateViewControllerForRoute:(FKRoute*)route;
+- (FKViewController*)instantiateViewControllerForRoute:(FKRoute*)route userInfo:(NSDictionary*)userInfo;
 
 @end
 
@@ -266,7 +266,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
             FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
             FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
 
-            NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
+			NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
             if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
                 [self performSelector:@selector(callDelegateDidPrepareResponse:) onThread:[NSThread currentThread] withObject:userInfo waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
             }
@@ -279,21 +279,25 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
                 route = [[FKRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
             }
             
-            FKViewController* viewController = [self instantiateViewControllerForRoute:route];
+			FKViewController* viewController = [self instantiateViewControllerForRoute:route userInfo:userInfo];
             if ( viewController != nil ) {
-                [viewController setRequest:httpRequest];
-                [viewController setResponse:httpResponse];
-                [viewController setUserInfo:route.userInfo];
-                [viewController didFinishLoading];
+				
                 if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
                     [self performSelector:@selector(callDelegatePresentViewController:) onThread:[NSThread currentThread] withObject:viewController waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
                 }
+				
+			} else if ( _delegate && [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
+				
+				[self performSelector:@selector(callDelegateDidNotFindViewController:) onThread:[NSThread currentThread] withObject:userInfo waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
+				
             } else {
+				
                 NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"REQUEST_URI"]];
                 NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
                 NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
                 finishRequestUserInfo[FKErrorKey] = error;
                 [self performSelector:@selector(finishRequestWithError:) onThread:[NSThread currentThread] withObject:finishRequestUserInfo waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
+				
             }
         }
     }
@@ -309,6 +313,12 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 {
     [_delegate application:self didPrepareResponse:userInfo];
 }
+
+- (void)callDelegateDidNotFindViewController:(NSDictionary*)userInfo
+{
+	[_delegate application:self didNotFindViewController:userInfo];
+}
+
 
 - (void)callDelegatePresentViewController:(FKViewController*)viewController
 {
@@ -375,10 +385,22 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     return returnURI;
 }
 
-- (FKViewController *)instantiateViewControllerForRoute:(FKRoute *)route
+- (FKViewController *)instantiateViewControllerForRoute:(FKRoute *)route userInfo:(NSDictionary*)userInfo
 {
     NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
-    FKViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:route.userInfo];
+	
+	NSMutableDictionary* combinedUserInfo = [NSMutableDictionary dictionary];
+	
+	if ( userInfo ) {
+		[combinedUserInfo addEntriesFromDictionary:userInfo];
+	}
+	
+	if ( route.userInfo ){
+		[combinedUserInfo addEntriesFromDictionary:route.userInfo];
+	}
+	
+    FKViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:combinedUserInfo];
+	
     return controller;
 }
 

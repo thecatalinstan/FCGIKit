@@ -26,6 +26,7 @@
 
 - (void)application:(FKApplication*)application didReceiveRequest:(NSDictionary*)userInfo;
 - (void)application:(FKApplication*)application didPrepareResponse:(NSDictionary*)userInfo;
+- (void)application:(FKApplication *)application didNotFindViewController:(NSDictionary *)userInfo;
 
 - (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request;
 

@@ -36,9 +36,11 @@
 - (void)log:(NSData*)data;
 - (void)logString:(NSString*)string;
 
+- (NSDictionary*)allHTTPHeaderFields;
+- (void)setAllHTTPHeaderFields:(NSDictionary*)headerFields;
+
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
-- (void)setAllHTTPHeaderFields:(NSDictionary*)headerFields;
 
 - (void)setCookie:(NSHTTPCookie*)cookie;
 - (void)setCookie:(NSString*)name value:(NSString*)value expires:(NSDate*)expires path:(NSString*)path domain:(NSString*)domain secure:(BOOL)secure;

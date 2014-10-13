@@ -106,6 +106,11 @@
     [HTTPHeaders setObject:value forKey:field.stringbyFormattingHTTPHeader];
 }
 
+- (NSDictionary*)allHTTPHeaderFields
+{
+	return HTTPHeaders.copy;
+}
+
 - (void)setAllHTTPHeaderFields:(NSDictionary *)headerFields
 {
     [headerFields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
