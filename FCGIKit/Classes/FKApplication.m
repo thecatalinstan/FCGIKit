@@ -292,7 +292,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 				
             } else {
 				
-                NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"REQUEST_URI"]];
+                NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"DOCUMENT_URI"]];
                 NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
                 NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
                 finishRequestUserInfo[FKErrorKey] = error;
@@ -380,7 +380,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
         returnURI = [_delegate routeLookupURIForRequest:request];
     }
     if ( returnURI == nil ) {
-        returnURI = request.serverVars[@"REQUEST_URI"];
+        returnURI = request.serverVars[@"DOCUMENT_URI"];
     }
     return returnURI;
 }

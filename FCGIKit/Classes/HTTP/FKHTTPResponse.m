@@ -68,6 +68,15 @@
 @synthesize HTTPStatus = _HTTPStatus;
 @synthesize isRedirecting = _isRedirecting;
 
+- (id)init
+{
+	self = [super init];
+	if ( self != nil ) {
+		socketThread = [[FKApplication sharedApplication] listeningSocketThread];
+	}
+	return self;
+}
+
 - (id)initWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
     self = [self init];
@@ -162,14 +171,12 @@
     [self finish];
 }
 
-
 - (void)write:(NSData*)data
 {
-    
     if ( _isRedirecting ) {
         return;
     }
-    
+	
     if ( !_headersAlreadySent ) {
         [self sendHTTPHeaders];
     }

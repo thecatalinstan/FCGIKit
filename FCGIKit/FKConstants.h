@@ -13,8 +13,9 @@ enum {
 };
 typedef NSUInteger FKApplicationTerminateReply;
 
-extern NSString* const FCGIKit;
 extern NSString* const FKApplicationRunLoopMode;
+
+extern NSString* const FCGIKit;
 
 extern NSString* const FKErrorKey;
 extern NSString* const FKErrorFileKey;
@@ -37,6 +38,8 @@ extern NSString* const FKDataKey;
 extern NSString* const FKRequestKey;
 extern NSString* const FKResponseKey;
 extern NSString* const FKResultKey;
+extern NSString* const FKApplicationStatusKey;
+extern NSString* const FKProtocolStatusKey;
 
 extern NSString* const FKRoutesKey;
 extern NSString* const FKRoutePathKey;

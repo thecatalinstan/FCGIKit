@@ -32,6 +32,8 @@ NSString* const FKDataKey = @"FKData";
 NSString* const FKRequestKey = @"FKRequest";
 NSString* const FKResponseKey = @"FKResponse";
 NSString* const FKResultKey = @"FKResult";
+NSString* const FKApplicationStatusKey = @"FKApplicationStatus";
+NSString* const FKProtocolStatusKey = @"FKProtocolStatus";
 
 NSString* const FKRoutesKey = @"FKRoutes";
 NSString* const FKRoutePathKey = @"FKRoutePath";
