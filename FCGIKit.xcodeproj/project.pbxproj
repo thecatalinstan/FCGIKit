@@ -508,7 +508,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 			};
@@ -530,7 +530,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
 			};
