@@ -12,6 +12,49 @@
 #define FCGIRecordFixedLengthPartLength 8
 #define FCGITimeout 5
 
+extern NSString* const FKApplicationRunLoopMode;
+
+extern NSString* const FCGIKit;
+
+extern NSString* const FKErrorKey;
+extern NSString* const FKErrorFileKey;
+extern NSString* const FKErrorLineKey;
+extern NSString* const FKErrorDomain;
+
+extern NSString* const FKMaxConnectionsKey;
+extern NSString* const FKConnectionInfoKey;
+extern NSString* const FKConnectionInfoPortKey;
+extern NSString* const FKConnectionInfoInterfaceKey;
+extern NSString* const FKConnectionInfoSocketKey;
+
+extern NSUInteger const FKDefaultMaxConnections;
+extern NSString* const FKDefaultSocketPath;
+extern NSUInteger const FKDefaultPortNumber;
+
+extern NSString* const FKRecordKey;
+extern NSString* const FKSocketKey;
+extern NSString* const FKDataKey;
+extern NSString* const FKRequestKey;
+extern NSString* const FKResponseKey;
+extern NSString* const FKResultKey;
+extern NSString* const FKApplicationStatusKey;
+extern NSString* const FKProtocolStatusKey;
+
+extern NSString* const FKRoutesKey;
+extern NSString* const FKRoutePathKey;
+extern NSString* const FKRouteControllerKey;
+extern NSString* const FKRouteNibNameKey;
+extern NSString* const FKRouteUserInfoKey;
+
+extern NSString* const FKFileNameKey;
+extern NSString* const FKFileTmpNameKey;
+extern NSString* const FKFileSizeKey;
+extern NSString* const FKFileContentTypeKey;
+
+extern NSString* const FKApplicationWillFinishLaunchingNotification;
+extern NSString* const FKApplicationDidFinishLaunchingNotification;
+extern NSString* const FKApplicationWillTerminateNotification;
+
 typedef id (^FKAppBackgroundOperationBlock)(NSDictionary *userInfo);
 typedef void (^FKAppBackgroundOperationCompletionBlock)(NSDictionary *userInfo);
 

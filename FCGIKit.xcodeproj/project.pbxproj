@@ -20,7 +20,6 @@
 		AD6BB30719EEF6F200538169 /* FKNib.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9819646B950055A071 /* FKNib.m */; };
 		AD6BB30819EEF6F200538169 /* FKView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9A19646B950055A071 /* FKView.m */; };
 		AD6BB30919EEF6F200538169 /* FKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9C19646B950055A071 /* FKViewController.m */; };
-		AD6BB30A19EEF6F200538169 /* FKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AD9F824219EC2E84004E8684 /* FKConstants.m */; };
 		AD6BB30B19EEF6F200538169 /* DWUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FF3196472DD0055A071 /* DWUUID.m */; };
 		AD6BB30C19EEF6F200538169 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FA419646B950055A071 /* AsyncSocket.m */; };
 		AD6BB30D19EEF6F200538169 /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FA719646B950055A071 /* FCGIBeginRequestRecord.m */; };
@@ -41,7 +40,6 @@
 		AD6BB31C19EEF73500538169 /* FKView.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9919646B950055A071 /* FKView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31D19EEF73500538169 /* FKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9B19646B950055A071 /* FKViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31E19EEF73500538169 /* FCGIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9D19646B950055A071 /* FCGIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD6BB31F19EEF73500538169 /* FKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AD9F824119EC2E84004E8684 /* FKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32019EEF73500538169 /* DWUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FF2196472DD0055A071 /* DWUUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32119EEF73500538169 /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FA319646B950055A071 /* AsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32219EEF73500538169 /* FCGIBeginRequestRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FA619646B950055A071 /* FCGIBeginRequestRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,8 +107,6 @@
 		AD6BB2E619EEF47300538169 /* FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6BB2E919EEF47300538169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD6BB2FC19EEF58800538169 /* FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKit.m; sourceTree = "<group>"; };
-		AD9F824119EC2E84004E8684 /* FKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKConstants.h; sourceTree = "<group>"; };
-		AD9F824219EC2E84004E8684 /* FKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,8 +155,6 @@
 				AD1C9F8019646B950055A071 /* Classes */,
 				AD1C9F9D19646B950055A071 /* FCGIKit.h */,
 				AD6BB2FC19EEF58800538169 /* FCGIKit.m */,
-				AD9F824119EC2E84004E8684 /* FKConstants.h */,
-				AD9F824219EC2E84004E8684 /* FKConstants.m */,
 				AD1C9FA119646B950055A071 /* Libraries */,
 				AD1C9FDF19646BA30055A071 /* Supporting Files */,
 			);
@@ -297,6 +291,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6BB31E19EEF73500538169 /* FCGIKit.h in Headers */,
 				AD6BB31319EEF73500538169 /* FKApplication.h in Headers */,
 				AD6BB31419EEF73500538169 /* FKApplicationDelegate.h in Headers */,
 				AD6BB31519EEF73500538169 /* FKBackgroundThread.h in Headers */,
@@ -308,8 +303,6 @@
 				AD6BB31B19EEF73500538169 /* FKNib.h in Headers */,
 				AD6BB31C19EEF73500538169 /* FKView.h in Headers */,
 				AD6BB31D19EEF73500538169 /* FKViewController.h in Headers */,
-				AD6BB31E19EEF73500538169 /* FCGIKit.h in Headers */,
-				AD6BB31F19EEF73500538169 /* FKConstants.h in Headers */,
 				AD6BB32019EEF73500538169 /* DWUUID.h in Headers */,
 				AD6BB32119EEF73500538169 /* AsyncSocket.h in Headers */,
 				AD6BB32219EEF73500538169 /* FCGIBeginRequestRecord.h in Headers */,
@@ -420,7 +413,6 @@
 				AD6BB30719EEF6F200538169 /* FKNib.m in Sources */,
 				AD6BB30819EEF6F200538169 /* FKView.m in Sources */,
 				AD6BB30919EEF6F200538169 /* FKViewController.m in Sources */,
-				AD6BB30A19EEF6F200538169 /* FKConstants.m in Sources */,
 				AD6BB30B19EEF6F200538169 /* DWUUID.m in Sources */,
 				AD6BB30C19EEF6F200538169 /* AsyncSocket.m in Sources */,
 				AD6BB30D19EEF6F200538169 /* FCGIBeginRequestRecord.m in Sources */,

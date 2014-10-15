@@ -6,16 +6,15 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
-//! Project version number for FCGIKit.
-FOUNDATION_EXPORT double FCGIKitVersionNumber;
+#import <Foundation/Foundation.h>
 
-//! Project version string for FCGIKit.
+FOUNDATION_EXPORT double FCGIKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 
-#import <FCGIKit/FKConstants.h>
-
 #import <FCGIKit/AsyncSocket.h>
+
 #import <FCGIKit/FCGIRequest.h>
+#import <FCGIKit/FCGIparamsRecord.h>
 
 #import <FCGIKit/NSString+FCGIKit.h>
 #import <FCGIKit/NSHTTPCookie+FCGIKit.h>
@@ -32,4 +31,6 @@ FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 #import <FCGIKit/FKViewController.h>
 #import <FCGIKit/FKRoute.h>
 #import <FCGIKit/FKRoutingCenter.h>
+
+#import <FCGIKit/DWUUID.h>
 
