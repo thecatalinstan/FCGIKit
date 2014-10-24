@@ -14,7 +14,7 @@
 		<string>https://bitbucket.org/thecatalinstan/fcgikit.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>FCGIKit.xcodeproj/project.xcworkspace</string>
+	<string>FCGIKit.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A644B532B5D7680C117C98FB3D93DDFDE8805C16</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>A644B532B5D7680C117C98FB3D93DDFDE8805C16</string>
 			<key>IDESourceControlWCCName</key>
-			<string>fcgikit</string>
+			<string>FCGIKit</string>
 		</dict>
 	</array>
 </dict>
