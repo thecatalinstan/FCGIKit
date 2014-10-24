@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 FOUNDATION_EXPORT double FCGIKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 
