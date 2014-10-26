@@ -186,8 +186,12 @@
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
-- (void)writeString:(NSString *)string
+- (void)writeString:(NSString *)format, ...
 {
+	va_list args;
+	va_start(args, format);
+	NSString *string = [[NSString alloc] initWithFormat:format arguments:args];
+	va_end(args);
     [self write:[string dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
@@ -197,8 +201,12 @@
     [[FKApplication sharedApplication]  writeDataToStderr:userInfo];
 }
 
-- (void)logString:(NSString *)string
+- (void)logString:(NSString *)format, ...
 {
+	va_list args;
+	va_start(args, format);
+	NSString *string = [[NSString alloc] initWithFormat:format arguments:args];
+	va_end(args);
     [self log:[string dataUsingEncoding:NSUTF8StringEncoding]];
 }
 

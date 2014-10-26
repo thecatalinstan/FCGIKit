@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD6BB2FD19EEF58800538169 /* FCGIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6BB2FC19EEF58800538169 /* FCGIKit.m */; };
 		AD6BB2FE19EEF6F200538169 /* FKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8219646B950055A071 /* FKApplication.m */; };
 		AD6BB2FF19EEF6F200538169 /* FKBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8519646B950055A071 /* FKBackgroundThread.m */; };
 		AD6BB30019EEF6F200538169 /* FKHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8819646B950055A071 /* FKHTTPRequest.m */; };
@@ -106,7 +105,6 @@
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		AD6BB2E619EEF47300538169 /* FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6BB2E919EEF47300538169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AD6BB2FC19EEF58800538169 /* FCGIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				AD1C9F9D19646B950055A071 /* FCGIKit.h */,
-				AD6BB2FC19EEF58800538169 /* FCGIKit.m */,
 				AD1C9F8019646B950055A071 /* Classes */,
 				AD1C9FA119646B950055A071 /* Libraries */,
 				AD1C9FDF19646BA30055A071 /* Supporting Files */,
@@ -421,7 +418,6 @@
 				AD6BB31019EEF6F200538169 /* FCGIParamsRecord.m in Sources */,
 				AD6BB31119EEF6F200538169 /* FCGIRecord.m in Sources */,
 				AD6BB31219EEF6F200538169 /* FCGIRequest.m in Sources */,
-				AD6BB2FD19EEF58800538169 /* FCGIKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

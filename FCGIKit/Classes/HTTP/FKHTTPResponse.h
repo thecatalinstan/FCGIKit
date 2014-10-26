@@ -33,10 +33,10 @@
 + (id)responseWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
 
 - (void)write:(NSData*)data;
-- (void)writeString:(NSString*)string;
+- (void)writeString:(NSString*)format, ...;
 
 - (void)log:(NSData*)data;
-- (void)logString:(NSString*)string;
+- (void)logString:(NSString*)format, ...;
 
 - (NSDictionary*)allHTTPHeaderFields;
 - (void)setAllHTTPHeaderFields:(NSDictionary*)headerFields;
