@@ -133,7 +133,7 @@
         NSString* value = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
         return @{ key: value};
     } else {
-        NSString* tmpFilename = [FKApp.temporaryDirectoryLocation stringByAppendingPathComponent:[[DWUUID UUID] UUIDString]];
+        NSString* tmpFilename = [[FKApp temporaryDirectoryLocation] stringByAppendingPathComponent:[[DWUUID UUID] UUIDString]];
         [bodyData writeToFile:tmpFilename atomically:NO];
         NSDictionary* value = @{ FKFileNameKey: headers[@"Content-Disposition"][@"filename"],
                                  FKFileTmpNameKey: tmpFilename,
