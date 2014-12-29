@@ -11,35 +11,6 @@
 #import "NSString+FCGIKit.h"
 #import "DWUUID.h"
 
-@interface FCGIKitKeyParseResult : NSObject {
-    Class _objectClass;
-    NSString* _key;
-    NSString* _dictionaryKey;
-    NSString* _value;
-}
-
-@property (atomic, assign) Class objectClass;
-@property (nonatomic, retain) NSString* key;
-@property (nonatomic, retain) NSString* dictionaryKey;
-@property (nonatomic, retain) NSString* value;
-
-@end
-
-@implementation FCGIKitKeyParseResult
-
-@synthesize objectClass = _objectClass;
-@synthesize key = _key;
-@synthesize dictionaryKey = _dictionaryKey;
-@synthesize value = _value;
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: objectClass=%@, key=%@, dictionaryKey=%@, value=%@>", self.className, self.objectClass, self.key, self.dictionaryKey, self.value ];
-}
-
-@end
-
-
 @interface FKHTTPRequest (Private)
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString;

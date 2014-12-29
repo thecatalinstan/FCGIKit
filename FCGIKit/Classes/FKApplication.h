@@ -61,7 +61,7 @@ typedef void (^FKAppBackgroundOperationCompletionBlock)(NSDictionary *userInfo);
 @class FCGIRequest, FKHTTPRequest, FKHTTPResponse;
 @protocol AsyncSocketDelegate;
 
-FKApplication *FKApp;
+extern id FKApp;
 extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
 
 @interface FKApplication : NSObject<AsyncSocketDelegate> {

@@ -73,12 +73,14 @@ void handleSIGTERM(int signum) {
     [FKApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
 }
 
+FKApplication* FKApp;
+
 int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
 {
     (void)signal(SIGTERM, handleSIGTERM) ;
-    FKApp = [[FKApplication alloc] initWithArguments:argv count:argc];
-    [FKApp setDelegate:delegate];
-    [FKApp run];
+    FKApplication* app = [[FKApplication alloc] initWithArguments:argv count:argc];
+    [app setDelegate:delegate];
+    [app run];
     return EXIT_SUCCESS;
 }
 
@@ -557,15 +559,25 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 + (FKApplication *)sharedApplication
 {
-    if (!FKApp) {
-        FKApp = [[FKApplication alloc] init];
-    }
-    return FKApp;
+	Class class;
+	if( ! FKApp ) {
+		if( ! ( class = [NSBundle mainBundle].principalClass ) ) {
+			NSLog(@"Main bundle does not define an existing principal class: %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSPrincipalClass"]);
+			class = self;
+		}
+		if( ! [class isSubclassOfClass:self.class] ) {
+			NSLog(@"Principal class (%@) of main bundle is not subclass of %@", NSStringFromClass(class), NSStringFromClass(self.class) );
+		}
+		[class new];
+	}
+
+	return FKApp;
 }
 
 - (id)init {
     self = [super init];
     if ( self != nil ) {
+		FKApp = self;
         _isRunning = NO;
         _maxConnections = FKDefaultMaxConnections;
         _isListeningOnUnixSocket = YES;
