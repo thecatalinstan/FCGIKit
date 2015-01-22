@@ -497,7 +497,9 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     if ( userInfo[FKErrorFileKey] == nil ) {
         userInfo[FKErrorFileKey] = @__FILE__;
     }
-    NSError* error = [NSError errorWithDomain:err.domain code:err.code userInfo:userInfo];
+	NSString* errorDomain = err.domain == nil ? FKErrorDomain : err.domain;
+	NSInteger errorCode = err.code == 0 ? -1 : err.code;
+    NSError* error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:userInfo];
     [FKApp presentError:error];
 }
 
