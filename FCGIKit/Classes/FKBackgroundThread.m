@@ -50,6 +50,7 @@
 		_userInfo = userInfo;
 		
 		self.name = [NSString stringWithFormat:@"%@", [self className]];
+		self.threadPriority = 0.1;
 	}
 	return self;
 }
