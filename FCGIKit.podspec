@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                    
                    DESC
 
-  s.homepage     = "http://github.com/thecatalinstan/FCGIKit"  
+  s.homepage     = "https://github.com/thecatalinstan/FCGIKit"  
 
   s.license  = { :type => 'public domain', :text => <<-LICENSE
 
@@ -31,9 +31,9 @@ Updated and maintained by Cătălin Stan.
 
   s.osx.frameworks = 'CoreServices', 'Security'
 
-  s.source       = { :git => "http://github.com/thecatalinstan/FCGIKit.git", :tag => "0.1.2" }
+  s.source       = { :git => "https://github.com/thecatalinstan/FCGIKit.git", :tag => "0.1.2" }
 
-  s.source_files  = "Classes", "Classes/**/*.{h,m}"
+  s.source_files  = "FCGIKit"
 
  	s.osx.deployment_target = '10.8'
   s.osx.frameworks = 'CFNetwork', 'Foundation'
