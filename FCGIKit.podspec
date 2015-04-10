@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name         = "FCGIKit"
-  s.version      = "0.1.6"
+  s.version      = "0.1.8"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/thecatalinstan/FCGIKit.git", :tag => s.version }
 
   s.source_files  = "FCGIKit", "FCGIKit/Classes/*.{h,m}"
-  s.public_header_files = "FCGIKit/Classes/*.h"
+  s.public_header_files = "FCGIKit", "FCGIKit/Classes/*.h"
 
  	s.osx.deployment_target = "10.8"
   s.osx.frameworks = "CFNetwork", "Foundation"
