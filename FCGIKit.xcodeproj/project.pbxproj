@@ -52,9 +52,13 @@
 		AD6BB32A19EEF7D300538169 /* FKRoutingCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9419646B950055A071 /* FKRoutingCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA196A719EEF94D007F12F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0EA94A17284CB4005C3923 /* Foundation.framework */; };
 		ADA196A819EEF954007F12F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805918E6674E002805EC /* CFNetwork.framework */; };
+		F19D3618E77EC149EC63F9EA /* Pods_FCGIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.release.xcconfig"; sourceTree = "<group>"; };
+		43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0EA94A17284CB4005C3923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD1C9F8119646B950055A071 /* FKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplication.h; sourceTree = "<group>"; };
 		AD1C9F8219646B950055A071 /* FKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKApplication.m; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 			files = (
 				ADA196A819EEF954007F12F1 /* CFNetwork.framework in Frameworks */,
 				ADA196A719EEF94D007F12F1 /* Foundation.framework in Frameworks */,
+				F19D3618E77EC149EC63F9EA /* Pods_FCGIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +131,7 @@
 				AD1C9F7F19646B950055A071 /* FCGIKit */,
 				AD0EA94417284CB4005C3923 /* Frameworks */,
 				AD0EA94317284CB4005C3923 /* Products */,
+				D74C6C56E5BDB58750D1A761 /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -143,6 +149,7 @@
 			children = (
 				AD66805918E6674E002805EC /* CFNetwork.framework */,
 				AD0EA94A17284CB4005C3923 /* Foundation.framework */,
+				148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -281,6 +288,15 @@
 			path = DWUUID;
 			sourceTree = "<group>";
 		};
+		D74C6C56E5BDB58750D1A761 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */,
+				14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -337,10 +353,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6BB2F619EEF47300538169 /* Build configuration list for PBXNativeTarget "FCGIKit" */;
 			buildPhases = (
+				CEE5F667941374D1460B1BA4 /* Check Pods Manifest.lock */,
 				AD6BB2E119EEF47300538169 /* Sources */,
 				AD6BB2E219EEF47300538169 /* Frameworks */,
 				AD6BB2E319EEF47300538169 /* Headers */,
 				AD6BB2E419EEF47300538169 /* Resources */,
+				CC4A68639B24DA49B9DDB019 /* Embed Pods Frameworks */,
+				76B882D56D9DD2E837AE6C37 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -392,6 +411,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76B882D56D9DD2E837AE6C37 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC4A68639B24DA49B9DDB019 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CEE5F667941374D1460B1BA4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD6BB2E119EEF47300538169 /* Sources */ = {
@@ -455,7 +522,6 @@
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
@@ -485,7 +551,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
@@ -513,9 +578,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROJECT_COMPANY = "Cătălin Stan";
+				PROJECT_COMPANY = "Ca&#774;ta&#774;lin Stan";
 			};
 			name = Debug;
 		};
@@ -535,14 +599,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROJECT_COMPANY = "Cătălin Stan";
+				PROJECT_COMPANY = "Ca&#774;ta&#774;lin Stan";
 			};
 			name = Release;
 		};
 		AD6BB2F719EEF47300538169 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -574,7 +638,6 @@
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -585,6 +648,7 @@
 		};
 		AD6BB2F819EEF47300538169 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -613,7 +677,6 @@
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
