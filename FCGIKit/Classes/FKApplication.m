@@ -6,12 +6,10 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-#import <objc/message.h>
-
 #import <CocoaAsyncSocket/AsyncSocket.h>
+#import "FCGIKit.h"
 
 #import "FKApplication.h"
-#import "FCGIKit.h"
 #import "FCGIRecord.h"
 #import "FCGIBeginRequestRecord.h"
 #import "FCGIParamsRecord.h"

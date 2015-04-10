@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Catalin Stan. All rights reserved.
 //
 
+#import "FKApplication.h"
 #import "FKViewController.h"
 #import "FKView.h"
 #import "FKNib.h"
