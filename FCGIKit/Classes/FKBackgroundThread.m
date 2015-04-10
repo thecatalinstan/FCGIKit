@@ -83,7 +83,7 @@
 {
 	id result;
 	if ( self.target != nil ) {
-		result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
+//		result = objc_msgSend(self.target, self.selector, self.request, self.userInfo);
 	} else {
 		result = self.workerBlock(self.userInfo);
 	}

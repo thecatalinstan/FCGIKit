@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name         = "FCGIKit"
-  s.version      = "0.1.4"
+  s.version      = "0.1.6"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC
@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   s.osx.frameworks = "CFNetwork", "Foundation"
   
   s.requires_arc = true
-	s.xcconfig = { "ENABLE_STRICT_OBJC_MSGSEND" => "NO" }
+	s.xcconfig = { "ENABLE_STRICT_OBJC_MSGSEND" => "YES" }
   s.dependency "CocoaAsyncSocket", "~> 7.4.0"
 
 end

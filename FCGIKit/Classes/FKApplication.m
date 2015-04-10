@@ -368,7 +368,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)callBackgroundDidEndSelector:(NSArray*)argsArray
 {
-    objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
+//    objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
 }
 
 - (void)listeningThreadMain
