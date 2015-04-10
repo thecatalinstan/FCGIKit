@@ -131,8 +131,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)handleRecord:(FCGIRecord*)record fromSocket:(GCDAsyncSocket*)socket;
 
-- (void)listeningThreadMain;
-
 - (void)timerCallback;
 
 - (void)removeRequest:(FCGIRequest*)request;
@@ -239,20 +237,23 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     shouldKeepRunning = YES;
     
     // Detatch a thread for the listening socket
-    [self setListeningSocketThread: [[NSThread alloc] initWithTarget:self selector:@selector(listeningThreadMain) object:nil]];
-    [self.listeningSocketThread setName:@"FCGIKitListeningThread"];
-    [self.listeningSocketThread start];
+    NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
+    _socketQueue = dispatch_queue_create(socketQueueLabel.UTF8String, NULL);
+    _listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:_socketQueue];
+    [self startListening];
 
     // All startup is complete, let the delegate know they can do their own init here
     [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationDidFinishLaunchingNotification object:self];
     
-    NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
-    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
-    while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
-        _isRunning=YES;
-    }
+//    NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
+//    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
+//    while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+//        _isRunning=YES;
+//    }
+//    
+//    _isRunning = NO;
     
-    _isRunning = NO;
+      dispatch_main();
 }
 
 - (void)stopCurrentRunLoop
@@ -337,22 +338,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     }
 }
 
-- (void)listeningThreadMain
-{
-    @autoreleasepool {
-		
-		_socketQueue = dispatch_queue_create("FKSocketAcceptQueue", NULL);
-		_listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:_socketQueue];
-		[self startListening];
-		
-        while ( shouldKeepRunning && [[NSRunLoop currentRunLoop] runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
-        }
-		
-        [self stopListening];
-		
-    }
-}
-
 - (void)timerCallback
 {
 }
@@ -397,35 +382,38 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 #pragma mark - GCDAsyncSocketDelegate
 
-//- (BOOL)onSocketWillConnect:(GCDAsyncSocket *)sock
-//{
-////    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
+- (BOOL)socketWillConnect:(GCDAsyncSocket *)sock
+{
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
 //    return _connectedSockets.count - 1 < _maxConnections;
-//}
-
-- (dispatch_queue_t)newSocketQueueForConnectionFromAddress:(NSData *)address onSocket:(GCDAsyncSocket *)sock;
-{
-	return nil;
+    return YES;
 }
 
-- (void)onSocket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
+- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@-%@", newSocket.connectedHost, @(newSocket.connectedPort)]];
-	dispatch_queue_t acceptedSocketDelegateQueue = dispatch_queue_create(delegateQueueLabel.UTF8String, DISPATCH_QUEUE_SERIAL);
-	[newSocket setDelegateQueue:acceptedSocketDelegateQueue];
-	
-	@synchronized(_connectedSockets) {
-		[_connectedSockets addObject:newSocket];
-	}
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+
+    NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue.%@", @(newSocket.connectedPort)]];
+    dispatch_queue_t acceptedSocketDelegateQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
+    [newSocket setDelegateQueue:acceptedSocketDelegateQueue];
+    
+    @synchronized(_connectedSockets) {
+        [_connectedSockets addObject:newSocket];
+    }
+    
+    [sock readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];    
 }
 
-- (void)onSocket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-    [sock readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+
 }
 
-- (void)onSocket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+    
     if (tag == FCGIRecordAwaitingHeaderTag) {
         FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
         if (record.contentLength == 0) {
@@ -441,8 +429,10 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     }
 }
 
-- (void)onSocket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
+- (void)socket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+ 
     NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
     if ( userInfo[FKErrorLineKey] == nil ) {
         userInfo[FKErrorLineKey] = @__LINE__;
@@ -456,8 +446,10 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     [FKApp presentError:error];
 }
 
-- (void)onSocketDidDisconnect:(GCDAsyncSocket *)sock
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock
 {
+    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+    
 	@synchronized(_connectedSockets) {
 		[_connectedSockets removeObject:sock];
 	}
@@ -480,7 +472,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 @synthesize connectedSockets = _connectedSockets;
 @synthesize currentRequests = _currentRequests;
 @synthesize startupArguments = _startupArguments;
-@synthesize listeningSocketThread = _listeningSocketThread;
 @synthesize viewControllers = _viewControllers;
 
 - (NSDictionary*)infoDictionary {
@@ -624,8 +615,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)stop:(id)sender
 {
-    [self performSelector:@selector(stopCurrentRunLoop) onThread:self.listeningSocketThread withObject:nil waitUntilDone:YES modes:@[FKApplicationRunLoopMode]];
-    shouldKeepRunning = NO;
     CFRunLoopStop([[NSRunLoop mainRunLoop] getCFRunLoop]);
 }
 

@@ -72,7 +72,6 @@
 {
 	self = [super init];
 	if ( self != nil ) {
-		socketThread = [[FKApplication sharedApplication] listeningSocketThread];
 	}
 	return self;
 }

@@ -20,8 +20,6 @@
     NSUInteger _HTTPStatus;
     
     BOOL _isRedirecting;
-	
-	NSThread* socketThread;
 }
 
 @property (nonatomic, retain) FKHTTPRequest* HTTPRequest;

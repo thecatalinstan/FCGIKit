@@ -74,8 +74,7 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
     
     BOOL _isListeningOnUnixSocket;
     BOOL _isListeningOnAllInterfaces;
-    BOOL _isRunning;
-	
+    BOOL _isRunning;	
 	
     NSMutableDictionary* _environment;
     
@@ -91,8 +90,6 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 	NSMutableArray* _connectedSockets;
 	NSMutableDictionary* _currentRequests;
 	
-    NSThread *_listeningSocketThread;
-    
     NSArray* _startupArguments;
     
     NSMutableDictionary* _viewControllers;
@@ -110,7 +107,6 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 @property (nonatomic, retain) GCDAsyncSocket* listenSocket;
 @property (nonatomic, retain) NSMutableArray* connectedSockets;
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;
-@property (nonatomic, retain) NSThread* listeningSocketThread;
 @property (nonatomic, readonly, retain) NSArray* startupArguments;
 @property (nonatomic, retain) NSMutableDictionary* viewControllers;
 
