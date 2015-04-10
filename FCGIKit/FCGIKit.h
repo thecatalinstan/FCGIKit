@@ -11,8 +11,6 @@
 FOUNDATION_EXPORT double FCGIKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 
-#import <FCGIKit/AsyncSocket.h>
-
 #import <FCGIKit/FCGIRequest.h>
 #import <FCGIKit/FCGIparamsRecord.h>
 
@@ -31,6 +29,4 @@ FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 #import <FCGIKit/FKViewController.h>
 #import <FCGIKit/FKRoute.h>
 #import <FCGIKit/FKRoutingCenter.h>
-
-#import <FCGIKit/DWUUID.h>
 

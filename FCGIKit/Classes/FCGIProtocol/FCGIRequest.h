@@ -25,11 +25,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CocoaAsyncSocket/AsyncSocket.h>
+
 #import "FCGITypes.h"
 #import "FCGIBeginRequestRecord.h"
 #import "FCGIByteStreamRecord.h"
 #import "FCGIEndRequestRecord.h"
-#import "AsyncSocket.h"
 #import "FKApplication.h"
 
 @interface FCGIRequest : NSObject {

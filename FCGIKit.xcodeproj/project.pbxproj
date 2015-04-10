@@ -19,8 +19,6 @@
 		AD6BB30719EEF6F200538169 /* FKNib.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9819646B950055A071 /* FKNib.m */; };
 		AD6BB30819EEF6F200538169 /* FKView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9A19646B950055A071 /* FKView.m */; };
 		AD6BB30919EEF6F200538169 /* FKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F9C19646B950055A071 /* FKViewController.m */; };
-		AD6BB30B19EEF6F200538169 /* DWUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FF3196472DD0055A071 /* DWUUID.m */; };
-		AD6BB30C19EEF6F200538169 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FA419646B950055A071 /* AsyncSocket.m */; };
 		AD6BB30D19EEF6F200538169 /* FCGIBeginRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FA719646B950055A071 /* FCGIBeginRequestRecord.m */; };
 		AD6BB30E19EEF6F200538169 /* FCGIByteStreamRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FA919646B950055A071 /* FCGIByteStreamRecord.m */; };
 		AD6BB30F19EEF6F200538169 /* FCGIEndRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FAB19646B950055A071 /* FCGIEndRequestRecord.m */; };
@@ -39,8 +37,6 @@
 		AD6BB31C19EEF73500538169 /* FKView.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9919646B950055A071 /* FKView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31D19EEF73500538169 /* FKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9B19646B950055A071 /* FKViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31E19EEF73500538169 /* FCGIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9D19646B950055A071 /* FCGIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD6BB32019EEF73500538169 /* DWUUID.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FF2196472DD0055A071 /* DWUUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD6BB32119EEF73500538169 /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FA319646B950055A071 /* AsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32219EEF73500538169 /* FCGIBeginRequestRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FA619646B950055A071 /* FCGIBeginRequestRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32319EEF73500538169 /* FCGIByteStreamRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FA819646B950055A071 /* FCGIByteStreamRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB32419EEF73500538169 /* FCGIEndRequestRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9FAA19646B950055A071 /* FCGIEndRequestRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -52,9 +48,13 @@
 		AD6BB32A19EEF7D300538169 /* FKRoutingCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9419646B950055A071 /* FKRoutingCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA196A719EEF94D007F12F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0EA94A17284CB4005C3923 /* Foundation.framework */; };
 		ADA196A819EEF954007F12F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805918E6674E002805EC /* CFNetwork.framework */; };
+		F19D3618E77EC149EC63F9EA /* Pods_FCGIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.release.xcconfig"; sourceTree = "<group>"; };
+		43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0EA94A17284CB4005C3923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AD1C9F8119646B950055A071 /* FKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplication.h; sourceTree = "<group>"; };
 		AD1C9F8219646B950055A071 /* FKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKApplication.m; sourceTree = "<group>"; };
@@ -83,8 +83,6 @@
 		AD1C9F9C19646B950055A071 /* FKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKViewController.m; sourceTree = "<group>"; };
 		AD1C9F9D19646B950055A071 /* FCGIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIKit.h; sourceTree = "<group>"; };
 		AD1C9F9F19646B950055A071 /* FCGIKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FCGIKit-Prefix.pch"; sourceTree = "<group>"; };
-		AD1C9FA319646B950055A071 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
-		AD1C9FA419646B950055A071 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
 		AD1C9FA619646B950055A071 /* FCGIBeginRequestRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIBeginRequestRecord.h; sourceTree = "<group>"; };
 		AD1C9FA719646B950055A071 /* FCGIBeginRequestRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIBeginRequestRecord.m; sourceTree = "<group>"; };
 		AD1C9FA819646B950055A071 /* FCGIByteStreamRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIByteStreamRecord.h; sourceTree = "<group>"; };
@@ -98,10 +96,6 @@
 		AD1C9FB019646B950055A071 /* FCGIRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGIRequest.h; sourceTree = "<group>"; };
 		AD1C9FB119646B950055A071 /* FCGIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCGIRequest.m; sourceTree = "<group>"; };
 		AD1C9FB219646B950055A071 /* FCGITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCGITypes.h; sourceTree = "<group>"; };
-		AD1C9FE519646C820055A071 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
-		AD1C9FEF196471CC0055A071 /* NSObject+subscripts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+subscripts.h"; sourceTree = "<group>"; };
-		AD1C9FF2196472DD0055A071 /* DWUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUUID.h; sourceTree = "<group>"; };
-		AD1C9FF3196472DD0055A071 /* DWUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWUUID.m; sourceTree = "<group>"; };
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		AD6BB2E619EEF47300538169 /* FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6BB2E919EEF47300538169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -114,6 +108,7 @@
 			files = (
 				ADA196A819EEF954007F12F1 /* CFNetwork.framework in Frameworks */,
 				ADA196A719EEF94D007F12F1 /* Foundation.framework in Frameworks */,
+				F19D3618E77EC149EC63F9EA /* Pods_FCGIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +121,7 @@
 				AD1C9F7F19646B950055A071 /* FCGIKit */,
 				AD0EA94417284CB4005C3923 /* Frameworks */,
 				AD0EA94317284CB4005C3923 /* Products */,
+				D74C6C56E5BDB58750D1A761 /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -143,6 +139,7 @@
 			children = (
 				AD66805918E6674E002805EC /* CFNetwork.framework */,
 				AD0EA94A17284CB4005C3923 /* Foundation.framework */,
+				148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,7 +149,6 @@
 			children = (
 				AD1C9F9D19646B950055A071 /* FCGIKit.h */,
 				AD1C9F8019646B950055A071 /* Classes */,
-				AD1C9FA119646B950055A071 /* Libraries */,
 				AD1C9FDF19646BA30055A071 /* Supporting Files */,
 			);
 			path = FCGIKit;
@@ -169,6 +165,7 @@
 				AD1C9F8619646B950055A071 /* HTTP */,
 				AD1C9F9119646B950055A071 /* Routing */,
 				AD1C9F9619646B950055A071 /* Views */,
+				AD1C9FA519646B950055A071 /* FCGIProtocol */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -214,26 +211,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		AD1C9FA119646B950055A071 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				AD1C9FF1196472DD0055A071 /* DWUUID */,
-				AD1C9FEE196471CC0055A071 /* Contrib */,
-				AD1C9FA219646B950055A071 /* AsyncSocket */,
-				AD1C9FA519646B950055A071 /* FCGIProtocol */,
-			);
-			path = Libraries;
-			sourceTree = "<group>";
-		};
-		AD1C9FA219646B950055A071 /* AsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				AD1C9FA319646B950055A071 /* AsyncSocket.h */,
-				AD1C9FA419646B950055A071 /* AsyncSocket.m */,
-			);
-			path = AsyncSocket;
-			sourceTree = "<group>";
-		};
 		AD1C9FA519646B950055A071 /* FCGIProtocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,27 +235,18 @@
 			isa = PBXGroup;
 			children = (
 				AD6BB2E919EEF47300538169 /* Info.plist */,
-				AD1C9FE519646C820055A071 /* Makefile */,
 				AD1C9F9F19646B950055A071 /* FCGIKit-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		AD1C9FEE196471CC0055A071 /* Contrib */ = {
+		D74C6C56E5BDB58750D1A761 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AD1C9FEF196471CC0055A071 /* NSObject+subscripts.h */,
+				43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */,
+				14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */,
 			);
-			path = Contrib;
-			sourceTree = "<group>";
-		};
-		AD1C9FF1196472DD0055A071 /* DWUUID */ = {
-			isa = PBXGroup;
-			children = (
-				AD1C9FF2196472DD0055A071 /* DWUUID.h */,
-				AD1C9FF3196472DD0055A071 /* DWUUID.m */,
-			);
-			path = DWUUID;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,8 +268,6 @@
 				AD6BB31B19EEF73500538169 /* FKNib.h in Headers */,
 				AD6BB31C19EEF73500538169 /* FKView.h in Headers */,
 				AD6BB31D19EEF73500538169 /* FKViewController.h in Headers */,
-				AD6BB32019EEF73500538169 /* DWUUID.h in Headers */,
-				AD6BB32119EEF73500538169 /* AsyncSocket.h in Headers */,
 				AD6BB32219EEF73500538169 /* FCGIBeginRequestRecord.h in Headers */,
 				AD6BB32319EEF73500538169 /* FCGIByteStreamRecord.h in Headers */,
 				AD6BB32A19EEF7D300538169 /* FKRoutingCenter.h in Headers */,
@@ -316,31 +282,18 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
-/* Begin PBXLegacyTarget section */
-		AD1C9FE119646C4E0055A071 /* FCGIKit Documentation */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = AD1C9FE219646C4F0055A071 /* Build configuration list for PBXLegacyTarget "FCGIKit Documentation" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/bin/make;
-			dependencies = (
-			);
-			name = "FCGIKit Documentation";
-			passBuildSettingsInEnvironment = 1;
-			productName = "FCGIKit Documentation";
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		AD6BB2E519EEF47300538169 /* FCGIKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6BB2F619EEF47300538169 /* Build configuration list for PBXNativeTarget "FCGIKit" */;
 			buildPhases = (
+				CEE5F667941374D1460B1BA4 /* Check Pods Manifest.lock */,
 				AD6BB2E119EEF47300538169 /* Sources */,
 				AD6BB2E219EEF47300538169 /* Frameworks */,
 				AD6BB2E319EEF47300538169 /* Headers */,
 				AD6BB2E419EEF47300538169 /* Resources */,
+				CC4A68639B24DA49B9DDB019 /* Embed Pods Frameworks */,
+				76B882D56D9DD2E837AE6C37 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,7 +331,6 @@
 			projectRoot = "";
 			targets = (
 				AD6BB2E519EEF47300538169 /* FCGIKit */,
-				AD1C9FE119646C4E0055A071 /* FCGIKit Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -392,6 +344,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76B882D56D9DD2E837AE6C37 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC4A68639B24DA49B9DDB019 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CEE5F667941374D1460B1BA4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AD6BB2E119EEF47300538169 /* Sources */ = {
@@ -410,8 +410,6 @@
 				AD6BB30719EEF6F200538169 /* FKNib.m in Sources */,
 				AD6BB30819EEF6F200538169 /* FKView.m in Sources */,
 				AD6BB30919EEF6F200538169 /* FKViewController.m in Sources */,
-				AD6BB30B19EEF6F200538169 /* DWUUID.m in Sources */,
-				AD6BB30C19EEF6F200538169 /* AsyncSocket.m in Sources */,
 				AD6BB30D19EEF6F200538169 /* FCGIBeginRequestRecord.m in Sources */,
 				AD6BB30E19EEF6F200538169 /* FCGIByteStreamRecord.m in Sources */,
 				AD6BB30F19EEF6F200538169 /* FCGIEndRequestRecord.m in Sources */,
@@ -453,9 +451,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
@@ -484,65 +481,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_LDFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
-		AD1C9FE319646C4F0055A071 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				COMPANY_ID = com.catalinstan;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROJECT_COMPANY = "Cătălin Stan";
-			};
-			name = Debug;
-		};
-		AD1C9FE419646C4F0055A071 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				COMPANY_ID = com.catalinstan;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROJECT_COMPANY = "Cătălin Stan";
-			};
-			name = Release;
-		};
 		AD6BB2F719EEF47300538169 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -572,9 +519,8 @@
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -585,6 +531,7 @@
 		};
 		AD6BB2F819EEF47300538169 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -611,9 +558,8 @@
 				INSTALL_PATH = "@loader_path/../Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -630,15 +576,6 @@
 			buildConfigurations = (
 				AD0EA95517284CB4005C3923 /* Debug */,
 				AD0EA95617284CB4005C3923 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AD1C9FE219646C4F0055A071 /* Build configuration list for PBXLegacyTarget "FCGIKit Documentation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AD1C9FE319646C4F0055A071 /* Debug */,
-				AD1C9FE419646C4F0055A071 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
