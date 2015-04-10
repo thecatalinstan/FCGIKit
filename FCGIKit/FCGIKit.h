@@ -30,5 +30,3 @@ FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 #import <FCGIKit/FKRoute.h>
 #import <FCGIKit/FKRoutingCenter.h>
 
-#import <FCGIKit/DWUUID.h>
-
