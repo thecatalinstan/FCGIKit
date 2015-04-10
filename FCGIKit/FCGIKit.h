@@ -11,22 +11,22 @@
 FOUNDATION_EXPORT double FCGIKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 
-#import <FCGIKit/FCGIRequest.h>
-#import <FCGIKit/FCGIparamsRecord.h>
+#import "FCGIRequest.h"
+#import "FCGIparamsRecord.h"
 
-#import <FCGIKit/NSString+FCGIKit.h>
-#import <FCGIKit/NSHTTPCookie+FCGIKit.h>
-#import <FCGIKit/NSDate+RFC1123.h>
+#import "NSString+FCGIKit.h"
+#import "NSHTTPCookie+FCGIKit.h"
+#import "NSDate+RFC1123.h"
 
-#import <FCGIKit/FKApplicationDelegate.h>
-#import <FCGIKit/FKApplication.h>
-#import <FCGIKit/FKHTTPRequest.h>
-#import <FCGIKit/FKHTTPResponse.h>
-#import <FCGIKit/FKBackgroundThread.h>
+#import "FKApplicationDelegate.h"
+#import "FKApplication.h"
+#import "FKHTTPRequest.h"
+#import "FKHTTPResponse.h"
+#import "FKBackgroundThread.h"
 
-#import <FCGIKit/FKNib.h>
-#import <FCGIKit/FKView.h>
-#import <FCGIKit/FKViewController.h>
-#import <FCGIKit/FKRoute.h>
-#import <FCGIKit/FKRoutingCenter.h>
+#import "FKNib.h"
+#import "FKView.h"
+#import "FKViewController.h"
+#import "FKRoute.h"
+#import "FKRoutingCenter.h"
 
