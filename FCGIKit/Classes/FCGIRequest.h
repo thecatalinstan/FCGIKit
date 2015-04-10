@@ -25,7 +25,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CocoaAsyncSocket/GCDAsyncSocket.h>
+#import "GCDAsyncSocket.h"
 
 #import "FCGITypes.h"
 #import "FCGIBeginRequestRecord.h"
