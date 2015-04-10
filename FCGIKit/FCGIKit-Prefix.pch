@@ -8,12 +8,5 @@
 
 #import "FCGIKit.h"
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-#else 
-	#if  MAC_OS_X_VERSION_MAX_ALLOWED < 1080
-		#import "NSObject+subscripts.h"
-	#endif
-#endif
-
 #define LOG_RUNLOOP 0
 

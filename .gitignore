@@ -4,3 +4,6 @@ xcshareddata
 .xcuserdatad
 .DS_Store
 *.xcuserstate
+Podfile.lock
+FCGIKit.xcworkspace
+Pods
