@@ -17,7 +17,6 @@
 #import "FCGIRequest.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
-#import "FKBackgroundThread.h"
 #import "FKRoute.h"
 #import "FKRoutingCenter.h"
 #import "FKNib.h"
@@ -181,7 +180,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)stopListening
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     [_listenSocket disconnect];
     _listenSocket = nil;
 
@@ -207,7 +205,8 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
         
         _socketPath = [[self.infoDictionary objectForKey:FKConnectionInfoKey] objectForKey:FKConnectionInfoSocketKey];
     }
-    _isListeningOnUnixSocket = _portNumber == 0;
+
+	_isListeningOnUnixSocket = _portNumber == 0;
     _isListeningOnAllInterfaces = _listenIngInterface.length == 0;
     
     _connectedSockets = [[NSMutableArray alloc] initWithCapacity:_maxConnections + 1];
@@ -261,15 +260,13 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)stopCurrentRunLoop
 {
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
     CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 }
 
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(AsyncSocket *)socket
 {
-    
-//    NSLog(@"%s %@: %hu", __PRETTY_FUNCTION__, record.className, record.contentLength);
+	
     if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
         
         FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
@@ -364,10 +361,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     [_delegate application:self presentViewController:viewController];
 }
 
-- (void)callBackgroundDidEndSelector:(NSArray*)argsArray
-{
-//    objc_msgSend(argsArray[1], NSSelectorFromString(argsArray[0]), argsArray[2]);
-}
 
 - (void)listeningThreadMain
 {
@@ -706,22 +699,10 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     [httpResponse finish];
 }
 
--(void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector
-{
-    FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithTarget:target selector:aSelector userInfo:userInfo didEndSelector:didEndSelector];
-    [workerThread start];
-}
-
-- (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo
-{
-    NSArray* argsArray = @[ NSStringFromSelector(didEndSelector), target, userInfo ];
-    [self performSelector:@selector(callBackgroundDidEndSelector:) onThread:self.listeningSocketThread withObject:argsArray waitUntilDone:NO modes:@[FKApplicationRunLoopMode]];
-}
-
 - (void)performBackgroundOperation:(FKAppBackgroundOperationBlock)block withCompletion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary *)userInfo
 {
-	FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithWorkerBlock:block completion:completion userInfo:userInfo];
-	[workerThread start];
+//	FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithWorkerBlock:block completion:completion userInfo:userInfo];
+//	[workerThread start];
 }
 
 - (NSString *)temporaryDirectoryLocation

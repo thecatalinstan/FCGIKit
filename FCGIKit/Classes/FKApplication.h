@@ -133,9 +133,6 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 
 - (NSDictionary*)dumpConfig;
 
-- (void)performBackgroundSelector:(SEL)aSelector onTarget:(id)target userInfo:(NSDictionary *)userInfo didEndSelector:(SEL)didEndSelector;
-- (void)performBackgroundDidEndSelector:(SEL)didEndSelector onTarget:(id)target userInfo:(NSDictionary*)userInfo;
-
 - (void)performBackgroundOperation:(FKAppBackgroundOperationBlock)block withCompletion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary*)userInfo;
 
 - (NSString*)temporaryDirectoryLocation;

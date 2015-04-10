@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AD6BB2FE19EEF6F200538169 /* FKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8219646B950055A071 /* FKApplication.m */; };
-		AD6BB2FF19EEF6F200538169 /* FKBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8519646B950055A071 /* FKBackgroundThread.m */; };
 		AD6BB30019EEF6F200538169 /* FKHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8819646B950055A071 /* FKHTTPRequest.m */; };
 		AD6BB30119EEF6F200538169 /* FKHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8A19646B950055A071 /* FKHTTPResponse.m */; };
 		AD6BB30219EEF6F200538169 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8C19646B950055A071 /* NSDate+RFC1123.m */; };
@@ -27,7 +26,6 @@
 		AD6BB31219EEF6F200538169 /* FCGIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9FB119646B950055A071 /* FCGIRequest.m */; };
 		AD6BB31319EEF73500538169 /* FKApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8119646B950055A071 /* FKApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31419EEF73500538169 /* FKApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8319646B950055A071 /* FKApplicationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD6BB31519EEF73500538169 /* FKBackgroundThread.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8419646B950055A071 /* FKBackgroundThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31619EEF73500538169 /* FKHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8719646B950055A071 /* FKHTTPRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31719EEF73500538169 /* FKHTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8919646B950055A071 /* FKHTTPResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD6BB31819EEF73500538169 /* NSDate+RFC1123.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F8B19646B950055A071 /* NSDate+RFC1123.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,8 +57,6 @@
 		AD1C9F8119646B950055A071 /* FKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplication.h; sourceTree = "<group>"; };
 		AD1C9F8219646B950055A071 /* FKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKApplication.m; sourceTree = "<group>"; };
 		AD1C9F8319646B950055A071 /* FKApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplicationDelegate.h; sourceTree = "<group>"; };
-		AD1C9F8419646B950055A071 /* FKBackgroundThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKBackgroundThread.h; sourceTree = "<group>"; };
-		AD1C9F8519646B950055A071 /* FKBackgroundThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKBackgroundThread.m; sourceTree = "<group>"; };
 		AD1C9F8719646B950055A071 /* FKHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FKHTTPRequest.h; path = FCGIKit/Classes/FKHTTPRequest.h; sourceTree = SOURCE_ROOT; };
 		AD1C9F8819646B950055A071 /* FKHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FKHTTPRequest.m; path = FCGIKit/Classes/FKHTTPRequest.m; sourceTree = SOURCE_ROOT; };
 		AD1C9F8919646B950055A071 /* FKHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FKHTTPResponse.h; path = FCGIKit/Classes/FKHTTPResponse.h; sourceTree = SOURCE_ROOT; };
@@ -160,8 +156,6 @@
 				AD1C9F8119646B950055A071 /* FKApplication.h */,
 				AD1C9F8219646B950055A071 /* FKApplication.m */,
 				AD1C9F8319646B950055A071 /* FKApplicationDelegate.h */,
-				AD1C9F8419646B950055A071 /* FKBackgroundThread.h */,
-				AD1C9F8519646B950055A071 /* FKBackgroundThread.m */,
 				AD1C9F8619646B950055A071 /* HTTP */,
 				AD1C9F9119646B950055A071 /* Routing */,
 				AD1C9F9619646B950055A071 /* Views */,
@@ -259,7 +253,6 @@
 				AD6BB31E19EEF73500538169 /* FCGIKit.h in Headers */,
 				AD6BB31319EEF73500538169 /* FKApplication.h in Headers */,
 				AD6BB31419EEF73500538169 /* FKApplicationDelegate.h in Headers */,
-				AD6BB31519EEF73500538169 /* FKBackgroundThread.h in Headers */,
 				AD6BB31619EEF73500538169 /* FKHTTPRequest.h in Headers */,
 				AD6BB31719EEF73500538169 /* FKHTTPResponse.h in Headers */,
 				AD6BB31819EEF73500538169 /* NSDate+RFC1123.h in Headers */,
@@ -399,7 +392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6BB2FE19EEF6F200538169 /* FKApplication.m in Sources */,
-				AD6BB2FF19EEF6F200538169 /* FKBackgroundThread.m in Sources */,
 				AD6BB30019EEF6F200538169 /* FKHTTPRequest.m in Sources */,
 				AD6BB30119EEF6F200538169 /* FKHTTPResponse.m in Sources */,
 				AD6BB30219EEF6F200538169 /* NSDate+RFC1123.m in Sources */,
