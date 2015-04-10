@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name         = "FCGIKit"
-  s.version      = "0.1.2"
+  s.version      = "0.1.3"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC
@@ -31,9 +31,10 @@ Updated and maintained by Cătălin Stan.
 
   s.osx.frameworks = 'CoreServices', 'Security'
 
-  s.source       = { :git => "https://github.com/thecatalinstan/FCGIKit.git", :tag => "0.1.2" }
+  #s.source       = { :git => "https://github.com/thecatalinstan/FCGIKit.git", :tag => "0.1.2" }
+	s.source       = { :git => "https://github.com/thecatalinstan/FCGIKit.git", :tag => "0.1.3" }
 
-  s.source_files  = "FCGIKit"
+  s.source_files  = "FCGIKit", "FCGIKit/Classes", "FCGIKit/Classes/*/*.{h.m}"
 
  	s.osx.deployment_target = '10.8'
   s.osx.frameworks = 'CFNetwork', 'Foundation'
