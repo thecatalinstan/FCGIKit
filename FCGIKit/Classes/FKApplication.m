@@ -245,22 +245,21 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     // All startup is complete, let the delegate know they can do their own init here
     [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationDidFinishLaunchingNotification object:self];
     
-//    NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
-//    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
-//    while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
-//        _isRunning=YES;
-//    }
-//    
-//    _isRunning = NO;
+    NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
+    [runLoop addTimer:[NSTimer timerWithTimeInterval:DBL_MAX target:self selector:@selector(timerCallback) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
+    while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+        _isRunning=YES;
+    }
     
-      dispatch_main();
+    _isRunning = NO;
+	
+//	dispatch_main();
 }
 
 - (void)stopCurrentRunLoop
 {
     CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
 }
-
 
 -(void)handleRecord:(FCGIRecord*)record fromSocket:(GCDAsyncSocket *)socket
 {
@@ -382,26 +381,29 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 #pragma mark - GCDAsyncSocketDelegate
 
-- (BOOL)socketWillConnect:(GCDAsyncSocket *)sock
-{
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
-//    return _connectedSockets.count - 1 < _maxConnections;
-    return YES;
-}
-
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
     NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+//
+//
+//    dispatch_queue_t acceptedSocketDelegateQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
+//    [newSocket setDelegateQueue:acceptedSocketDelegateQueue];
+//    
+//    @synchronized(_connectedSockets) {
+//        [_connectedSockets addObject:newSocket];
+//    }
+//    
+//    [sock readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
 
-    NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue.%@", @(newSocket.connectedPort)]];
-    dispatch_queue_t acceptedSocketDelegateQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
-    [newSocket setDelegateQueue:acceptedSocketDelegateQueue];
-    
-    @synchronized(_connectedSockets) {
-        [_connectedSockets addObject:newSocket];
-    }
-    
-    [sock readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];    
+	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@", @(newSocket.connectedPort)]];
+	dispatch_queue_t acceptedSocketQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
+	[newSocket setDelegateQueue:acceptedSocketQueue];
+	
+	@synchronized(_connectedSockets) {
+		[_connectedSockets addObject:newSocket];
+	}
+	
+	[newSocket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
@@ -419,11 +421,11 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
         if (record.contentLength == 0) {
             [self handleRecord:record fromSocket:sock];
         } else {
-			dispatch_set_context(sock.delegateQueue, (__bridge void *)(record));
+			dispatch_set_context(sock.delegateQueue, (void *)(CFBridgingRetain(record)));
             [sock readDataToLength:(record.contentLength + record.paddingLength) withTimeout:FCGITimeout tag:FCGIRecordAwaitingContentAndPaddingTag];
         }
     } else if (tag == FCGIRecordAwaitingContentAndPaddingTag) {
-        FCGIRecord* record = (__bridge FCGIRecord *)(dispatch_get_context(sock.delegateQueue));
+        FCGIRecord* record = CFBridgingRelease(dispatch_get_context(sock.delegateQueue));
         [record processContentData:data];
         [self handleRecord:record fromSocket:sock];
     }
@@ -657,8 +659,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)performBackgroundOperation:(FKAppBackgroundOperationBlock)block withCompletion:(FKAppBackgroundOperationCompletionBlock)completion userInfo:(NSDictionary *)userInfo
 {
-//	FKBackgroundThread* workerThread = [[FKBackgroundThread alloc] initWithWorkerBlock:block completion:completion userInfo:userInfo];
-//	[workerThread start];
+
 }
 
 - (NSString *)temporaryDirectoryLocation

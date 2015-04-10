@@ -46,7 +46,7 @@
 		AD6BB32A19EEF7D300538169 /* FKRoutingCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = AD1C9F9419646B950055A071 /* FKRoutingCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADA196A719EEF94D007F12F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD0EA94A17284CB4005C3923 /* Foundation.framework */; };
 		ADA196A819EEF954007F12F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD66805918E6674E002805EC /* CFNetwork.framework */; };
-		ADEBDD311AD8615D00A82C27 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEBDD2F1AD8615D00A82C27 /* GCDAsyncSocket.h */; };
+		ADEBDD311AD8615D00A82C27 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = ADEBDD2F1AD8615D00A82C27 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ADEBDD321AD8615D00A82C27 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEBDD301AD8615D00A82C27 /* GCDAsyncSocket.m */; };
 /* End PBXBuildFile section */
 
@@ -251,7 +251,6 @@
 				AD6BB31B19EEF73500538169 /* FKNib.h in Headers */,
 				AD6BB31C19EEF73500538169 /* FKView.h in Headers */,
 				AD6BB31D19EEF73500538169 /* FKViewController.h in Headers */,
-				ADEBDD311AD8615D00A82C27 /* GCDAsyncSocket.h in Headers */,
 				AD6BB32219EEF73500538169 /* FCGIBeginRequestRecord.h in Headers */,
 				AD6BB32319EEF73500538169 /* FCGIByteStreamRecord.h in Headers */,
 				AD6BB32A19EEF7D300538169 /* FKRoutingCenter.h in Headers */,
@@ -260,6 +259,7 @@
 				AD6BB32619EEF73500538169 /* FCGIRecord.h in Headers */,
 				AD6BB32919EEF7D300538169 /* FKRoute.h in Headers */,
 				AD6BB32719EEF73600538169 /* FCGIRequest.h in Headers */,
+				ADEBDD311AD8615D00A82C27 /* GCDAsyncSocket.h in Headers */,
 				AD6BB32819EEF73600538169 /* FCGITypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
