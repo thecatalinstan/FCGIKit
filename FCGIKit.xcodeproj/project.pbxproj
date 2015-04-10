@@ -54,6 +54,8 @@
 		14DB7FA90D8BED8E7A71D6AF /* Pods-FCGIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.release.xcconfig"; sourceTree = "<group>"; };
 		43B481BABBF98E6C1881D451 /* Pods-FCGIKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FCGIKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FCGIKit/Pods-FCGIKit.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0EA94A17284CB4005C3923 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AD1AA5DE1AD838BA00B03875 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = "Pods/../build/Debug/Pods-FCGIKit/CocoaAsyncSocket.framework"; sourceTree = "<group>"; };
+		AD1AA5E11AD838D500B03875 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = "Pods/../build/Debug/Pods-FCGIKit/CocoaAsyncSocket.framework"; sourceTree = "<group>"; };
 		AD1C9F8119646B950055A071 /* FKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplication.h; sourceTree = "<group>"; };
 		AD1C9F8219646B950055A071 /* FKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FKApplication.m; sourceTree = "<group>"; };
 		AD1C9F8319646B950055A071 /* FKApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FKApplicationDelegate.h; sourceTree = "<group>"; };
@@ -133,6 +135,8 @@
 		AD0EA94417284CB4005C3923 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD1AA5E11AD838D500B03875 /* CocoaAsyncSocket.framework */,
+				AD1AA5DE1AD838BA00B03875 /* CocoaAsyncSocket.framework */,
 				AD66805918E6674E002805EC /* CFNetwork.framework */,
 				AD0EA94A17284CB4005C3923 /* Foundation.framework */,
 				148C90BF3C7F14C95F364436 /* Pods_FCGIKit.framework */,
@@ -317,6 +321,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = AD0EA93817284CB4005C3923;
 			productRefGroup = AD0EA94317284CB4005C3923 /* Products */;

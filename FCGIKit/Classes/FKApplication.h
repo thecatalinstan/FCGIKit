@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-#import <CocoaAsyncSocket/AsyncSocket.h>
+#import <CocoaAsyncSocket/GCDAsyncSocket.h>
 
 #import "FKApplicationDelegate.h"
 
@@ -65,7 +65,7 @@ typedef void (^FKAppBackgroundOperationCompletionBlock)(NSDictionary *userInfo);
 extern id FKApp;
 extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
 
-@interface FKApplication : NSObject<AsyncSocketDelegate> {
+@interface FKApplication : NSObject<GCDAsyncSocketDelegate> {
     NSObject<FKApplicationDelegate> *_delegate;
     NSUInteger _maxConnections;
     NSString* _socketPath;
@@ -75,20 +75,22 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
     BOOL _isListeningOnUnixSocket;
     BOOL _isListeningOnAllInterfaces;
     BOOL _isRunning;
-    
+	
+	
     NSMutableDictionary* _environment;
     
     BOOL firstRunCompleted;
     BOOL shouldKeepRunning;
     BOOL isWaitingOnTerminateLaterReply;
-    
+	
     NSTimer* waitingOnTerminateLaterReplyTimer;
     CFRunLoopObserverRef mainRunLoopObserver;
-    
-    AsyncSocket *_listenSocket;
-    NSMutableArray *_connectedSockets;    
-    NSMutableDictionary* _currentRequests;
-    
+	
+	dispatch_queue_t _socketQueue;
+    GCDAsyncSocket *_listenSocket;
+	NSMutableArray* _connectedSockets;
+	NSMutableDictionary* _currentRequests;
+	
     NSThread *_listeningSocketThread;
     
     NSArray* _startupArguments;
@@ -105,7 +107,7 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 @property (atomic, readonly) BOOL isListeningOnAllInterfaces;
 @property (atomic, readonly) BOOL isRunning;
 @property (nonatomic, retain) NSMutableSet* requestIDs;
-@property (nonatomic, retain) AsyncSocket* listenSocket;
+@property (nonatomic, retain) GCDAsyncSocket* listenSocket;
 @property (nonatomic, retain) NSMutableArray* connectedSockets;
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;
 @property (nonatomic, retain) NSThread* listeningSocketThread;
