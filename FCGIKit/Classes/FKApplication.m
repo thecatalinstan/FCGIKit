@@ -8,7 +8,7 @@
 
 #import <objc/message.h>
 
-#import "AsyncSocket.h"
+#import <CocoaAsyncSocket/AsyncSocket.h>
 
 #import "FKApplication.h"
 #import "FCGIKit.h"
@@ -172,12 +172,8 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     NSError *error;
     BOOL listening = NO;
 
-    if ( self.isListeningOnUnixSocket) {
-        listening = [self.listenSocket acceptOnSocket:_socketPath error:&error];        
-    } else {
-        listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
-    }
-    
+	listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
+	
     if ( !listening ) {
         [self presentError:error];
         [self terminate:self];

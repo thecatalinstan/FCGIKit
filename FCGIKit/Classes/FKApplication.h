@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
+#import <CocoaAsyncSocket/AsyncSocket.h>
+
 #import "FKApplicationDelegate.h"
-#import "AsyncSocket.h"
 
 #define FCGIRecordFixedLengthPartLength 8
 #define FCGITimeout 5
