@@ -108,7 +108,7 @@
         NSDictionary* value = @{ FKFileNameKey: headers[@"Content-Disposition"][@"filename"],
                                  FKFileTmpNameKey: tmpFilename,
                                  FKFileContentTypeKey: headers[@"Content-Type"][@"_"],
-                                 FKFileSizeKey: [NSNumber numberWithLong:bodyData.length]};
+                                 FKFileSizeKey: @(bodyData.length)};
         return @{ key: value };
     }
 }

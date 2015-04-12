@@ -624,7 +624,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 {
     NSDictionary* config = @{
                              FKConnectionInfoInterfaceKey: self.listeningInterface,
-                             FKConnectionInfoPortKey: [NSNumber numberWithInteger:self.portNumber],
+                             FKConnectionInfoPortKey: @(self.portNumber),
                              FKConnectionInfoKey: FKConnectionInfoPortKey,
                              };
     return config;
