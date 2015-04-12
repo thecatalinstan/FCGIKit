@@ -16,26 +16,26 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
 }
 
 - (void)application:(FKApplication *)application didReceiveRequest:(NSDictionary *)userInfo
 {
-//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
 }
 
 - (void)application:(FKApplication *)application didPrepareResponse:(NSDictionary *)userInfo
 {
-//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
 }
 
 - (void)application:(FKApplication *)application didNotFindViewController:(NSDictionary *)userInfo
 {
-//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
     
     FKHTTPRequest* request = userInfo[FKRequestKey];
     FKHTTPResponse* response = userInfo[FKResponseKey];
@@ -51,6 +51,7 @@
 
 - (void)application:(FKApplication *)application presentViewController:(FKViewController *)viewController
 {
+//    NSLog(@"%@ %s", @(__PRETTY_FUNCTION__), dispatch_queue_get_label(dispatch_get_current_queue()));
     [viewController presentViewController:YES];
 }
 
