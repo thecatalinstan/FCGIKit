@@ -252,8 +252,6 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     }
     
     _isRunning = NO;
-	
-//	dispatch_main();
 }
 
 - (void)stopCurrentRunLoop
@@ -383,17 +381,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
-//
-//
-//    dispatch_queue_t acceptedSocketDelegateQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
-//    [newSocket setDelegateQueue:acceptedSocketDelegateQueue];
-//    
-//    @synchronized(_connectedSockets) {
-//        [_connectedSockets addObject:newSocket];
-//    }
-//    
-//    [sock readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+//    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
 
 	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@", @(newSocket.connectedPort)]];
 	dispatch_queue_t acceptedSocketQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
@@ -406,16 +394,10 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	[newSocket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
 }
 
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
-
-}
-
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
-    
+//    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+	
     if (tag == FCGIRecordAwaitingHeaderTag) {
         FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
         if (record.contentLength == 0) {
@@ -433,7 +415,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)socket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
 {
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+//    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
  
     NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
     if ( userInfo[FKErrorLineKey] == nil ) {
@@ -450,8 +432,8 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock
 {
-    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
-    
+//    NSLog(@"%s %s", __PRETTY_FUNCTION__, dispatch_queue_get_label(sock.delegateQueue));
+	
 	@synchronized(_connectedSockets) {
 		[_connectedSockets removeObject:sock];
 	}

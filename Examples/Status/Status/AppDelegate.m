@@ -16,26 +16,26 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
 }
 
 - (void)application:(FKApplication *)application didReceiveRequest:(NSDictionary *)userInfo
 {
-    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
 }
 
 - (void)application:(FKApplication *)application didPrepareResponse:(NSDictionary *)userInfo
 {
-    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
 }
 
 - (void)application:(FKApplication *)application didNotFindViewController:(NSDictionary *)userInfo
 {
-    NSLog(@"%@", @(__PRETTY_FUNCTION__));
+//    NSLog(@"%@", @(__PRETTY_FUNCTION__));
     
     FKHTTPRequest* request = userInfo[FKRequestKey];
     FKHTTPResponse* response = userInfo[FKResponseKey];
@@ -51,7 +51,6 @@
 
 - (void)application:(FKApplication *)application presentViewController:(FKViewController *)viewController
 {
-    NSLog(@"%@ %@", @(__PRETTY_FUNCTION__), viewController);
     [viewController presentViewController:YES];
 }
 

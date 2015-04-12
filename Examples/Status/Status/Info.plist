@@ -28,23 +28,29 @@
 	<string>Copyright © 2015 Catalin Stan. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
-    <key>NSPrincipalClass</key><string>FKApplication</string>
-    <key>FKConnectionInfo</key>
-    <dict>
-        <key>FKConnectionInfoInterface</key>
-        <string></string>
-        <key>FKConnectionInfoPort</key>
-        <integer>10030</integer>
-    </dict>
-    <key>FKRoutes</key>
-    <array>
-        <dict>
-            <key>FKRouteController</key>
-            <string>WSShotViewController</string>
-            <key>FKRoutePath</key>
-            <string>/shot</string>
-        </dict>
-    </array>
-
+	<key>NSPrincipalClass</key>
+	<string>FKApplication</string>
+	<key>FKConnectionInfo</key>
+	<dict>
+		<key>FKConnectionInfoInterface</key>
+		<string></string>
+		<key>FKConnectionInfoPort</key>
+		<integer>10030</integer>
+	</dict>
+	<key>FKRoutes</key>
+	<array>
+		<dict>
+			<key>FKRouteController</key>
+			<string>StatusInfoViewController</string>
+			<key>FKRoutePath</key>
+			<string>/info</string>
+		</dict>
+		<dict>
+			<key>FKRouteController</key>
+			<string>StatusViewController</string>
+			<key>FKRoutePath</key>
+			<string>/</string>
+		</dict>
+	</array>
 </dict>
 </plist>

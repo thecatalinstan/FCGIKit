@@ -28,9 +28,14 @@
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
         return;
     }
+	
+	if ( self.HTTPRequest.FCGIRequest == nil ) {
+		return;
+	}
 
     NSData* data = [[NSString stringWithFormat:@"Status: %lu\n", (unsigned long)self.HTTPStatus] dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
+
+	NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
 }
 
@@ -51,7 +56,11 @@
 - (void)sendHTTPHeaders
 {
     [self sendHTTPStatus];
-    
+	
+	if ( self.HTTPRequest.FCGIRequest == nil ) {
+		return;
+	}
+
     NSData* data = [[self.buildHTTPHeaders stringByAppendingString:@"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary* userInfo = @{FKRequestKey: self.HTTPRequest.FCGIRequest, FKDataKey: data == nil ? [NSData data] : data };
     [[FKApplication sharedApplication] writeDataToStdout:userInfo];
@@ -176,6 +185,10 @@
         return;
     }
 	
+	if ( self.HTTPRequest.FCGIRequest == nil ) {
+		return;
+	}
+
     if ( !_headersAlreadySent ) {
         [self sendHTTPHeaders];
     }
@@ -214,6 +227,11 @@
     if ( !_headersAlreadySent ) {
         [self sendHTTPHeaders];
     }
+	
+	if ( self.HTTPRequest.FCGIRequest == nil ) {
+		return;
+	}
+
     [[FKApplication sharedApplication]  finishRequest:self.HTTPRequest.FCGIRequest];
 }
 
