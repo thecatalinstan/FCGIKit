@@ -31,7 +31,10 @@
 
         [outputLines addObject:[NSString stringWithFormat:@"%@, Mac OS X %@", self.machineModel, processInfo.operatingSystemVersionString]];
         
-        [outputLines addObject:[self uname:@"-a"]];
+        [outputLines addObject:[self cmd:@"/usr/bin/uname" args:@"-a"]];
+        [outputLines addObject:[self cmd:@"/usr/bin/uptime" args:nil]];
+        [outputLines addObject:[self cmd:@"/bin/df" args:@"-h"]];
+        [outputLines addObject:[self cmd:@"/bin/ps" args:@"-A"]];
         
         NSString* output = [outputLines componentsJoinedByString:@"\n\n"];
         
@@ -49,14 +52,16 @@
     }
 }
 
-- (NSString*)uname:(NSString*)arg
+- (NSString*)cmd:(NSString*)cmd args:(NSString*)arg
 {
     NSPipe *pipe = [NSPipe pipe];
     NSFileHandle *file = pipe.fileHandleForReading;
     
     NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/usr/bin/uname";
-    task.arguments = @[arg == nil ? @"-a" : arg];
+    task.launchPath = cmd;
+    if(arg != nil) {
+        task.arguments = @[arg];
+    }
     task.standardOutput = pipe;
     [task launch];
     
