@@ -14,7 +14,7 @@
 
 @property (nonatomic, readonly, retain) NSString* templateText;
 
-- (id)initWithTemplateText:(NSString *)templateText;
+- (instancetype)initWithTemplateText:(NSString *)templateText;
 - render:(NSDictionary*)variables;
 
 @end

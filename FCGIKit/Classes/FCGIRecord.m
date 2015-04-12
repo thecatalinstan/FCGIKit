@@ -33,7 +33,7 @@
 
 @synthesize version, type, requestId, contentLength, paddingLength;
 
--(id)init {
+-(instancetype)init {
     if ((self = [super init])) {
       
     }
@@ -41,7 +41,7 @@
     return self;
 }
 
-+(id)recordWithHeaderData:(NSData*)data
++(instancetype)recordWithHeaderData:(NSData*)data
 {
   FCGIRecordType type;
   [data getBytes:&type range:NSMakeRange(1, 1)];

@@ -12,7 +12,7 @@
 
 @synthesize templateText = _templateText;
 
-- (id)initWithTemplateText:(NSString *)templateText
+- (instancetype)initWithTemplateText:(NSString *)templateText
 {
     self = [self init];
     if ( self != nil ) {

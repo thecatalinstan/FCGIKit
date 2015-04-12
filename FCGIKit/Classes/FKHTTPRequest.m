@@ -13,7 +13,6 @@
 @interface FKHTTPRequest (Private)
 
 - (NSDictionary*)parseQueryString:(NSString*)queryString;
-
 - (NSArray*)parseMultipartFormData:(NSData*)data boundary:(NSString*)boundary;
 - (NSDictionary*)parseMultipartFormDataPart:(NSData*)data;
 - (NSDictionary*)parseHeaderValue:(NSString*)value;
@@ -29,9 +28,9 @@
     NSMutableDictionary* result = [NSMutableDictionary dictionaryWithCapacity:tokens.count];
     [tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
         NSArray* pair = [token componentsSeparatedByString:@"="];
-        NSString* key = [pair objectAtIndex:0];
-        NSString* value = pair.count == 2 ? [pair objectAtIndex:1] : @"";
-        [result setObject:value.stringByDecodingURLEncodedString forKey:key.stringByDecodingURLEncodedString];
+        NSString* key = pair[0];
+        NSString* value = pair.count == 2 ? pair[1] : @"";
+        result[key.stringByDecodingURLEncodedString] = value.stringByDecodingURLEncodedString;
     }];
     
     return result.copy;
@@ -64,9 +63,9 @@
                 NSString* key = part.allKeys[0];
                 id value = part[key];
                 if ( [value isKindOfClass:[NSString class]] ) {
-                    [post setObject:value forKey:key];
+                    post[key] = value;
                 } else {
-                    [files setObject:value forKey:key];
+                    files[key] = value;
                 }
             }
             partRange.location = resultRange.location + resultRange.length + 2;
@@ -89,12 +88,12 @@
     if ( separatorRange.location == NSNotFound ) {
         return nil;
     }
-    
+
     __block NSMutableDictionary* headers = [NSMutableDictionary dictionary];
     NSArray* headerLines = [[[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, separatorRange.location)] encoding:NSUTF8StringEncoding] componentsSeparatedByString:@"\r\n"];
     [headerLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSArray* parts = [obj componentsSeparatedByString:@": "];
-        [headers setObject:[self parseHeaderValue:parts[1]] forKey:parts[0]];
+        headers[parts[0]] = [self parseHeaderValue:parts[1]];
     }];
     
     NSData* bodyData = [data subdataWithRange:NSMakeRange(separatorRange.location + separatorRange.length, data.length - separatorRange.location - separatorRange.length)];
@@ -121,9 +120,9 @@
     [parts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSArray* partKV = [obj componentsSeparatedByString:@"="];
         if ( partKV.count == 1 ) {
-            [paramsDictionary setObject:partKV[0] forKey:@"_"];
+            paramsDictionary[@"_"] = partKV[0];
         } else {
-            [paramsDictionary setObject:[partKV[1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \""]] forKey:[partKV[0] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]]];
+            paramsDictionary[[partKV[0] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]]] = [partKV[1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \""]];
         }
     }];
     return [paramsDictionary copy];
@@ -135,7 +134,7 @@
 
 @synthesize FCGIRequest = _FCGIRequest;
 
-- (id)initWithFCGIRequest:(FCGIRequest *)anFCGIRequest
+- (instancetype)initWithFCGIRequest:(FCGIRequest *)anFCGIRequest
 {
 //    NSLog(@"%s%@", __PRETTY_FUNCTION__, [NSThread currentThread]);
     
@@ -149,69 +148,43 @@
         _url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@", @"http", _FCGIRequest.parameters[@"HTTP_HOST"], _FCGIRequest.parameters[@"REQUEST_URI"]]];
                 
         // SERVER
-        _server = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
+        _parameters = [NSDictionary dictionaryWithDictionary:_FCGIRequest.parameters];
         
         // GET
-        if ( [_server.allKeys containsObject:@"QUERY_STRING"] ) {
-            _get = [self parseQueryString:_server[@"QUERY_STRING"]];
+        if ( [_parameters.allKeys containsObject:@"QUERY_STRING"] ) {
+            _get = [self parseQueryString:_parameters[@"QUERY_STRING"]];
         } else {
-            _get = [NSDictionary dictionary];
+            _get = @{};
         }
         
         // POST
-        NSDictionary* contentType = [self parseHeaderValue:_server[@"CONTENT_TYPE"]];
-        if ( [_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"application/x-www-form-urlencoded"] ) {
+        NSDictionary* contentType = [self parseHeaderValue:_parameters[@"CONTENT_TYPE"]];
+        if ( [_parameters[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"application/x-www-form-urlencoded"] ) {
             _post = [self parseQueryString:[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]];
-            _files = [NSDictionary dictionary];
-        } else if([_server[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"multipart/form-data"]) {
+            _files = @{};
+        } else if([_parameters[@"REQUEST_METHOD"] isEqualToString:@"POST"] && [contentType[@"_"] isEqualToString:@"multipart/form-data"]) {
             if ( body.length == 0 || contentType[@"boundary"] == nil ) {
-                _post = [NSDictionary dictionary];
-                _files = [NSDictionary dictionary];
+                _post = @{};
+                _files = @{};
             } else {
                 NSArray* postInfo = [self parseMultipartFormData:body boundary:contentType[@"boundary"]];
                 _post = postInfo[0];
                 _files = postInfo[1];
             }
         } else {
-            _post = [NSDictionary dictionary];
-            _files = [NSDictionary dictionary];
+            _post = @{};
+            _files = @{};
         }
         
         // COOKIE
-        _cookie = [self parseHeaderValue:_server[@"HTTP_COOKIE"]];
+        _cookie = [self parseHeaderValue:_parameters[@"HTTP_COOKIE"]];
     }
     return self;
 }
 
-+ (id)requestWithFCGIRequest:(FCGIRequest *)anFCGIRequest
++ (instancetype)requestWithFCGIRequest:(FCGIRequest *)anFCGIRequest
 {
     return [[FKHTTPRequest alloc] initWithFCGIRequest:anFCGIRequest];
 }
-
-- (NSDictionary *)serverVars
-{
-    return _server;
-}
-
-- (NSDictionary *)getVars
-{
-    return _get;
-}
-
-- (NSDictionary *)cookieVars
-{
-    return _cookie;
-}
-
-- (NSDictionary *)postVars
-{
-    return _post;
-}
-
-- (NSDictionary *)files
-{
-    return _files;
-}
-
 
 @end

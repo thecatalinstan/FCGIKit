@@ -28,7 +28,7 @@
     [routesOrNil enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         FKRoute* route = [[FKRoute alloc] initWithInfoDictionary:obj];
 		NSString* key = route.requestPath.pathComponents.count >= 2 ? route.requestPath.pathComponents[1] : @"";
-        [routesDictionary setObject:route forKey:key];
+        routesDictionary[key] = route;
     }];
     routes = routesDictionary.copy;
 }
@@ -47,7 +47,7 @@ static FKRoutingCenter* sharedCenter;
     return sharedCenter;
 }
 
-- (id)initWithRoutes:(NSArray *)routesOrNil
+- (instancetype)initWithRoutes:(NSArray *)routesOrNil
 {
     self = [self init];
     if (self != nil) {

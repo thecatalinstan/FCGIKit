@@ -40,7 +40,7 @@
     FKHTTPRequest* request = userInfo[FKRequestKey];
     FKHTTPResponse* response = userInfo[FKResponseKey];
     
-    NSString* responseString = [NSString stringWithFormat:@"The URL %@ was not found", request.serverVars[@"REQUEST_URI"]];
+    NSString* responseString = [NSString stringWithFormat:@"The URL %@ was not found", request.parameters[@"REQUEST_URI"]];
     
     [response setHTTPStatus:404];
     [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-type"];

@@ -59,31 +59,31 @@ extern id FKApp;
 extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate);
 
 @interface FKApplication : NSObject<GCDAsyncSocketDelegate> {
-    NSObject<FKApplicationDelegate> *_delegate;
-    NSUInteger _maxConnections;
-    NSUInteger _portNumber;
-    NSString* _listenIngInterface;
-    
-    BOOL _isListeningOnAllInterfaces;
-    BOOL _isRunning;	
-	
-    NSMutableDictionary* _environment;
-    
-    BOOL firstRunCompleted;
-    BOOL shouldKeepRunning;
-    BOOL isWaitingOnTerminateLaterReply;
-	
-    NSTimer* waitingOnTerminateLaterReplyTimer;
-    CFRunLoopObserverRef mainRunLoopObserver;
-	
+	NSObject<FKApplicationDelegate> *_delegate;
+	NSUInteger _maxConnections;
+	NSUInteger _portNumber;
+	NSString* _listenIngInterface;
+
+	BOOL _isListeningOnAllInterfaces;
+	BOOL _isRunning;
+		
+	NSMutableDictionary* _environment;
+
+	BOOL firstRunCompleted;
+	BOOL shouldKeepRunning;
+	BOOL isWaitingOnTerminateLaterReply;
+		
+	NSTimer* waitingOnTerminateLaterReplyTimer;
+	CFRunLoopObserverRef mainRunLoopObserver;
+
 	dispatch_queue_t _socketQueue;
-    GCDAsyncSocket *_listenSocket;
+	GCDAsyncSocket *_listenSocket;
 	NSMutableArray* _connectedSockets;
 	NSMutableDictionary* _currentRequests;
-	
-    NSArray* _startupArguments;
-    
-    NSMutableDictionary* _viewControllers;
+
+	NSArray* _startupArguments;
+
+	NSMutableDictionary* _viewControllers;
 }
 
 @property (nonatomic, assign) NSObject<FKApplicationDelegate> *delegate;
@@ -98,12 +98,13 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;
 @property (nonatomic, readonly, retain) NSArray* startupArguments;
 @property (nonatomic, retain) NSMutableDictionary* viewControllers;
+@property (nonatomic, readonly, copy) NSDictionary *infoDictionary;
+@property (nonatomic, readonly, copy) NSDictionary *dumpConfig;
+@property (nonatomic, readonly, copy) NSString *temporaryDirectoryLocation;
 
 + (FKApplication *)sharedApplication;
 
-- initWithArguments:(const char **)argv count:(int)argc;
-
-- (NSDictionary*)infoDictionary;
+- (instancetype) initWithArguments:(const char **)argv count:(int)argc;
 
 - (void)terminate:(id)sender;
 - (void)replyToApplicationShouldTerminate:(BOOL)shouldTerminate;
@@ -117,9 +118,5 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 - (void)writeDataToStdout:(NSDictionary *)info;
 - (void)finishRequest:(FCGIRequest*)request;
 - (void)finishRequestWithError:(NSDictionary*)userInfo;
-
-- (NSDictionary*)dumpConfig;
-
-- (NSString*)temporaryDirectoryLocation;
 
 @end

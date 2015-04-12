@@ -82,10 +82,10 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
  * 
  * The delegate queue and socket queue can optionally be the same.
 **/
-- (id)init;
-- (id)initWithSocketQueue:(dispatch_queue_t)sq;
-- (id)initWithDelegate:(id)aDelegate delegateQueue:(dispatch_queue_t)dq;
-- (id)initWithDelegate:(id)aDelegate delegateQueue:(dispatch_queue_t)dq socketQueue:(dispatch_queue_t)sq;
+- (instancetype)init;
+- (instancetype)initWithSocketQueue:(dispatch_queue_t)sq;
+- (instancetype)initWithDelegate:(id)aDelegate delegateQueue:(dispatch_queue_t)dq;
+- (instancetype)initWithDelegate:(id)aDelegate delegateQueue:(dispatch_queue_t)dq socketQueue:(dispatch_queue_t)sq NS_DESIGNATED_INITIALIZER;
 
 #pragma mark Configuration
 
@@ -913,9 +913,9 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
  * If the socket is a server socket (is accepting incoming connections),
  * it might actually have multiple internal socket file descriptors - one for IPv4 and one for IPv6.
 **/
-- (int)socketFD;
-- (int)socket4FD;
-- (int)socket6FD;
+@property (nonatomic, readonly) int socketFD;
+@property (nonatomic, readonly) int socket4FD;
+@property (nonatomic, readonly) int socket6FD;
 
 #if TARGET_OS_IPHONE
 
@@ -976,7 +976,7 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
  * 
  * Provides access to the socket's SSLContext, if SSL/TLS has been started on the socket.
 **/
-- (SSLContextRef)sslContext;
+@property (nonatomic, readonly) SSLContextRef sslContext;
 
 #pragma mark Utilities
 

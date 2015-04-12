@@ -31,7 +31,7 @@
 
 @synthesize applicationStatus, protocolStatus;
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
         // Initialization code here.
     }

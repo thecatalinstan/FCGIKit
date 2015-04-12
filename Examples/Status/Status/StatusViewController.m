@@ -17,7 +17,7 @@
 
 - (NSString *)presentViewController:(BOOL)writeData
 {
-    NSString* output = [NSString stringWithFormat:@"<h1>FCGIKit Status App</h1><pre>%@</pre>", self.request.serverVars];
+    NSString* output = [NSString stringWithFormat:@"<h1>FCGIKit Status App</h1><pre>%@</pre>", self.request.parameters];
     if ( writeData ) {
         [self.response writeString:output];
         

@@ -77,7 +77,7 @@
 @synthesize HTTPStatus = _HTTPStatus;
 @synthesize isRedirecting = _isRedirecting;
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if ( self != nil ) {
@@ -85,7 +85,7 @@
 	return self;
 }
 
-- (id)initWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
+- (instancetype)initWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
     self = [self init];
     if ( self != nil ) {
@@ -98,14 +98,14 @@
     return self;
 }
 
-+ (id)responseWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
++ (instancetype)responseWithHTTPRequest:(FKHTTPRequest *)anHTTPRequest
 {
     return [[FKHTTPResponse alloc] initWithHTTPRequest:anHTTPRequest];
 }
 
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field
 {
-    id obj = [HTTPHeaders objectForKey:field];
+    id obj = HTTPHeaders[field];
     if ([obj isKindOfClass:[NSString class]] ) {
         value = [value stringByAppendingFormat:@", %@", value];
     }
@@ -120,7 +120,7 @@
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
         return;
     }
-    [HTTPHeaders setObject:value forKey:field.stringbyFormattingHTTPHeader];
+    HTTPHeaders[field.stringbyFormattingHTTPHeader] = value;
 }
 
 - (NSDictionary*)allHTTPHeaderFields
@@ -140,26 +140,26 @@
 - (void)setCookie:(NSHTTPCookie *)cookie
 {
     if ( cookie != nil ) {
-        [HTTPCookies setObject:cookie forKey:cookie.name];
+        HTTPCookies[cookie.name] = cookie;
     }
 }
 
 - (void)setCookie:(NSString*)name value:(NSString*)value expires:(NSDate*)expires path:(NSString*)path domain:(NSString*)domain secure:(BOOL)secure
 {
     NSMutableDictionary* cookieProperties = [[NSMutableDictionary alloc] init];
-    [cookieProperties setObject:name forKey:NSHTTPCookieName];
-    [cookieProperties setObject:value forKey:NSHTTPCookieValue];
+    cookieProperties[NSHTTPCookieName] = name;
+    cookieProperties[NSHTTPCookieValue] = value;
     if ( expires != nil ) {
-        [cookieProperties setObject:expires forKey:NSHTTPCookieExpires];
+        cookieProperties[NSHTTPCookieExpires] = expires;
     } else {
-        [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieDiscard];
+        cookieProperties[NSHTTPCookieDiscard] = @"TRUE";
     }
     if ( path != nil ) {
-        [cookieProperties setObject:path forKey:NSHTTPCookiePath];
+        cookieProperties[NSHTTPCookiePath] = path;
     }
-    [cookieProperties setObject:(domain == nil ? _HTTPRequest.serverVars[@"HTTP_HOST"] : domain ) forKey:NSHTTPCookieDomain];
+    cookieProperties[NSHTTPCookieDomain] = (domain == nil ? _HTTPRequest.parameters[@"HTTP_HOST"] : domain );
     if ( secure ) {
-        [cookieProperties setObject:@"TRUE" forKey:NSHTTPCookieSecure];
+        cookieProperties[NSHTTPCookieSecure] = @"TRUE";
     }
 
     NSHTTPCookie* cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];

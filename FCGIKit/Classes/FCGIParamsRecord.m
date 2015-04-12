@@ -31,7 +31,7 @@
 
 @synthesize params;
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
       self.params = [NSMutableDictionary dictionaryWithCapacity:20];
     }
@@ -115,7 +115,7 @@
     value = [[NSString alloc] initWithData:[unpaddedData subdataWithRange:NSMakeRange(0, valueLength)] encoding:NSASCIIStringEncoding];
     [unpaddedData replaceBytesInRange:NSMakeRange(0, valueLength) withBytes:NULL length:0];
     
-    [self.params setObject:value forKey:name];
+    (self.params)[name] = value;
   }
 }
 

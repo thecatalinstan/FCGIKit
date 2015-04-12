@@ -36,6 +36,6 @@
 @property (nonatomic, assign) FCGIApplicationStatus applicationStatus;
 @property (nonatomic, assign) FCGIProtocolStatus protocolStatus;
 
--(NSData*)protocolData;
+@property (nonatomic, readonly, copy) NSData *protocolData;
 
 @end

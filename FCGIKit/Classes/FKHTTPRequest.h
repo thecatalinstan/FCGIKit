@@ -11,28 +11,19 @@
 @class FCGIRequest;
 
 @interface FKHTTPRequest : NSObject {
-    FCGIRequest* _FCGIRequest;
-    NSDictionary* _server;
-    NSDictionary* _get;
-    NSDictionary* _post;
-    NSDictionary* _files;
-    NSDictionary* _cookie;
-
     NSMutableData* body;
-    
-    NSURL* _url;
 }
 
 @property (nonatomic, retain) FCGIRequest* FCGIRequest;
 @property (nonatomic, readonly, retain) NSURL* url;
+@property (nonatomic, readonly, copy) NSDictionary *parameters;
+@property (nonatomic, readonly, copy) NSDictionary *get;
+@property (nonatomic, readonly, copy) NSDictionary *post;
+@property (nonatomic, readonly, copy) NSDictionary *cookie;
+@property (nonatomic, readonly, copy) NSDictionary *files;
 
-- (id)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
-+ (id)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
+- (instancetype)initWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
++ (instancetype)requestWithFCGIRequest:(FCGIRequest*)anFCGIRequest;
 
-- (NSDictionary*)serverVars;
-- (NSDictionary*)getVars;
-- (NSDictionary*)postVars;
-- (NSDictionary*)cookieVars;
-- (NSDictionary*)files;
-    
+
 @end

@@ -27,8 +27,8 @@
 @property (atomic, assign) NSUInteger HTTPStatus;
 @property (atomic, readonly) BOOL isRedirecting;
 
-- (id)initWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
-+ (id)responseWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
+- (instancetype)initWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
++ (instancetype)responseWithHTTPRequest:(FKHTTPRequest*)anHTTPRequest;
 
 - (void)write:(NSData*)data;
 - (void)writeString:(NSString*)format, ...;
@@ -36,8 +36,7 @@
 - (void)log:(NSData*)data;
 - (void)logString:(NSString*)format, ...;
 
-- (NSDictionary*)allHTTPHeaderFields;
-- (void)setAllHTTPHeaderFields:(NSDictionary*)headerFields;
+@property (nonatomic, copy) NSDictionary *allHTTPHeaderFields;
 
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field;
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field;

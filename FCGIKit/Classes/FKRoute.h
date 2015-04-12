@@ -25,9 +25,9 @@ The FKRoute Object
 @property (nonatomic, retain) NSString* nibName;
 @property (nonatomic, retain) NSDictionary* userInfo;
 
-- (id)initWithRequestPath:(NSString *)requestPath controllerClass:(Class)controllerClass nibName:(NSString*)nibName userInfo:(NSDictionary *)userInfo;
-- (id)initWithInfoDictionary:(NSDictionary*)infoDictionary;
+- (instancetype)initWithRequestPath:(NSString *)requestPath controllerClass:(Class)controllerClass nibName:(NSString*)nibName userInfo:(NSDictionary *)userInfo;
+- (instancetype)initWithInfoDictionary:(NSDictionary*)infoDictionary;
 
-- (NSDictionary*)infoDictionary;
+@property (nonatomic, readonly, copy) NSDictionary *infoDictionary;
 
 @end

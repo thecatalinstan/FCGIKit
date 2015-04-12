@@ -62,11 +62,11 @@ NSString* const FKApplicationWillFinishLaunchingNotification = @"FKApplicationWi
 NSString* const FKApplicationDidFinishLaunchingNotification = @"FKApplicationDidFinishLaunchingNotification";
 NSString* const FKApplicationWillTerminateNotification = @"FKApplicationWillTerminateNotification";
 
+FKApplication* FKApp;
+
 void handleSIGTERM(int signum) {
     [FKApp performSelectorOnMainThread:@selector(terminate:) withObject:nil waitUntilDone:YES];
 }
-
-FKApplication* FKApp;
 
 int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelegate> delegate)
 {
@@ -113,316 +113,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 #endif
 }
 
-@interface FKApplication (Private)
-
-- (void)quit;
-- (void)cancelTermination;
-- (void)startRunLoop;
-- (void)finishLaunching;
-
-- (void)startListening;
-- (void)stopListening;
-
-- (void)stopCurrentRunLoop;
-
-- (void)handleRecord:(FCGIRecord*)record fromSocket:(GCDAsyncSocket*)socket;
-
-- (void)removeRequest:(FCGIRequest*)request;
-
-- (NSString*)routeLookupURIForRequest:(FKHTTPRequest*)request;
-- (FKViewController*)instantiateViewControllerForRoute:(FKRoute*)route userInfo:(NSDictionary*)userInfo;
-
-@end
-
-@implementation FKApplication(Private)
-
-- (void)quit
-{
-	[self stopListening];
-	
-    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillTerminateNotification object:self];
-    CFRunLoopRemoveObserver([[NSRunLoop mainRunLoop] getCFRunLoop], mainRunLoopObserver, kCFRunLoopDefaultMode);
-    CFRelease(mainRunLoopObserver);
-
-    exit(EXIT_SUCCESS);
-}
-
-- (void)cancelTermination
-{
-    [self startRunLoop];
-}
-
-- (void)startListening
-{
-    NSError *error;
-    BOOL listening = NO;
-
-	listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
-	
-    if ( !listening ) {
-        [self presentError:error];
-        [self terminate:self];
-    }
-
-}
-
-- (void)stopListening
-{
-	
-    [_listenSocket disconnect];
-    _listenSocket = nil;
-
-    // Stop any client connections
-    NSUInteger i;
-    for(i = 0; i < [self.connectedSockets count]; i++) {
-        [[self.connectedSockets objectAtIndex:i] disconnect];
-    }
-}
-
-- (void)finishLaunching
-{
-    if ( [self.infoDictionary.allKeys containsObject:FKConnectionInfoKey] ) {
-        _portNumber = MIN(INT16_MAX, MAX(0, ((NSNumber*) [[self.infoDictionary objectForKey:FKConnectionInfoKey] valueForKey:FKConnectionInfoPortKey]).integerValue)) ;
-        
-        if ( [[[self.infoDictionary objectForKey:FKConnectionInfoKey] allKeys] containsObject:FKConnectionInfoInterfaceKey] ) {
-            _listenIngInterface = [[self.infoDictionary objectForKey:FKConnectionInfoKey] objectForKey:FKConnectionInfoInterfaceKey];
-        }
-    }
-
-    _isListeningOnAllInterfaces = _listenIngInterface.length == 0;
-    
-	_connectedSockets = [NSMutableArray array];
-    _currentRequests = [NSMutableDictionary dictionary];
-    _viewControllers = [NSMutableDictionary dictionary];
-    
-    // Load the routes and cache all nib files involved
-    NSMutableArray* nibNames = [NSMutableArray array];
-    NSDictionary* routes = [[FKRoutingCenter sharedCenter] allRoutes];
-    [routes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        FKRoute* route = obj;
-        NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
-        [nibNames addObject:nibName];
-    }];
-    [FKNib cacheNibNames:nibNames bundle:[NSBundle mainBundle]];
-    
-    // Create a run loop observer and attach it to the run loop.
-    NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
-    CFRunLoopObserverContext  context = {0, (__bridge void *)(self), NULL, NULL, NULL};
-    mainRunLoopObserver = CFRunLoopObserverCreate(kCFAllocatorDefault, kCFRunLoopAllActivities, YES, 0, &mainRunLoopObserverCallback, &context);
-    if (mainRunLoopObserver) {
-        CFRunLoopRef cfLoop = [runLoop getCFRunLoop];
-        CFRunLoopAddObserver(cfLoop, mainRunLoopObserver, kCFRunLoopDefaultMode);
-    }
-    
-    // Let observers know that initialization is complete
-    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillFinishLaunchingNotification object:self];
-}
-
-- (void)startRunLoop
-{
-    NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
-    _socketQueue = dispatch_queue_create([socketQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
-    _listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:_socketQueue];
-    [self startListening];
-
-    // All startup is complete, let the delegate know they can do their own init here
-    [[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationDidFinishLaunchingNotification object:self];
-	
-	shouldKeepRunning = YES;
-	
-	NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
-	NSTimeInterval keepAliveInterval = [[NSDate distantFuture] timeIntervalSinceNow];
-	[runLoop addTimer:[NSTimer timerWithTimeInterval:keepAliveInterval target:nil selector:@selector(stop) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
-	
-	while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
-		_isRunning=YES;
-	}
-	
-    _isRunning = NO;
-}
-
-- (void)stopCurrentRunLoop
-{
-    CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
-}
-
--(void)handleRecord:(FCGIRecord*)record fromSocket:(GCDAsyncSocket *)socket
-{
-	
-    if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
-        
-        FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
-        request.socket = socket;
-        NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, socket.connectedPort];
-		[_currentRequests setObject:request forKey:globalRequestId];
-        [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
-        
-    } else if ([record isKindOfClass:[FCGIParamsRecord class]]) {
-        
-        NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-        FCGIRequest* request = [_currentRequests objectForKey:globalRequestId];
-        NSDictionary* params = [(FCGIParamsRecord*)record params];
-        if ([params count] > 0) {
-            [request.parameters addEntriesFromDictionary:params];
-        } else {
-			if ( _delegate && [_delegate respondsToSelector:@selector(application:didReceiveRequest:)] ) {
-				[_delegate application:self didReceiveRequest:@{FKRequestKey: request}];
-            }
-        }
-        [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
-        
-    } else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
-        
-        NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-        FCGIRequest* request = [_currentRequests objectForKey:globalRequestId];
-        NSData* data = [(FCGIByteStreamRecord*)record data];
-        if ( [data length] > 0 ) {
-            [request.stdinData appendData:data];
-            [socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
-        } else {
-            FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
-            FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
-
-			NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
-            if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
-				[_delegate application:self didPrepareResponse:userInfo];
-            }
-            
-            // Determine the appropriate view controller
-            NSString* requestURI = [self routeLookupURIForRequest:httpRequest];
-            
-            FKRoute* route = [[FKRoutingCenter sharedCenter] routeForRequestURI:requestURI];
-            if ( route == nil ) {
-                route = [[FKRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
-            }
-            
-			FKViewController* viewController = [self instantiateViewControllerForRoute:route userInfo:userInfo];
-            if ( viewController != nil ) {
-				
-                if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
-					[_delegate application:self presentViewController:viewController];
-                }
-				
-			} else if ( _delegate && [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
-
-				[_delegate application:self didNotFindViewController:userInfo];
-				
-            } else {
-				
-                NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.serverVars[@"DOCUMENT_URI"]];
-                NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
-                NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-                finishRequestUserInfo[FKErrorKey] = error;
-				[self finishRequestWithError:finishRequestUserInfo.copy];
-				
-            }
-        }
-    }
-}
-
-- (void)removeRequest:(FCGIRequest*)request
-{
-    NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
-    [_currentRequests removeObjectForKey:globalRequestId];
-}
-
-- (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request
-{
-    NSString* returnURI = nil;
-    if ( [_delegate respondsToSelector:@selector(routeLookupURIForRequest:)] ) {
-        returnURI = [_delegate routeLookupURIForRequest:request];
-    }
-    if ( returnURI == nil ) {
-        returnURI = request.serverVars[@"DOCUMENT_URI"];
-    }
-    return returnURI;
-}
-
-- (FKViewController *)instantiateViewControllerForRoute:(FKRoute *)route userInfo:(NSDictionary*)userInfo
-{
-    NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
-	
-	NSMutableDictionary* combinedUserInfo = [NSMutableDictionary dictionary];
-	
-	if ( userInfo ) {
-		[combinedUserInfo addEntriesFromDictionary:userInfo];
-	}
-	
-	if ( route.userInfo ){
-		[combinedUserInfo addEntriesFromDictionary:route.userInfo];
-	}
-	
-    FKViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:combinedUserInfo];
-	
-    return controller;
-}
-
-#pragma mark - GCDAsyncSocketDelegate
-
-- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
-{
-	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@", @(newSocket.connectedPort)]];
-	dispatch_queue_t acceptedSocketQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
-	[newSocket setDelegateQueue:acceptedSocketQueue];
-	
-	[_connectedSockets addObject:newSocket];
-	
-	[newSocket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
-}
-
-- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-    if (tag == FCGIRecordAwaitingHeaderTag) {
-        FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
-        if (record.contentLength == 0) {
-            [self handleRecord:record fromSocket:sock];
-        } else {
-			dispatch_set_context(sock.delegateQueue, (void *)(CFBridgingRetain(record)));
-            [sock readDataToLength:(record.contentLength + record.paddingLength) withTimeout:FCGITimeout tag:FCGIRecordAwaitingContentAndPaddingTag];
-        }
-    } else if (tag == FCGIRecordAwaitingContentAndPaddingTag) {
-        FCGIRecord* record = CFBridgingRelease(dispatch_get_context(sock.delegateQueue));
-        [record processContentData:data];
-        [self handleRecord:record fromSocket:sock];
-    }
-}
-
-- (void)socket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
-{
-    NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
-    if ( userInfo[FKErrorLineKey] == nil ) {
-        userInfo[FKErrorLineKey] = @__LINE__;
-    }
-    if ( userInfo[FKErrorFileKey] == nil ) {
-        userInfo[FKErrorFileKey] = @__FILE__;
-    }
-	NSString* errorDomain = err.domain == nil ? FKErrorDomain : err.domain;
-	NSInteger errorCode = err.code == 0 ? -1 : err.code;
-    NSError* error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:userInfo];
-    [FKApp presentError:error];
-}
-
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock
-{
-	[_connectedSockets removeObject:sock];
-    sock = nil;
-}
-
-@end
-
-@implementation FKApplication
-
-@synthesize maxConnections = _maxConnections;
-@synthesize portNumber = _portNumber;
-@synthesize listeningInterface = _listenIngInterface;
-@synthesize isListeningOnAllInterfaces = _isListeningOnAllInterfaces;
-@synthesize isRunning = _isRunning;
-@synthesize requestIDs = _requestIDs;
-@synthesize listenSocket = _listenSocket;
-@synthesize connectedSockets = _connectedSockets;
-@synthesize currentRequests = _currentRequests;
-@synthesize startupArguments = _startupArguments;
-@synthesize viewControllers = _viewControllers;
+@implementation FKApplication 
 
 - (NSDictionary*)infoDictionary {
     return [[NSBundle mainBundle] infoDictionary];
@@ -470,7 +161,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	return FKApp;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if ( self != nil ) {
 		FKApp = self;
@@ -483,7 +174,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
     return self;
 }
 
-- initWithArguments:(const char **)argv count:(int)argc
+- (instancetype) initWithArguments:(const char **)argv count:(int)argc
 {
     self = [self init];
     if ( self != nil ) {
@@ -568,15 +259,15 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)writeDataToStderr:(NSDictionary *)info
 {
-    FCGIRequest* request = [info objectForKey:FKRequestKey];
-    NSData* data = [info objectForKey:FKDataKey];
+    FCGIRequest* request = info[FKRequestKey];
+    NSData* data = info[FKDataKey];
     [request writeDataToStderr:data];
 }
 
 - (void)writeDataToStdout:(NSDictionary *)info
 {
-    FCGIRequest* request = [info objectForKey:FKRequestKey];
-    NSData* data = [info objectForKey:FKDataKey];
+    FCGIRequest* request = info[FKRequestKey];
+    NSData* data = info[FKDataKey];
     [request writeDataToStdout:data];
 }
 
@@ -628,6 +319,283 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
                              FKConnectionInfoKey: FKConnectionInfoPortKey,
                              };
     return config;
+}
+
+
+- (void)quit
+{
+	[self stopListening];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillTerminateNotification object:self];
+	CFRunLoopRemoveObserver([[NSRunLoop mainRunLoop] getCFRunLoop], mainRunLoopObserver, kCFRunLoopDefaultMode);
+	CFRelease(mainRunLoopObserver);
+	
+	exit(EXIT_SUCCESS);
+}
+
+- (void)cancelTermination
+{
+	[self startRunLoop];
+}
+
+- (void)startListening
+{
+	NSError *error;
+	BOOL listening = NO;
+	
+	listening = [self.listenSocket acceptOnInterface:_isListeningOnAllInterfaces ? nil : _listenIngInterface port:_portNumber error:&error];
+	
+	
+	if ( !listening ) {
+		[self presentError:error];
+		[self terminate:self];
+	}
+	
+}
+
+- (void)stopListening
+{
+	
+	[_listenSocket disconnect];
+	_listenSocket = nil;
+	
+	// Stop any client connections
+	NSUInteger i;
+	for(i = 0; i < [self.connectedSockets count]; i++) {
+		[(self.connectedSockets)[i] disconnect];
+	}
+}
+
+- (void)finishLaunching
+{
+	if ( [self.infoDictionary.allKeys containsObject:FKConnectionInfoKey] ) {
+		
+		NSDictionary* connectionInfo = self.infoDictionary[FKConnectionInfoKey];
+		NSNumber* connectionInfoPort = connectionInfo[FKConnectionInfoPortKey];
+		_portNumber = MIN(INT16_MAX, MAX(0, connectionInfoPort.integerValue)) ;
+		
+		if ( [[(self.infoDictionary)[FKConnectionInfoKey] allKeys] containsObject:FKConnectionInfoInterfaceKey] ) {
+			_listenIngInterface = (self.infoDictionary)[FKConnectionInfoKey][FKConnectionInfoInterfaceKey];
+		}
+	}
+	
+	_isListeningOnAllInterfaces = _listenIngInterface.length == 0;
+	
+	_connectedSockets = [NSMutableArray array];
+	_currentRequests = [NSMutableDictionary dictionary];
+	_viewControllers = [NSMutableDictionary dictionary];
+	
+	// Load the routes and cache all nib files involved
+	NSMutableArray* nibNames = [NSMutableArray array];
+	NSDictionary* routes = [[FKRoutingCenter sharedCenter] allRoutes];
+	[routes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		FKRoute* route = obj;
+		NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+		[nibNames addObject:nibName];
+	}];
+	[FKNib cacheNibNames:nibNames bundle:[NSBundle mainBundle]];
+	
+	// Create a run loop observer and attach it to the run loop.
+	NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
+	CFRunLoopObserverContext  context = {0, (__bridge void *)(self), NULL, NULL, NULL};
+	mainRunLoopObserver = CFRunLoopObserverCreate(kCFAllocatorDefault, kCFRunLoopAllActivities, YES, 0, &mainRunLoopObserverCallback, &context);
+	if (mainRunLoopObserver) {
+		CFRunLoopRef cfLoop = [runLoop getCFRunLoop];
+		CFRunLoopAddObserver(cfLoop, mainRunLoopObserver, kCFRunLoopDefaultMode);
+	}
+	
+	// Let observers know that initialization is complete
+	[[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationWillFinishLaunchingNotification object:self];
+}
+
+- (void)startRunLoop
+{
+	NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
+	_socketQueue = dispatch_queue_create([socketQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
+	_listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:_socketQueue];
+	[self startListening];
+	
+	// All startup is complete, let the delegate know they can do their own init here
+	[[NSNotificationCenter defaultCenter] postNotificationName:FKApplicationDidFinishLaunchingNotification object:self];
+	
+	shouldKeepRunning = YES;
+	
+	NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
+	NSTimeInterval keepAliveInterval = [[NSDate distantFuture] timeIntervalSinceNow];
+	[runLoop addTimer:[NSTimer timerWithTimeInterval:keepAliveInterval target:nil selector:@selector(stop) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
+	
+	while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
+		_isRunning=YES;
+	}
+	
+	_isRunning = NO;
+}
+
+- (void)stopCurrentRunLoop
+{
+	CFRunLoopStop([[NSRunLoop currentRunLoop] getCFRunLoop]);
+}
+
+-(void)handleRecord:(FCGIRecord*)record fromSocket:(GCDAsyncSocket *)socket
+{
+	
+	if ([record isKindOfClass:[FCGIBeginRequestRecord class]]) {
+		
+		FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
+		request.socket = socket;
+		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, socket.connectedPort];
+		_currentRequests[globalRequestId] = request;
+		[socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+		
+	} else if ([record isKindOfClass:[FCGIParamsRecord class]]) {
+		
+		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
+		FCGIRequest* request = _currentRequests[globalRequestId];
+		NSDictionary* params = [(FCGIParamsRecord*)record params];
+		if ([params count] > 0) {
+			[request.parameters addEntriesFromDictionary:params];
+		} else {
+			if ( _delegate && [_delegate respondsToSelector:@selector(application:didReceiveRequest:)] ) {
+				[_delegate application:self didReceiveRequest:@{FKRequestKey: request}];
+			}
+		}
+		[socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+		
+	} else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
+		
+		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
+		FCGIRequest* request = _currentRequests[globalRequestId];
+		NSData* data = [(FCGIByteStreamRecord*)record data];
+		if ( [data length] > 0 ) {
+			[request.stdinData appendData:data];
+			[socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+		} else {
+			FKHTTPRequest* httpRequest = [FKHTTPRequest requestWithFCGIRequest:request];
+			FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
+			
+			NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
+			if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
+				[_delegate application:self didPrepareResponse:userInfo];
+			}
+			
+			// Determine the appropriate view controller
+			NSString* requestURI = [self routeLookupURIForRequest:httpRequest];
+			
+			FKRoute* route = [[FKRoutingCenter sharedCenter] routeForRequestURI:requestURI];
+			if ( route == nil ) {
+				route = [[FKRoutingCenter sharedCenter] routeForRequestURI:@"/*"];
+			}
+			
+			FKViewController* viewController = [self instantiateViewControllerForRoute:route userInfo:userInfo];
+			if ( viewController != nil ) {
+				
+				if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
+					[_delegate application:self presentViewController:viewController];
+				}
+				
+			} else if ( _delegate && [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
+				
+				[_delegate application:self didNotFindViewController:userInfo];
+				
+			} else {
+				
+				NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.parameters[@"DOCUMENT_URI"]];
+				NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
+				NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+				finishRequestUserInfo[FKErrorKey] = error;
+				[self finishRequestWithError:finishRequestUserInfo.copy];
+				
+			}
+		}
+	}
+}
+
+- (void)removeRequest:(FCGIRequest*)request
+{
+	NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
+	[_currentRequests removeObjectForKey:globalRequestId];
+}
+
+- (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request
+{
+	NSString* returnURI = nil;
+	if ( [_delegate respondsToSelector:@selector(routeLookupURIForRequest:)] ) {
+		returnURI = [_delegate routeLookupURIForRequest:request];
+	}
+	if ( returnURI == nil ) {
+		returnURI = request.parameters[@"DOCUMENT_URI"];
+	}
+	return returnURI;
+}
+
+- (FKViewController *)instantiateViewControllerForRoute:(FKRoute *)route userInfo:(NSDictionary*)userInfo
+{
+	NSString* nibName = route.nibName == nil ? [NSStringFromClass(route.controllerClass) stringByReplacingOccurrencesOfString:@"Controller" withString:@""] : route.nibName;
+	
+	NSMutableDictionary* combinedUserInfo = [NSMutableDictionary dictionary];
+	
+	if ( userInfo ) {
+		[combinedUserInfo addEntriesFromDictionary:userInfo];
+	}
+	
+	if ( route.userInfo ){
+		[combinedUserInfo addEntriesFromDictionary:route.userInfo];
+	}
+	
+	FKViewController* controller = [[route.controllerClass alloc] initWithNibName:nibName bundle:[NSBundle mainBundle] userInfo:combinedUserInfo];
+	
+	return controller;
+}
+
+#pragma mark - GCDAsyncSocketDelegate
+
+- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
+{
+	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@", @(newSocket.connectedPort)]];
+	dispatch_queue_t acceptedSocketQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
+	[newSocket setDelegateQueue:acceptedSocketQueue];
+	
+	[_connectedSockets addObject:newSocket];
+	
+	[newSocket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+	if (tag == FCGIRecordAwaitingHeaderTag) {
+		FCGIRecord* record = [FCGIRecord recordWithHeaderData:data];
+		if (record.contentLength == 0) {
+			[self handleRecord:record fromSocket:sock];
+		} else {
+			dispatch_set_context(sock.delegateQueue, (void *)(CFBridgingRetain(record)));
+			[sock readDataToLength:(record.contentLength + record.paddingLength) withTimeout:FCGITimeout tag:FCGIRecordAwaitingContentAndPaddingTag];
+		}
+	} else if (tag == FCGIRecordAwaitingContentAndPaddingTag) {
+		FCGIRecord* record = CFBridgingRelease(dispatch_get_context(sock.delegateQueue));
+		[record processContentData:data];
+		[self handleRecord:record fromSocket:sock];
+	}
+}
+
+- (void)socket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
+{
+	NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
+	if ( userInfo[FKErrorLineKey] == nil ) {
+		userInfo[FKErrorLineKey] = @__LINE__;
+	}
+	if ( userInfo[FKErrorFileKey] == nil ) {
+		userInfo[FKErrorFileKey] = @__FILE__;
+	}
+	NSString* errorDomain = err.domain == nil ? FKErrorDomain : err.domain;
+	NSInteger errorCode = err.code == 0 ? -1 : err.code;
+	NSError* error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:userInfo];
+	[FKApp presentError:error];
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock
+{
+	[_connectedSockets removeObject:sock];
+	sock = nil;
 }
 
 @end

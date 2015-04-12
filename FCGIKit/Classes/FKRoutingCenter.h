@@ -49,7 +49,7 @@ Routes are specified in the bundles `Info.plist` file using the `FKRoutingKey`.
  @param routesOrNil The array containing the route definition dictionaries
  @return An instance of `FKRoutingCenter`
  */
-- (id)initWithRoutes:(NSArray*)routesOrNil;
+- (instancetype)initWithRoutes:(NSArray*)routesOrNil;
 
 /**
  @name Accessing route objects
@@ -75,6 +75,6 @@ Routes are specified in the bundles `Info.plist` file using the `FKRoutingKey`.
 
  @return A fully populated dictionary of routes
  */
-- (NSDictionary *)allRoutes;
+@property (nonatomic, readonly, copy) NSDictionary *allRoutes;
 
 @end
