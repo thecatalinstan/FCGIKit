@@ -410,6 +410,11 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)startRunLoop
 {
+	_workerQueue = [[NSOperationQueue alloc] init];
+	_workerQueue.name = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"WorkerQueue"];
+	_workerQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+	_workerQueue.qualityOfService = NSQualityOfServiceUserInteractive;
+	
 	NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
 	_socketQueue = dispatch_queue_create([socketQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
 	_listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:_socketQueue];
@@ -444,13 +449,18 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 		FCGIRequest* request = [[FCGIRequest alloc] initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record];
 		request.socket = socket;
 		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, socket.connectedPort];
-		_currentRequests[globalRequestId] = request;
+		@synchronized(_currentRequests) {
+			_currentRequests[globalRequestId] = request;
+		}
 		[socket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
 		
 	} else if ([record isKindOfClass:[FCGIParamsRecord class]]) {
 		
 		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-		FCGIRequest* request = _currentRequests[globalRequestId];
+		FCGIRequest* request;
+		@synchronized(_currentRequests) {
+			request = _currentRequests[globalRequestId];
+		}
 		NSDictionary* params = [(FCGIParamsRecord*)record params];
 		if ([params count] > 0) {
 			[request.parameters addEntriesFromDictionary:params];
@@ -464,7 +474,10 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	} else if ([record isKindOfClass:[FCGIByteStreamRecord class]]) {
 		
 		NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", record.requestId, [socket connectedPort]];
-		FCGIRequest* request = _currentRequests[globalRequestId];
+		FCGIRequest* request;
+		@synchronized(_currentRequests) {
+			request = _currentRequests[globalRequestId];
+		}
 		NSData* data = [(FCGIByteStreamRecord*)record data];
 		if ( [data length] > 0 ) {
 			[request.stdinData appendData:data];
@@ -490,20 +503,26 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 			if ( viewController != nil ) {
 				
 				if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
-					[_delegate application:self presentViewController:viewController];
+					[_workerQueue addOperationWithBlock:^{
+						[_delegate application:self presentViewController:viewController];
+					}];
 				}
 				
 			} else if ( _delegate && [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
-				
-				[_delegate application:self didNotFindViewController:userInfo];
+
+				[_workerQueue addOperationWithBlock:^{
+					[_delegate application:self didNotFindViewController:userInfo];
+				}];
 				
 			} else {
 				
-				NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.parameters[@"DOCUMENT_URI"]];
-				NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
-				NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-				finishRequestUserInfo[FKErrorKey] = error;
-				[self finishRequestWithError:finishRequestUserInfo.copy];
+				[_workerQueue addOperationWithBlock:^{
+					NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.parameters[@"DOCUMENT_URI"]];
+					NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
+					NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+					finishRequestUserInfo[FKErrorKey] = error;
+					[self finishRequestWithError:finishRequestUserInfo.copy];
+				}];
 				
 			}
 		}
@@ -513,7 +532,9 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 - (void)removeRequest:(FCGIRequest*)request
 {
 	NSString* globalRequestId = [NSString stringWithFormat:@"%d-%d", request.requestId, request.socket.connectedPort];
-	[_currentRequests removeObjectForKey:globalRequestId];
+	@synchronized(_currentRequests) {
+		[_currentRequests removeObjectForKey:globalRequestId];
+	}
 }
 
 - (NSString *)routeLookupURIForRequest:(FKHTTPRequest *)request

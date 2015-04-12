@@ -77,6 +77,8 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 	CFRunLoopObserverRef mainRunLoopObserver;
 
 	dispatch_queue_t _socketQueue;
+	NSOperationQueue* _workerQueue;
+	
 	GCDAsyncSocket *_listenSocket;
 	NSMutableArray* _connectedSockets;
 	NSMutableDictionary* _currentRequests;
@@ -101,6 +103,7 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 @property (nonatomic, readonly, copy) NSDictionary *infoDictionary;
 @property (nonatomic, readonly, copy) NSDictionary *dumpConfig;
 @property (nonatomic, readonly, copy) NSString *temporaryDirectoryLocation;
+@property (nonatomic, retain) NSOperationQueue *workerQueue;
 
 + (FKApplication *)sharedApplication;
 
