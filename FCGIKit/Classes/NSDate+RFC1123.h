@@ -39,6 +39,6 @@
  *
  * @return NSString*
  */
--(NSString*)rfc1123String;
+@property (nonatomic, readonly, copy) NSString *rfc1123String;
 
 @end

@@ -34,5 +34,5 @@
 }
 @property (nonatomic, retain) NSData* data;
 
--(NSData*)protocolData;
+@property (nonatomic, readonly, copy) NSData *protocolData;
 @end

@@ -56,8 +56,8 @@
 @property (nonatomic, assign) FCGIContentLength contentLength;
 @property (nonatomic, assign) FCGIPaddingLength paddingLength;
 
-+(id)recordWithHeaderData:(NSData*)data;
++(instancetype)recordWithHeaderData:(NSData*)data;
 -(void)processContentData:(NSData*)data;
--(NSData*)headerProtocolData;
+@property (nonatomic, readonly, copy) NSData *headerProtocolData;
 
 @end

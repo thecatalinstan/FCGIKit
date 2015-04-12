@@ -39,7 +39,7 @@
 
 static NSMutableDictionary* nibCache;
 
-- (id)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)nibBundle
+- (instancetype)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [self init];
     if ( self != nil ) {
@@ -75,7 +75,7 @@ static NSMutableDictionary* nibCache;
     if ( nibCache == nil ) {
         nibCache = [NSMutableDictionary dictionary];
     }
-    [nibCache setObject:nib forKey:nibName];
+    nibCache[nibName] = nib;
 }
 
 @end

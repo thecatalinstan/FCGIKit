@@ -10,7 +10,7 @@
 
 @interface NSHTTPCookie (FCGIKit)
 
-- (NSString*)HTTPHeaderField;
+@property (nonatomic, readonly, copy) NSString *HTTPHeaderField;
 
 + (NSDictionary*)responseHeaderFieldsWithCookies:(NSArray *)cookies;
 

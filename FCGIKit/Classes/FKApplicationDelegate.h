@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Catalin Stan. All rights reserved.
 //
 
-enum {
+#ifndef NS_ENUM
+@import Foundation;
+#endif
+typedef NS_ENUM(NSUInteger, FKApplicationTerminateReply) {
 	FKTerminateCancel = 0,
 	FKTerminateNow    = 1,
 	FKTerminateLater  = 2
 };
-typedef NSUInteger FKApplicationTerminateReply;
 
 @class FKApplication, FKHTTPRequest, FKHTTPResponse, FKViewController;
 

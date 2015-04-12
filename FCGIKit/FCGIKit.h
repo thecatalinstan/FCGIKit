@@ -22,7 +22,6 @@ FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 #import "FKApplication.h"
 #import "FKHTTPRequest.h"
 #import "FKHTTPResponse.h"
-#import "FKBackgroundThread.h"
 
 #import "FKNib.h"
 #import "FKView.h"

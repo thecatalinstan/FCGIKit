@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSData* data;
 @property (nonatomic, retain) NSString* name;
 
-- (id)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)bundle;
+- (instancetype)initWithNibNamed:(NSString *)nibName bundle:(NSBundle *)bundle;
 
 - (NSString*)stringUsingEncoding:(NSStringEncoding)encoding;
 

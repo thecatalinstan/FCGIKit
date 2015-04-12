@@ -17,7 +17,7 @@
 @synthesize nibName = _nibName;
 @synthesize userInfo = _userInfo;
 
-- (id)initWithRequestPath:(NSString *)requestPath controllerClass:(Class)controllerClass nibName:(NSString*)nibName userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithRequestPath:(NSString *)requestPath controllerClass:(Class)controllerClass nibName:(NSString*)nibName userInfo:(NSDictionary *)userInfo
 {
     if ( requestPath == nil ) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The request path cannot be nil." userInfo:nil];
@@ -33,12 +33,12 @@
     return self;
 }
 
-- (id)initWithInfoDictionary:(NSDictionary *)infoDictionary
+- (instancetype)initWithInfoDictionary:(NSDictionary *)infoDictionary
 {
-    NSString* requestPath = [infoDictionary objectForKey:FKRoutePathKey];
-    Class controllerClass = NSClassFromString([infoDictionary objectForKey:FKRouteControllerKey]);
-    NSString* nibName = [infoDictionary objectForKey:FKRouteNibNameKey];
-    NSDictionary* userInfo = [infoDictionary objectForKey:FKRouteUserInfoKey];
+    NSString* requestPath = infoDictionary[FKRoutePathKey];
+    Class controllerClass = NSClassFromString(infoDictionary[FKRouteControllerKey]);
+    NSString* nibName = infoDictionary[FKRouteNibNameKey];
+    NSDictionary* userInfo = infoDictionary[FKRouteUserInfoKey];
     return [self initWithRequestPath:requestPath controllerClass:controllerClass nibName:nibName userInfo:userInfo];
 }
 
@@ -66,7 +66,7 @@
 	[encoder encodeObject:self.userInfo forKey:FKRouteUserInfoKey];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
+- (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [self init];
     if( self != nil ) {
 		self.requestPath = [decoder decodeObjectForKey:FKRoutePathKey];

@@ -10,10 +10,10 @@
 
 @interface NSString (FCGIKit)
 
-- (NSString *)stringByDecodingURLEncodedString;
-- (NSString *)URLEncodedString;
+@property (nonatomic, readonly, copy) NSString *stringByDecodingURLEncodedString;
+@property (nonatomic, readonly, copy) NSString *URLEncodedString;
 
-- (NSString*)uppercaseFirstLetterString;
-- (NSString *)stringbyFormattingHTTPHeader;
+@property (nonatomic, readonly, copy) NSString *uppercaseFirstLetterString;
+@property (nonatomic, readonly, copy) NSString *stringbyFormattingHTTPHeader;
 
 @end

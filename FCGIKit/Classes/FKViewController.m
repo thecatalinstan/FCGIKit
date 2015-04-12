@@ -22,12 +22,12 @@
 @synthesize request = _request;
 @synthesize userInfo = _userInfo;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     return [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil userInfo:nil];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary *)userInfo
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary *)userInfo
 {
     self = [self init];
     if ( self != nil ) {
@@ -116,13 +116,13 @@
 
 - (void)setObject:(id)object forVariableNamed:(NSString*)variableName
 {
-    [variables setObject:object forKey:variableName];
+    variables[variableName] = object;
 }
 
 - (void)setObjects:(NSArray*)objects forVariablesNamed:(NSArray*)variableNames
 {
     [objects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [variables setObject:obj forKey:variableNames[idx]];
+        variables[variableNames[idx]] = obj;
     }];
 }
 

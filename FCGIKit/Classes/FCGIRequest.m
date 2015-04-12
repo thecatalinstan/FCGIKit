@@ -29,7 +29,7 @@
 @implementation FCGIRequest
 @synthesize requestId, role, keepConnection, parameters, socket, stdinData;
 
-- (id)initWithBeginRequestRecord:(FCGIBeginRequestRecord *)record {
+- (instancetype)initWithBeginRequestRecord:(FCGIBeginRequestRecord *)record {
     if ((self = [super init])) {
       self.requestId = record.requestId;
       self.role = record.role;

@@ -32,15 +32,15 @@
 @property (nonatomic, retain) FKHTTPResponse* response;
 @property (nonatomic, retain) NSDictionary* userInfo;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary*)userInfo;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil userInfo:(NSDictionary*)userInfo;
 
 - (void)loadView;
 - (void)viewDidLoad;
 
 - (NSString*)presentViewController:(BOOL)writeData;
 
-- (NSDictionary*)allVariables;
+@property (nonatomic, readonly, copy) NSDictionary *allVariables;
 - (void)addVariablesFromDictionary:(NSDictionary*)variablesDictionary;
 - (void)removeAllVariables;
 - (void)setObject:(id)object forVariableNamed:(NSString*)variableName;
@@ -48,6 +48,6 @@
 - (void)removeVariableName:(NSString*)variableName;
 - (void)removeVariablesNamed:(NSArray *)variableNames;
 
-- (BOOL)automaticallyFinishesResponse;
+@property (nonatomic, readonly) BOOL automaticallyFinishesResponse;
 
 @end
