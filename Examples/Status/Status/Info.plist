@@ -41,6 +41,12 @@
 	<array>
 		<dict>
 			<key>FKRouteController</key>
+			<string>StatusFileViewController</string>
+			<key>FKRoutePath</key>
+			<string>/file</string>
+		</dict>
+		<dict>
+			<key>FKRouteController</key>
 			<string>StatusInfoViewController</string>
 			<key>FKRoutePath</key>
 			<string>/info</string>

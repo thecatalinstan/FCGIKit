@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD4EEF531AE85AA000B48625 /* StatusFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4EEF521AE85AA000B48625 /* StatusFileViewController.m */; };
 		ADEBDD431AD8632A00A82C27 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEBDD421AD8632A00A82C27 /* AppDelegate.m */; };
 		ADEBDD451AD8632A00A82C27 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEBDD441AD8632A00A82C27 /* main.m */; };
 		ADEBDD651AD8642400A82C27 /* FCGIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADEBDD641AD8641100A82C27 /* FCGIKit.framework */; };
@@ -39,6 +40,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD4EEF511AE85AA000B48625 /* StatusFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusFileViewController.h; sourceTree = "<group>"; };
+		AD4EEF521AE85AA000B48625 /* StatusFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusFileViewController.m; sourceTree = "<group>"; };
 		ADEBDD3C1AD8632A00A82C27 /* Status.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Status.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEBDD401AD8632A00A82C27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADEBDD411AD8632A00A82C27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -90,6 +93,8 @@
 				ADF4696F1AD9E82A009DAA38 /* StatusViewController.m */,
 				ADF469721AD9F07C009DAA38 /* StatusInfoViewController.h */,
 				ADF469731AD9F088009DAA38 /* StatusInfoViewController.m */,
+				AD4EEF511AE85AA000B48625 /* StatusFileViewController.h */,
+				AD4EEF521AE85AA000B48625 /* StatusFileViewController.m */,
 			);
 			path = Status;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD4EEF531AE85AA000B48625 /* StatusFileViewController.m in Sources */,
 				ADF469741AD9F088009DAA38 /* StatusInfoViewController.m in Sources */,
 				ADEBDD451AD8632A00A82C27 /* main.m in Sources */,
 				ADF469701AD9E82A009DAA38 /* StatusViewController.m in Sources */,
