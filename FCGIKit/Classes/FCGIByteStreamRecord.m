@@ -50,11 +50,9 @@
 
 -(NSData*)protocolData
 {
-  NSMutableData* protocolData = [NSMutableData dataWithCapacity:1024];
-  [protocolData appendData:[self headerProtocolData]];
-  
+  NSMutableData* protocolData = [NSMutableData data];
+  [protocolData appendData:self.headerProtocolData];
   [protocolData appendData:self.data];
-  
   return protocolData;
 }
 

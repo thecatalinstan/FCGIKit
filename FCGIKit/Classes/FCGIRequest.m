@@ -44,28 +44,59 @@
 
 -(void)writeDataToStderr:(NSData*)data
 {
-    FCGIByteStreamRecord* stdErrRecord = [[FCGIByteStreamRecord alloc] init];
-    stdErrRecord.version = FCGI_VERSION_1;
-    stdErrRecord.type = FCGI_STDERR;
-    stdErrRecord.requestId = self.requestId;
-    stdErrRecord.contentLength = [data length];
-    stdErrRecord.paddingLength = 0;
-    stdErrRecord.data = data;
-  
-    [self.socket writeData:[stdErrRecord protocolData] withTimeout:-1 tag:0];
+	NSUInteger length = data.length;
+	NSUInteger chunkSize = FCGI_SOCKET_BUFFER;
+	NSUInteger offset = 0;
+	
+	do {
+		NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+		NSData* chunk = [NSData dataWithBytesNoCopy:(char *)data.bytes + offset length:thisChunkSize freeWhenDone:NO];
+		offset += thisChunkSize;
+		
+		FCGIByteStreamRecord* stdErrRecord = [[FCGIByteStreamRecord alloc] init];
+		stdErrRecord.version = FCGI_VERSION_1;
+		stdErrRecord.type = FCGI_STDERR;
+		stdErrRecord.requestId = self.requestId;
+		stdErrRecord.contentLength = chunk.length;
+		stdErrRecord.paddingLength = 0;
+		stdErrRecord.data = chunk;
+		
+		[self.socket writeData:stdErrRecord.protocolData withTimeout:-1 tag:0];
+		
+		chunk = nil;
+		
+	} while (offset < length);
+	
+	data = nil;
 }
 
 -(void)writeDataToStdout:(NSData*)data
 {
-    FCGIByteStreamRecord* stdOutRecord = [[FCGIByteStreamRecord alloc] init];
-    stdOutRecord.version = FCGI_VERSION_1;
-    stdOutRecord.type = FCGI_STDOUT;
-    stdOutRecord.requestId = self.requestId;
-    stdOutRecord.contentLength = [data length];
-    stdOutRecord.paddingLength = 0;
-    stdOutRecord.data = data;
+	NSUInteger length = data.length;
+	NSUInteger chunkSize = FCGI_SOCKET_BUFFER;
+	NSUInteger offset = 0;
+	
+	do {
+		NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+		NSData* chunk = [NSData dataWithBytesNoCopy:(char *)data.bytes + offset length:thisChunkSize freeWhenDone:NO];
+		offset += thisChunkSize;
 
-    [self.socket writeData:[stdOutRecord protocolData] withTimeout:-1 tag:0];
+		FCGIByteStreamRecord* stdOutRecord = [[FCGIByteStreamRecord alloc] init];
+		stdOutRecord.version = FCGI_VERSION_1;
+		stdOutRecord.type = FCGI_STDOUT;
+		stdOutRecord.requestId = self.requestId;
+		stdOutRecord.contentLength = chunk.length;
+		stdOutRecord.paddingLength = 0;
+		stdOutRecord.data = chunk;
+		
+		[self.socket writeData:stdOutRecord.protocolData withTimeout:-1 tag:0];
+		
+		chunk = nil;
+		
+	} while (offset < length);
+	
+	data = nil;
+	
 }
 
 -(void)doneWithProtocolStatus:(FCGIProtocolStatus)protocolStatus applicationStatus:(FCGIApplicationStatus)applicationStatus

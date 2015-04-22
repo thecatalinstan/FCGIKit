@@ -69,3 +69,5 @@ typedef enum _FCGISocketTag
 #define FCGI_GET_VALUES_RESULT  10
 #define FCGI_UNKNOWN_TYPE       11
 #define FCGI_MAXTYPE (FCGI_UNKNOWN_TYPE)
+
+#define FCGI_SOCKET_BUFFER	8192
