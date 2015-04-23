@@ -88,13 +88,13 @@
 			children = (
 				ADEBDD411AD8632A00A82C27 /* AppDelegate.h */,
 				ADEBDD421AD8632A00A82C27 /* AppDelegate.m */,
-				ADEBDD3F1AD8632A00A82C27 /* Supporting Files */,
 				ADF4696E1AD9E82A009DAA38 /* StatusViewController.h */,
 				ADF4696F1AD9E82A009DAA38 /* StatusViewController.m */,
 				ADF469721AD9F07C009DAA38 /* StatusInfoViewController.h */,
 				ADF469731AD9F088009DAA38 /* StatusInfoViewController.m */,
 				AD4EEF511AE85AA000B48625 /* StatusFileViewController.h */,
 				AD4EEF521AE85AA000B48625 /* StatusFileViewController.m */,
+				ADEBDD3F1AD8632A00A82C27 /* Supporting Files */,
 			);
 			path = Status;
 			sourceTree = "<group>";

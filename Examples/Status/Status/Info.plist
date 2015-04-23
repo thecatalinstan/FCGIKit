@@ -30,6 +30,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>FKApplication</string>
+	<key>LSBackgroundOnly</key>
+	<true/>
 	<key>FKConnectionInfo</key>
 	<dict>
 		<key>FKConnectionInfoInterface</key>

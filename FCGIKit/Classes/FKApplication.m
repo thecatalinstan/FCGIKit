@@ -25,7 +25,7 @@
 
 
 NSString* const FCGIKit = @"FCGIKit";
-NSString* const FKApplicationRunLoopMode = @"NSRunLoopCommonModes";
+NSString* const FKApplicationRunLoopMode = @"NSDefaultRunLoopMode";
 
 NSString* const FKErrorKey = @"FKError";
 NSString* const FKErrorFileKey = @"FKErrorFile";
