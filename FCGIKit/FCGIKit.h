@@ -29,3 +29,5 @@ FOUNDATION_EXPORT const unsigned char FCGIKitVersionString[];
 #import "FKRoute.h"
 #import "FKRoutingCenter.h"
 
+#import "GCDAsyncSocket.h"
+

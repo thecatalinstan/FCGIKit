@@ -94,7 +94,6 @@ extern int FKApplicationMain(int argc, const char **argv, id<FKApplicationDelega
 @property (nonatomic, retain) NSString* listeningInterface;
 @property (atomic, readonly) BOOL isListeningOnAllInterfaces;
 @property (atomic, readonly) BOOL isRunning;
-@property (nonatomic, retain) NSMutableSet* requestIDs;
 @property (nonatomic, retain) GCDAsyncSocket* listenSocket;
 @property (nonatomic, retain) NSMutableArray* connectedSockets;
 @property (nonatomic, retain) NSMutableDictionary* currentRequests;

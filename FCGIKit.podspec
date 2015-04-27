@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name         = "FCGIKit"
-  s.version      = "0.2.3"
+  s.version      = "0.2.4"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC

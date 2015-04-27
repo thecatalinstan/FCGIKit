@@ -113,7 +113,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 #endif
 }
 
-@implementation FKApplication 
+@implementation FKApplication
 
 - (NSDictionary*)infoDictionary {
     return [[NSBundle mainBundle] infoDictionary];
@@ -273,8 +273,8 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 
 - (void)finishRequest:(FCGIRequest*)request
 {
+	[self removeRequest:request];
     [request doneWithProtocolStatus:FCGI_REQUEST_COMPLETE applicationStatus:0];
-    [self removeRequest:request];
 }
 
 - (void)finishRequestWithError:(NSDictionary*)userInfo
@@ -413,7 +413,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	_workerQueue = [[NSOperationQueue alloc] init];
 	_workerQueue.name = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"WorkerQueue"];
 	_workerQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
-	_workerQueue.qualityOfService = NSQualityOfServiceUtility;
+	_workerQueue.qualityOfService = NSQualityOfServiceUserInitiated;
 	
 	NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
 	_socketQueue = dispatch_queue_create([socketQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
@@ -575,9 +575,9 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	NSString* delegateQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:[NSString stringWithFormat:@"SocketDelegateQueue-%@", @(newSocket.connectedPort)]];
 	dispatch_queue_t acceptedSocketQueue = dispatch_queue_create([delegateQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
 	[newSocket setDelegateQueue:acceptedSocketQueue];
-	
-	[_connectedSockets addObject:newSocket];
-	
+	@synchronized(_connectedSockets) {
+		[_connectedSockets addObject:newSocket];
+	}
 	[newSocket readDataToLength:FCGIRecordFixedLengthPartLength withTimeout:FCGITimeout tag:FCGIRecordAwaitingHeaderTag];
 }
 
@@ -598,24 +598,36 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	}
 }
 
-- (void)socket:(GCDAsyncSocket *)sock willDisconnectWithError:(NSError *)err
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-	NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
-	if ( userInfo[FKErrorLineKey] == nil ) {
-		userInfo[FKErrorLineKey] = @__LINE__;
+	if ( err != nil ) {
+		NSMutableDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary:err.userInfo];
+		if ( userInfo[FKErrorLineKey] == nil ) {
+			userInfo[FKErrorLineKey] = @__LINE__;
+		}
+		if ( userInfo[FKErrorFileKey] == nil ) {
+			userInfo[FKErrorFileKey] = @__FILE__;
+		}
+		NSString* errorDomain = err.domain == nil ? FKErrorDomain : err.domain;
+		NSInteger errorCode = err.code == 0 ? -1 : err.code;
+		NSError* error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:userInfo];
+		[FKApp presentError:error];
 	}
-	if ( userInfo[FKErrorFileKey] == nil ) {
-		userInfo[FKErrorFileKey] = @__FILE__;
+	
+	@synchronized(_currentRequests) {
+		[_currentRequests enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+			FCGIRequest* request = (FCGIRequest*)obj;
+			if ([request.socket isEqual:sock]) {
+				[_currentRequests removeObjectForKey:key];
+				*stop = YES;
+			}
+		}];
 	}
-	NSString* errorDomain = err.domain == nil ? FKErrorDomain : err.domain;
-	NSInteger errorCode = err.code == 0 ? -1 : err.code;
-	NSError* error = [NSError errorWithDomain:errorDomain code:errorCode userInfo:userInfo];
-	[FKApp presentError:error];
-}
-
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock
-{
-	[_connectedSockets removeObject:sock];
+	
+	@synchronized(_connectedSockets){
+		[_connectedSockets removeObject:sock];
+	}
+	
 	sock = nil;
 }
 
