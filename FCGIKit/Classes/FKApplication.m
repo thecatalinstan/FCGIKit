@@ -413,7 +413,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	_workerQueue = [[NSOperationQueue alloc] init];
 	_workerQueue.name = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"WorkerQueue"];
 	_workerQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
-	_workerQueue.qualityOfService = NSQualityOfServiceUserInteractive;
+	_workerQueue.qualityOfService = NSQualityOfServiceUtility;
 	
 	NSString* socketQueueLabel = [[NSBundle mainBundle].bundleIdentifier stringByAppendingPathExtension:@"SocketQueue"];
 	_socketQueue = dispatch_queue_create([socketQueueLabel cStringUsingEncoding:NSASCIIStringEncoding], NULL);
@@ -487,7 +487,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 			FKHTTPResponse* httpResponse = [FKHTTPResponse responseWithHTTPRequest:httpRequest];
 			
 			NSDictionary* userInfo = @{FKRequestKey: httpRequest, FKResponseKey: httpResponse};
-			if ( _delegate && [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
+			if ( [_delegate respondsToSelector:@selector(application:didPrepareResponse:)] ) {
 				[_delegate application:self didPrepareResponse:userInfo];
 			}
 			
@@ -502,13 +502,13 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 			FKViewController* viewController = [self instantiateViewControllerForRoute:route userInfo:userInfo];
 			if ( viewController != nil ) {
 				
-				if ( _delegate && [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
+				if ( [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
 					[_workerQueue addOperationWithBlock:^{
 						[_delegate application:self presentViewController:viewController];
 					}];
 				}
 				
-			} else if ( _delegate && [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
+			} else if ( [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
 
 				[_workerQueue addOperationWithBlock:^{
 					[_delegate application:self didNotFindViewController:userInfo];
