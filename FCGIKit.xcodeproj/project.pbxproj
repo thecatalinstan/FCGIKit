@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD67CF401BBC383E0063EFB4 /* FCGIKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AD67CF3F1BBC383E0063EFB4 /* FCGIKit.podspec */; settings = {ASSET_TAGS = (); }; };
 		AD6BB2FE19EEF6F200538169 /* FKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8219646B950055A071 /* FKApplication.m */; };
 		AD6BB30019EEF6F200538169 /* FKHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8819646B950055A071 /* FKHTTPRequest.m */; };
 		AD6BB30119EEF6F200538169 /* FKHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1C9F8A19646B950055A071 /* FKHTTPResponse.m */; };
@@ -91,6 +92,7 @@
 		AD1C9FB119646B950055A071 /* FCGIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FCGIRequest.m; path = FCGIKit/Classes/FCGIRequest.m; sourceTree = SOURCE_ROOT; };
 		AD1C9FB219646B950055A071 /* FCGITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FCGITypes.h; path = FCGIKit/Classes/FCGITypes.h; sourceTree = SOURCE_ROOT; };
 		AD66805918E6674E002805EC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		AD67CF3F1BBC383E0063EFB4 /* FCGIKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FCGIKit.podspec; sourceTree = SOURCE_ROOT; };
 		AD6BB2E619EEF47300538169 /* FCGIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FCGIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6BB2E919EEF47300538169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADEBDD2F1AD8615D00A82C27 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		AD1C9FDF19646BA30055A071 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD67CF3F1BBC383E0063EFB4 /* FCGIKit.podspec */,
 				AD6BB2E919EEF47300538169 /* Info.plist */,
 				AD1C9F9F19646B950055A071 /* FCGIKit-Prefix.pch */,
 			);
@@ -322,6 +325,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD67CF401BBC383E0063EFB4 /* FCGIKit.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
