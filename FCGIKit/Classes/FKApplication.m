@@ -427,7 +427,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 	
 	NSRunLoop* runLoop = [NSRunLoop mainRunLoop];
 	NSTimeInterval keepAliveInterval = [[NSDate distantFuture] timeIntervalSinceNow];
-	[runLoop addTimer:[NSTimer timerWithTimeInterval:keepAliveInterval target:nil selector:@selector(stop) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
+	[runLoop addTimer:[NSTimer timerWithTimeInterval:keepAliveInterval target:self selector:@selector(stop) userInfo:nil repeats:YES] forMode:FKApplicationRunLoopMode];
 	
 	while ( shouldKeepRunning && [runLoop runMode:FKApplicationRunLoopMode beforeDate:[NSDate distantFuture]] ) {
 		_isRunning=YES;

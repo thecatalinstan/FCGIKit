@@ -27,10 +27,11 @@
 #import "FCGIRequest.h"
 
 @implementation FCGIRequest
+
 @synthesize requestId, role, keepConnection, parameters, socket, stdinData;
 
 - (instancetype)initWithBeginRequestRecord:(FCGIBeginRequestRecord *)record {
-    if ((self = [super init])) {
+    if ( (self = [super init]) ) {
       self.requestId = record.requestId;
       self.role = record.role;
       self.keepConnection = ((record.flags & FCGI_KEEP_CONN) != 0);
