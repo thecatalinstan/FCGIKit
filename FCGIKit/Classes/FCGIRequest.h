@@ -49,7 +49,7 @@
 @property (nonatomic, retain) GCDAsyncSocket* socket;
 @property (nonatomic, retain) NSMutableData* stdinData;
 
--(instancetype)initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record NS_DESIGNATED_INITIALIZER;
+-(instancetype)initWithBeginRequestRecord:(FCGIBeginRequestRecord*)record;
 
 -(void)writeDataToStdout:(NSData*)data;
 -(void)writeDataToStderr:(NSData*)data;
