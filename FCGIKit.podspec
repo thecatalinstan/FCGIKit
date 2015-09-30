@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name         = "FCGIKit"
-  s.version      = "0.2.4"
+  s.version      = "0.2.5"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.homepage     = "https://github.com/thecatalinstan/FCGIKit"  
 
-  s.license  = { :type => "public domain", :text => <<-LICENSE
+  s.license		 = { :type => "public domain", :text => <<-LICENSE
 
                     Public Domain License
 
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   s.source_files  = "FCGIKit", "FCGIKit/Classes/*.{h,m}"
   s.public_header_files = "FCGIKit", "FCGIKit/Classes/*.h"
 
- 	s.osx.deployment_target = "10.8"
+  s.osx.deployment_target = "10.8"
   s.osx.frameworks = "CFNetwork", "Foundation"
   
   s.requires_arc = true
