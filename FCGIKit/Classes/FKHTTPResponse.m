@@ -25,7 +25,7 @@
 - (void)sendHTTPStatus
 {
     if ( _headersAlreadySent ) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders];
         return;
     }
 	
@@ -117,7 +117,7 @@
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field
 {
     if ( _headersAlreadySent ) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders];
         return;
     }
     HTTPHeaders[field.stringbyFormattingHTTPHeader] = value;
@@ -125,7 +125,7 @@
 
 - (NSDictionary*)allHTTPHeaderFields
 {
-	return HTTPHeaders.copy;
+	return HTTPHeaders;
 }
 
 - (void)setAllHTTPHeaderFields:(NSDictionary *)headerFields
@@ -169,7 +169,7 @@
 - (void)redirectToLocation:(NSString *)location withStatus:(NSUInteger)redirectStatus
 {
     if ( _headersAlreadySent ) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders.copy];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"HTTP headers have already been sent." userInfo:HTTPHeaders];
         return;
     }
 
