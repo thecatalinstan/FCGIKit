@@ -504,24 +504,30 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 				
 				if ( [_delegate respondsToSelector:@selector(application:presentViewController:)] ) {
 					[_workerQueue addOperationWithBlock:^{
-						[_delegate application:self presentViewController:viewController];
+						@autoreleasepool {
+							[_delegate application:self presentViewController:viewController];
+						}
 					}];
 				}
 				
 			} else if ( [_delegate respondsToSelector:@selector(application:didNotFindViewController:)]) {
 
 				[_workerQueue addOperationWithBlock:^{
-					[_delegate application:self didNotFindViewController:userInfo];
+					@autoreleasepool {
+						[_delegate application:self didNotFindViewController:userInfo];
+					}
 				}];
 				
 			} else {
 				
 				[_workerQueue addOperationWithBlock:^{
-					NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.parameters[@"DOCUMENT_URI"]];
-					NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
-					NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-					finishRequestUserInfo[FKErrorKey] = error;
-					[self finishRequestWithError:finishRequestUserInfo];
+					@autoreleasepool {
+						NSString* errorDescription = [NSString stringWithFormat:@"No view controller for request URI: %@", httpRequest.parameters[@"DOCUMENT_URI"]];
+						NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
+						NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+						finishRequestUserInfo[FKErrorKey] = error;
+						[self finishRequestWithError:finishRequestUserInfo];
+					}
 				}];
 				
 			}
