@@ -101,7 +101,7 @@
 
 - (NSDictionary *)allVariables
 {
-    return variables.copy;
+    return variables;
 }
 
 - (void)addVariablesFromDictionary:(NSDictionary *)variablesDictionary

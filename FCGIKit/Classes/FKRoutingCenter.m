@@ -30,7 +30,7 @@
 		NSString* key = route.requestPath.pathComponents.count >= 2 ? route.requestPath.pathComponents[1] : @"";
         routesDictionary[key] = route;
     }];
-    routes = routesDictionary.copy;
+    routes = routesDictionary;
 }
 
 @end
@@ -64,7 +64,7 @@ static FKRoutingCenter* sharedCenter;
 
 - (NSDictionary *)allRoutes
 {
-    return routes.copy;
+    return routes;
 }
 
 

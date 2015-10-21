@@ -183,7 +183,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
             NSString* arg = [[NSString alloc] initWithCString:argv[i] encoding:[NSString defaultCStringEncoding]];
             [args addObject:arg];
         }
-        _startupArguments = args.copy;
+        _startupArguments = args;
     }
     return self;
 }
@@ -521,7 +521,7 @@ void mainRunLoopObserverCallback( CFRunLoopObserverRef observer, CFRunLoopActivi
 					NSError* error = [NSError errorWithDomain:FKErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: errorDescription, FKErrorFileKey: @__FILE__, FKErrorLineKey: @__LINE__}];
 					NSMutableDictionary* finishRequestUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
 					finishRequestUserInfo[FKErrorKey] = error;
-					[self finishRequestWithError:finishRequestUserInfo.copy];
+					[self finishRequestWithError:finishRequestUserInfo];
 				}];
 				
 			}

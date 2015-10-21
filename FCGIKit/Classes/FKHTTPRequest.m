@@ -33,7 +33,7 @@
         result[key.stringByDecodingURLEncodedString] = value.stringByDecodingURLEncodedString;
     }];
     
-    return result.copy;
+    return result;
 }
 
 - (NSArray*)parseMultipartFormData:(NSData*)data boundary:(NSString*)boundary
@@ -77,7 +77,7 @@
     } while (resultRange.location != NSNotFound);
     
     
-    return @[post.copy, files.copy];
+    return @[post, files];
 }
 
 - (NSDictionary*)parseMultipartFormDataPart:(NSData*)data
