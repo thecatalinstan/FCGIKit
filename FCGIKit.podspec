@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  
+
   s.name         = "FCGIKit"
   s.version      = "0.2.6"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
@@ -8,10 +8,10 @@ Pod::Spec.new do |s|
 
                    FCGIKit helps create self-contained web-applications that serve web content via webserver through the Fast-CGI protocol (http://www.fastcgi.com/).
                    The FCGI protocol implementation was written by Magnus Nordlander in 2011 (see https://github.com/fervo/FCGIKit).
-                   
+
                    DESC
 
-  s.homepage     = "https://github.com/thecatalinstan/FCGIKit"  
+  s.homepage     = "https://github.com/thecatalinstan/FCGIKit"
 
   s.license		 = { :type => "public domain", :text => <<-LICENSE
 
@@ -36,7 +36,10 @@ Pod::Spec.new do |s|
 
   s.osx.deployment_target = "10.8"
   s.osx.frameworks = "CFNetwork", "Foundation"
-  
+
   s.requires_arc = true
+
+  s.deprecated_in_favor_of = 'Criollo'
+
 
 end
