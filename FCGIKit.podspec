@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FCGIKit"
-  s.version      = "0.2.6"
+  s.version      = "0.2.7"
   s.summary      = "A Cocoa framework for creating FCGI web applications."
 
   s.description  = <<-DESC
@@ -39,6 +39,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
+  s.deprecated = true
   s.deprecated_in_favor_of = 'Criollo'
 
 
